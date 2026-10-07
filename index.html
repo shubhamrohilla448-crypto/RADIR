@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Agri-AI Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --accent-green: #2ea44f;
+            --alert-red: #da3633;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #58a6ff;
+            margin: 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .status-ok { background: rgba(46, 164, 79, 0.2); color: #3fb950; }
+        .status-warn { background: rgba(218, 54, 51, 0.2); color: #f85149; }
+        .val-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #fff;
+        }
+        .btn {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+        }
+        .btn:hover { opacity: 0.9; }
+        .chat-box {
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 5px;
+            background: #090d11;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🌾 Smart Organic Agri-AI Control Room</h1>
+        <p>100% Organic | Acoustic AI Insect Detection | 10-Year Long Life Architecture</p>
+    </div>
+
+    <div class="grid">
+        <!-- System Sleep Cycle Status -->
+        <div class="card">
+            <h3>⏰ ESP32 Hourly Deep Sleep Cycle</h3>
+            <p>System Wakeup Timer:</p>
+            <div class="val-display" id="timer">59:58</div>
+            <span class="status-badge status-ok" id="espStatus">ESP32: Deep Sleep Mode</span>
+        </div>
+
+        <!-- Soil Moisture Status -->
+        <div class="card">
+            <h3>🌱 Capacitive Soil Moisture</h3>
+            <p>Non-Corrosive Sensor v1.2</p>
+            <div class="val-display" id="soilVal">65%</div>
+            <span class="status-badge status-ok" id="soilStatus">Moisture Normal</span>
+        </div>
+
+        <!-- Acoustic Insect AI Sensor -->
+        <div class="card">
+            <h3>🦗 Acoustic AI Insect Scan</h3>
+            <p>Piezo Stem Vibration Analysis</p>
+            <div class="val-display" id="bugVal">0.02 kHz</div>
+            <span class="status-badge status-ok" id="bugStatus">No Pest Detected</span>
+        </div>
+
+        <!-- Organic AI Assistant (Gemini) -->
+        <div class="card" style="grid-column: span 1 / -1;">
+            <h3>🤖 Gemini Organic Agri-AI Assistant</h3>
+            <div class="chat-box" id="chat">
+                <p><strong>Gemini AI:</strong> जय हिंद शुभम! खेत की निगरानी जारी है। नीम तेल और छाछ के जैविक घोल के स्प्रे का समय हो तो पूछें।</p>
+            </div>
+            <input type="text" id="userInput" placeholder="जैविक खेती या बीमारी से जुड़ा सवाल लिखें..." style="width: 75%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); background: #0d1117; color: white;">
+            <button class="btn" onclick="sendMsg()" style="width: 20%;">पूछें</button>
+        </div>
+    </div>
+
+    <script>
+        // Simulating Deep Sleep Timer
+        let seconds = 3598;
+        setInterval(() => {
+            if(seconds > 0) seconds--;
+            let m = Math.floor(seconds / 60);
+            let s = seconds % 60;
+            document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+        }, 1000);
+
+        function sendMsg() {
+            let input = document.getElementById('userInput');
+            let chat = document.getElementById('chat');
+            if(input.value.trim() !== "") {
+                chat.innerHTML += `<p><strong>आप:</strong> ${input.value}</p>`;
+                let reply = "दीमक या किसी कीट के लिए 5% नीम तेल का घोल या खट्टी छाछ का छिड़काव 100% जैविक और असरदार उपाय है।";
+                setTimeout(() => {
+                    chat.innerHTML += `<p><strong>Gemini AI:</strong> ${reply}</p>`;
+                    chat.scrollTop = chat.scrollHeight;
+                }, 800);
+                input.value = "";
+            }
+        }
+    </script>
+</body>
+</html>
