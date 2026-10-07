@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>स्मार्ट रडार एवं डैशबोर्ड सिस्टम</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #00ffcc;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 8px;
+        }
+
+        /* 1. Radar Styling */
+        .radar-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        canvas {
+            background: #000;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+            border: 2px solid #00ffcc;
+        }
+
+        .radar-status {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        /* 2. Dashboard Metrics Styling */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .metric-card {
+            background: #1f2937;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #10b981;
+            margin-top: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        /* 3. Fake Terminal / Hacking Simulation */
+        .terminal {
+            background-color: #050505;
+            border: 1px solid #00ff00;
+            border-radius: 6px;
+            height: 250px;
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #00ff00;
+            overflow-y: auto;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .warn {
+            color: #f59e0b;
+        }
+
+        .danger {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>स्मार्ट मॉनिटरिंग एवं रडार डैशबोर्ड</h1>
+
+    <div class="dashboard-container">
+        
+        <!-- Section 1: ESP32 Radar Simulation -->
+        <div class="card radar-box">
+            <h2>ESP32 अल्ट्रासोनिक रडार (0° - 180°)</h2>
+            <canvas id="radarCanvas" width="300" height="300"></canvas>
+            <div class="radar-status" id="radarStatus">स्कैनिंग जारी है: 0° | दूरी: -- cm</div>
+        </div>
+
+        <!-- Section 2: Sensor Dashboard -->
+        <div class="card">
+            <h2>लाइव सेंसर डैशबोर्ड</h2>
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-label">मिट्टी की नमी</div>
+                    <div class="metric-value" id="moistureVal">68%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">तापमान</div>
+                    <div class="metric-value" id="tempVal">29°C</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">ESP32 स्थिति</div>
+                    <div class="metric-value" style="color: #38bdf8;">सक्रिय</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">कीट पता चला</div>
+                    <div class="metric-value" style="color: #ef4444;" id="pestVal">कोई नहीं</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Fake Hacking System Terminal -->
+        <div class="card">
+            <h2>सिस्टम कंसोल (सुरक्षा टर्मिनल)</h2>
+            <div class="terminal" id="terminalLog">
+                <div class="terminal-line">[SYSTEM OK] सिस्टम बूट हो गया है...</div>
+                <div class="terminal-line">[ESP32] वाई-फाई से कनेक्ट हुआ (192.168.1.45)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. RADAR LOGIC ---
+        const canvas = document.getElementById('radarCanvas');
+        const ctx = canvas.getContext('2d');
+        const statusText = document.getElementById('radarStatus');
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2 + 50;
+        const radius = 120;
+
+        let angle = 0;
+        let sweepDirection = 1; // 1 = आगे (0 -> 180), -1 = पीछे (180 -> 0)
+        let detectedDistance = 0;
+
+        function drawRadar() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Background Circles
+            ctx.strokeStyle = '#005533';
+            ctx.lineWidth = 1;
+            for (let r = 30; r <= radius; r += 30) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, r, Math.PI, 2 * Math.PI);
+                ctx.stroke();
+            }
+
+            // Draw Line Sweep
+            const radAngle = (Math.PI / 180) * (angle - 180);
+            const sweepX = centerX + radius * Math.cos(radAngle);
+            const sweepY = centerY + radius * Math.sin(radAngle);
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(sweepX, sweepY);
+            ctx.strokeStyle = '#00ffcc';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Randomly Simulate Object Detection
+            if (Math.random() < 0.05) {
+                detectedDistance = Math.floor(Math.random() * 80) + 10;
+                const objRad = (Math.PI / 180) * (angle - 180);
+                const objR = (detectedDistance / 100) * radius;
+                const objX = centerX + objR * Math.cos(objRad);
+                const objY = centerY + objR * Math.sin(objRad);
+
+                ctx.beginPath();
+                ctx.arc(objX, objY, 5, 0, 2 * Math.PI);
+                ctx.fillStyle = '#ff0000';
+                ctx.fill();
+
+                statusText.innerText = `वस्तु मिली! कोण: ${angle}° | दूरी: ${detectedDistance} cm`;
+            } else {
+                statusText.innerText = `स्कैनिंग जारी है: ${angle}°`;
+            }
+
+            // Update Sweep Angle (0 to 180 and back)
+            angle += sweepDirection * 2;
+            if (angle >= 180 || angle <= 0) {
+                sweepDirection *= -1; // Reverse Direction
+            }
+        }
+
+        setInterval(drawRadar, 30);
+
+        // --- 2. DASHBOARD DATA SIMULATION ---
+        setInterval(() => {
+            const moisture = Math.floor(Math.random() * 10) + 65;
+            const temp = (Math.random() * 2 + 28).toFixed(1);
+            document.getElementById('moistureVal').innerText = moisture + '%';
+            document.getElementById('tempVal').innerText = temp + '°C';
+        }, 3000);
+
+        // --- 3. FAKE HACKING SYSTEM TERMINAL ---
+        const terminal = document.getElementById('terminalLog');
+        const logs = [
+            "[INFO] ESP32 डेटा पैकेट भेज रहा है...",
+            "[NET] फायरवॉल स्कैन चालू है...",
+            "[SECURITY] पोर्ट 8080 पर ट्रैफ़िक मॉनिटर किया जा रहा है...",
+            "<span class='warn'>[WARN] अज्ञात पिंग सिग्नल मिला!</span>",
+            "[SYSTEM] एनक्रिप्शन कुंजी RSTR-902-X सत्यापित हुई।",
+            "<span class='danger'>[ALERT] रडार क्षेत्र में गतिविधि दर्ज की गई!</span>",
+            "[SYS] बफ़र साफ़ किया जा रहा है..."
+        ];
+
+        setInterval(() => {
+            const randomLog = logs[Math.floor(Math.random() * logs.length)];
+            const time = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = 'terminal-line';
+            logEntry.innerHTML = `[${time}] ${randomLog}`;
+            terminal.appendChild(logEntry);
+
+            // Auto Scroll
+            terminal.scrollTop = terminal.scrollHeight;
+        }, 2500);
+    </script>
+</body>
+</html>
