@@ -9,6 +9,7 @@
             --bg-color: #0d1117;
             --card-bg: #161b22;
             --accent-green: #2ea44f;
+            --accent-blue: #58a6ff;
             --alert-red: #da3633;
             --text-color: #c9d1d9;
             --border-color: #30363d;
@@ -22,17 +23,42 @@
         }
         .header {
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             border-bottom: 2px solid var(--border-color);
             margin-bottom: 20px;
         }
         .header h1 {
             color: #58a6ff;
-            margin: 0;
+            margin: 0 0 8px 0;
+        }
+        .top-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .sat-btn {
+            background-color: #21262d;
+            color: #8b949e;
+            border: 1px solid #30363d;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        .sat-btn.active {
+            background-color: rgba(46, 164, 79, 0.25);
+            color: #3fb950;
+            border-color: #3fb950;
+            box-shadow: 0 0 10px rgba(63, 185, 80, 0.4);
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
             gap: 20px;
         }
         .card {
@@ -47,15 +73,27 @@
             padding: 5px 12px;
             border-radius: 15px;
             font-weight: bold;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            margin-top: 5px;
         }
         .status-ok { background: rgba(46, 164, 79, 0.2); color: #3fb950; }
+        .status-blue { background: rgba(88, 166, 255, 0.2); color: #58a6ff; }
         .status-warn { background: rgba(218, 54, 51, 0.2); color: #f85149; }
         .val-display {
-            font-size: 2.5em;
+            font-size: 2.2em;
             font-weight: bold;
-            margin: 15px 0;
+            margin: 10px 0;
             color: #fff;
+        }
+        .schedule-note {
+            font-size: 0.82em;
+            color: #8b949e;
+            background: #090d11;
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 3px solid #58a6ff;
+            margin-top: 10px;
+            line-height: 1.4;
         }
         .btn {
             background-color: var(--accent-green);
@@ -65,10 +103,9 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
-            width: 100%;
         }
         .btn:hover { opacity: 0.9; }
-        .chat-box {
+        .log-box, .chat-box {
             height: 150px;
             overflow-y: auto;
             border: 1px solid var(--border-color);
@@ -76,73 +113,290 @@
             border-radius: 5px;
             background: #090d11;
             margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .log-item {
+            padding: 4px 0;
+            border-bottom: 1px dashed #21262d;
+            color: #3fb950;
+        }
+        video {
+            width: 100%;
+            height: 170px;
+            background: #000;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🌾 Smart Organic Agri-AI Control Room</h1>
-        <p>100% Organic | Acoustic AI Insect Detection | 10-Year Long Life Architecture</p>
+        <h1>🌾 Smart Agri-AI Control Room</h1>
+        <p>Raspberry Pi 5 + Sony IMX500 AI Camera | 7-Year Long Life Architecture</p>
+        <div class="top-controls">
+            <span class="status-badge status-blue" id="liveClock">🕒 --:--:-- --</span>
+            <span class="status-badge status-blue">📶 Wi-Fi: Redmi 10 Power</span>
+            <button class="sat-btn active" id="satBtn" onclick="toggleSatellite()">🛰️ Satellite: ON</button>
+            <span class="status-badge status-ok" id="satSignal">📡 Strong Signal: -61 dBm (94%)</span>
+        </div>
     </div>
 
     <div class="grid">
-        <!-- System Sleep Cycle Status -->
+        <!-- Raspberry Pi 5 Cycle & Schedule Status -->
         <div class="card">
-            <h3>⏰ ESP32 Hourly Deep Sleep Cycle</h3>
-            <p>System Wakeup Timer:</p>
-            <div class="val-display" id="timer">59:58</div>
-            <span class="status-badge status-ok" id="espStatus">ESP32: Deep Sleep Mode</span>
-        </div>
-
-        <!-- Soil Moisture Status -->
-        <div class="card">
-            <h3>🌱 Capacitive Soil Moisture</h3>
-            <p>Non-Corrosive Sensor v1.2</p>
-            <div class="val-display" id="soilVal">65%</div>
-            <span class="status-badge status-ok" id="soilStatus">Moisture Normal</span>
-        </div>
-
-        <!-- Acoustic Insect AI Sensor -->
-        <div class="card">
-            <h3>🦗 Acoustic AI Insect Scan</h3>
-            <p>Piezo Stem Vibration Analysis</p>
-            <div class="val-display" id="bugVal">0.02 kHz</div>
-            <span class="status-badge status-ok" id="bugStatus">No Pest Detected</span>
-        </div>
-
-        <!-- Organic AI Assistant (Gemini) -->
-        <div class="card" style="grid-column: span 1 / -1;">
-            <h3>🤖 Gemini Organic Agri-AI Assistant</h3>
-            <div class="chat-box" id="chat">
-                <p><strong>Gemini AI:</strong> जय हिंद शुभम! खेत की निगरानी जारी है। नीम तेल और छाछ के जैविक घोल के स्प्रे का समय हो तो पूछें।</p>
+            <h3>🖥️ Raspberry Pi 5 + Sony AI Cycle</h3>
+            <p id="modeLabel">Next Photo Capture Timer:</p>
+            <div class="val-display" id="timer">--:--</div>
+            <span class="status-badge status-ok" id="piStatus">RPi 5 + Sony IMX500: Standby</span>
+            <div class="schedule-note">
+                ☀️ <strong>दिन (Day 12h):</strong> 1 घंटे में सिर्फ 1 बार चालू होगा (Active once every 1 hour).<br>
+                🌙 <strong>रात (Night 12h):</strong> 3 घंटे में सिर्फ 1 बार चालू होगा (Active once every 3 hours).
             </div>
-            <input type="text" id="userInput" placeholder="जैविक खेती या बीमारी से जुड़ा सवाल लिखें..." style="width: 75%; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); background: #0d1117; color: white;">
-            <button class="btn" onclick="sendMsg()" style="width: 20%;">पूछें</button>
+        </div>
+
+        <!-- Internal Box Temperature -->
+        <div class="card">
+            <h3>🌡️ Raspberry Pi 5 Enclosure Temp</h3>
+            <p>Internal Thermal Monitor</p>
+            <div class="val-display" id="tempVal">26.4 °C</div>
+            <span class="status-badge status-ok">Optimal Zone (26°C - 27°C)</span>
+        </div>
+
+        <!-- Vibration Insect AI Sensor (1-20 Hz) -->
+        <div class="card">
+            <h3>🦗 Acoustic Vibration Insect Scan</h3>
+            <p>Stem Micro-Vibration (1 - 20 Hz)</p>
+            <div class="val-display" id="bugVal">7 Hz</div>
+            <span class="status-badge status-ok" id="bugStatus">Normal Stem Frequency</span>
+        </div>
+
+        <!-- Daily Photo Capture History (24h Reset) -->
+        <div class="card">
+            <h3>📸 24-Hour Capture History</h3>
+            <p>Sony IMX500 & System Log (Auto-resets in 24h)</p>
+            <div class="log-box" id="historyLog"></div>
+            <span class="status-badge status-blue" id="resetCountdown">24h Cycle Active</span>
+        </div>
+
+        <!-- Inbuilt Laptop / Sony AI Camera Feed -->
+        <div class="card">
+            <h3>📷 Live Inbuilt Camera Vision</h3>
+            <p>Laptop Webcam / Sony AI Stream</p>
+            <video id="webcamFeed" autoplay playsinline muted></video>
+            <button class="btn" onclick="startCamera()" style="margin-top: 8px; padding: 6px 12px; font-size: 0.9em; width: 100%;">कैमरा चालू करें (Start Camera)</button>
+        </div>
+
+        <!-- Inorganic AI Assistant (Gemini) -->
+        <div class="card" style="grid-column: span 1 / -1;">
+            <h3>🤖 Gemini Inorganic Agri-AI Assistant</h3>
+            <div class="chat-box" id="chat">
+                <p><strong>Gemini AI:</strong> जय हिंद! Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन हैं। रासायनिक खाद (यूरिया, डीएपी, एनपीके) और इनऑर्गेनिक कीटनाशक प्रबंधन से जुड़ा कोई भी सवाल पूछें।</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="userInput" placeholder="रासायनिक खाद, स्प्रे या कीट नियंत्रण से जुड़ा सवाल लिखें..." style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid var(--border-color); background: #0d1117; color: white;">
+                <button class="btn" onclick="sendMsg()" style="width: 120px;">पूछें</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Simulating Deep Sleep Timer
-        let seconds = 3598;
+        const DAY_MS = 24 * 60 * 60 * 1000;
+
+        // Initialize or load persistent 24-hour state from localStorage
+        function loadSystemState() {
+            let saved = JSON.parse(localStorage.getItem('agriAiState'));
+            const now = Date.now();
+
+            // Reset everything if 24 hours have passed or no saved data exists
+            if (!saved || (now - saved.cycleStartTime) >= DAY_MS) {
+                const isNight = (new Date().getHours() >= 18 || new Date().getHours() < 6);
+                const initialDuration = isNight ? 3 * 3600 : 1 * 3600;
+                saved = {
+                    cycleStartTime: now,
+                    nextCaptureTimestamp: now + (initialDuration * 1000),
+                    logs: [
+                        `[${formatTime(new Date(now))}] सिस्टम चालू हुआ और निगरानी शुरू की गई।`
+                    ],
+                    temp: "26.4",
+                    freq: 7
+                };
+                localStorage.setItem('agriAiState', JSON.stringify(saved));
+            }
+            return saved;
+        }
+
+        function saveSystemState(state) {
+            localStorage.setItem('agriAiState', JSON.stringify(state));
+        }
+
+        function formatTime(dateObj) {
+            return dateObj.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+        }
+
+        let appState = loadSystemState();
+
+        function renderLogs() {
+            const logContainer = document.getElementById('historyLog');
+            logContainer.innerHTML = appState.logs.map(item => `<div class="log-item">${item}</div>`).join('');
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        renderLogs();
+
+        // 1. Live Clock, Persistent Countdown & 24h Auto-Reset Loop
         setInterval(() => {
-            if(seconds > 0) seconds--;
-            let m = Math.floor(seconds / 60);
-            let s = seconds % 60;
-            document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            const now = Date.now();
+            const currentDate = new Date(now);
+            document.getElementById('liveClock').innerText = `🕒 ${formatTime(currentDate)}`;
+
+            // Check 24-hour full reset
+            if ((now - appState.cycleStartTime) >= DAY_MS) {
+                localStorage.removeItem('agriAiState');
+                appState = loadSystemState();
+                renderLogs();
+            }
+
+            // Remaining time in 24h cycle
+            let remDaySec = Math.max(0, Math.floor((DAY_MS - (now - appState.cycleStartTime)) / 1000));
+            let rh = Math.floor(remDaySec / 3600);
+            let rm = Math.floor((remDaySec % 3600) / 60);
+            document.getElementById('resetCountdown').innerText = `24h Reset in: ${rh}h ${rm}m`;
+
+            // Determine Day (6 AM - 6 PM: 1 hr) vs Night (6 PM - 6 AM: 3 hrs)
+            const hour = currentDate.getHours();
+            const isNight = (hour >= 18 || hour < 6);
+            document.getElementById('modeLabel').innerText = isNight
+                ? "🌙 Night Mode (3-Hour Interval):"
+                : "☀️ Day Mode (1-Hour Interval):";
+
+            // Capture Timer Check
+            let diffSec = Math.floor((appState.nextCaptureTimestamp - now) / 1000);
+            if (diffSec <= 0) {
+                const timeStr = formatTime(currentDate);
+                appState.logs.push(`📸 [${timeStr}] Sony AI Camera ने फोटो खींची और डेटा लॉग किया।`);
+                const nextIntervalSec = isNight ? (3 * 3600) : (1 * 3600);
+                appState.nextCaptureTimestamp = now + (nextIntervalSec * 1000);
+                saveSystemState(appState);
+                renderLogs();
+                diffSec = nextIntervalSec;
+            }
+
+            let h = Math.floor(diffSec / 3600);
+            let m = Math.floor((diffSec % 3600) / 60);
+            let s = diffSec % 60;
+            document.getElementById('timer').innerText = h > 0
+                ? `${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`
+                : `${m}:${s < 10 ? '0' : ''}${s}`;
         }, 1000);
 
-        function sendMsg() {
+        // 2. Vibration Sensor Fluctuation (1 Hz to 20 Hz) - Saved in state
+        document.getElementById('bugVal').innerText = `${appState.freq} Hz`;
+        setInterval(() => {
+            let freq = Math.floor(Math.random() * 20) + 1;
+            appState.freq = freq;
+            saveSystemState(appState);
+            document.getElementById('bugVal').innerText = `${freq} Hz`;
+            let badge = document.getElementById('bugStatus');
+            if (freq > 16) {
+                badge.className = "status-badge status-warn";
+                badge.innerText = "⚠️ High Vibration (Check Pest)";
+            } else {
+                badge.className = "status-badge status-ok";
+                badge.innerText = "Normal Stem Frequency";
+            }
+        }, 2000);
+
+        // 3. Raspberry Pi 5 Temperature Fluctuation (26.0°C to 27.0°C) - Saved in state
+        document.getElementById('tempVal').innerText = `${appState.temp} °C`;
+        setInterval(() => {
+            let temp = (26 + Math.random()).toFixed(1);
+            appState.temp = temp;
+            saveSystemState(appState);
+            document.getElementById('tempVal').innerText = `${temp} °C`;
+        }, 3000);
+
+        // 4. Satellite Toggle & Fluctuating Strong Signal (No Distance)
+        let satOn = true;
+        function toggleSatellite() {
+            satOn = !satOn;
+            const btn = document.getElementById('satBtn');
+            const sigBadge = document.getElementById('satSignal');
+            if (satOn) {
+                btn.classList.add('active');
+                btn.innerText = "🛰️ Satellite: ON";
+                sigBadge.className = "status-badge status-ok";
+                sigBadge.innerText = "📡 Strong Signal: -61 dBm (94%)";
+            } else {
+                btn.classList.remove('active');
+                btn.innerText = "🛰️ Satellite: OFF";
+                sigBadge.className = "status-badge status-warn";
+                sigBadge.innerText = "📡 Satellite Signal: Disconnected";
+            }
+        }
+
+        setInterval(() => {
+            if (satOn) {
+                // Strong signal fluctuating between -58 dBm and -65 dBm (90% - 98%)
+                let dbm = -(Math.floor(Math.random() * 8) + 58);
+                let pct = 100 - (Math.abs(dbm) - 56);
+                document.getElementById('satSignal').innerText = `📡 Strong Signal: ${dbm} dBm (${pct}%)`;
+            }
+        }, 2000);
+
+        // 5. Laptop Inbuilt Webcam Integration
+        async function startCamera() {
+            const video = document.getElementById('webcamFeed');
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                console.log("Camera permission pending.");
+            }
+        }
+        window.addEventListener('load', startCamera);
+
+        // 6. Live Gemini API Integration (Inorganic Farming Focused)
+        // आपकी API Key नीचे इस लाइन में है:
+        const GEMINI_API_KEY = "AQ.Ab8RN6J8m26LqXffU_r8t_WZM12ozTAK-uTe9q-UaMmhzGgO5w";
+
+        async function sendMsg() {
             let input = document.getElementById('userInput');
             let chat = document.getElementById('chat');
-            if(input.value.trim() !== "") {
-                chat.innerHTML += `<p><strong>आप:</strong> ${input.value}</p>`;
-                let reply = "दीमक या किसी कीट के लिए 5% नीम तेल का घोल या खट्टी छाछ का छिड़काव 100% जैविक और असरदार उपाय है।";
-                setTimeout(() => {
-                    chat.innerHTML += `<p><strong>Gemini AI:</strong> ${reply}</p>`;
-                    chat.scrollTop = chat.scrollHeight;
-                }, 800);
+            
+            if (input.value.trim() !== "") {
+                let userText = input.value;
+                chat.innerHTML += `<p><strong>आप:</strong> ${userText}</p>`;
                 input.value = "";
+                chat.scrollTop = chat.scrollHeight;
+
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            systemInstruction: {
+                                parts: [{ text: "तुम एक विशेषज्ञ कृषि वैज्ञानिक हो। उपयोगकर्ता के सवालों का जवाब हिंदी में, संक्षिप्त और मुख्य रूप से इनऑर्गेनिक (रासायनिक खाद जैसे Urea, DAP, NPK और आधुनिक रासायनिक कीटनाशकों) के सटीक वैज्ञानिक उपयोग के आधार पर दो।" }]
+                            },
+                            contents: [{ parts: [{ text: userText }] }]
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0].content.parts[0].text) {
+                        const reply = data.candidates[0].content.parts[0].text;
+                        chat.innerHTML += `<p><strong>Gemini AI:</strong> ${reply}</p>`;
+                    } else {
+                        chat.innerHTML += `<p><strong>Gemini AI:</strong> उत्तर प्राप्त करने में समस्या हुई।</p>`;
+                    }
+                } catch (error) {
+                    chat.innerHTML += `<p><strong>Gemini AI:</strong> एरर आ रहा है, कृपया अपनी API Key या इंटरनेट कनेक्शन जांचें।</p>`;
+                }
+                
+                chat.scrollTop = chat.scrollHeight;
             }
         }
     </script>
