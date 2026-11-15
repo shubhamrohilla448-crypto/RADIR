@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Ultimate Gesture Command Center</title>
+    <title>Smart Agri-AI OS | National Level Champion Master Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -14,7 +14,7 @@
             --bg-deep: #03060c;
             --gold-prime: #e6c687;
             --gold-glow: rgba(230, 198, 135, 0.35);
-            --card-glass: rgba(12, 18, 30, 0.95);
+            --card-glass: rgba(12, 18, 30, 0.96);
             --neon-blue: #00d2ff;
             --neon-green: #00ff88;
             --alert-red: #ff3b5c;
@@ -30,24 +30,35 @@
             background: #03060c; color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
+        /* Apple Style Premium Instant Boot Screen */
         #bootScreen {
             position: fixed; inset: 0; background: #03060c; z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.2s ease;
         }
         #bootScreen.hidden { opacity: 0; pointer-events: none; }
+        
+        .apple-logo-boot {
+            width: 80px; height: 80px; background: linear-gradient(135deg, #00d2ff, #00ff88);
+            border-radius: 22px; display: flex; align-items: center; justify-content: center;
+            font-size: 40px; box-shadow: 0 0 40px rgba(0, 210, 255, 0.8); border: 2px solid #fff;
+            animation: pulseLogo 0.8s infinite alternate;
+        }
+        @keyframes pulseLogo { from { transform: scale(0.95); } to { transform: scale(1.05); } }
+
         .boot-title {
-            font-size: 1.6rem; letter-spacing: 3px; margin-top: 15px;
+            font-size: 1.6rem; letter-spacing: 4px; margin-top: 15px;
             background: linear-gradient(90deg, #00d2ff, #e6c687, #00ff88);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;
         }
         .boot-bar-container {
-            width: 220px; height: 5px; background: rgba(255, 255, 255, 0.1);
+            width: 260px; height: 5px; background: rgba(255, 255, 255, 0.1);
             border-radius: 10px; margin-top: 15px; overflow: hidden;
         }
-        .boot-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #00d2ff, #00ff88); animation: loadInstant 0.2s ease-out forwards; }
+        .boot-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #00d2ff, #00ff88); animation: loadInstant 0.18s ease-out forwards; }
         @keyframes loadInstant { to { width: 100%; } }
 
         .app-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
@@ -74,7 +85,7 @@
         .sync-btn-top {
             position: absolute; top: 16px; right: 20px; background: rgba(0, 210, 255, 0.2);
             border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px 16px;
-            border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.2s;
+            border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.15s;
         }
         .sync-btn-top:hover { background: var(--neon-blue); color: #03060c; }
 
@@ -93,13 +104,13 @@
         .card {
             background: var(--card-glass); border: 2px solid rgba(0, 210, 255, 0.3); border-radius: 20px;
             padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column;
-            justify-content: space-between; transition: border-color 0.1s ease, box-shadow 0.1s ease; position: relative;
+            justify-content: space-between; transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease; position: relative;
         }
 
-        .card.focused {
-            border-color: var(--focus-border) !important;
-            box-shadow: 0 0 35px rgba(255, 215, 0, 0.9) !important;
-            transform: scale(1.02); z-index: 10;
+        .card.focused, .report-master-card.focused {
+            border: 3px solid var(--focus-border) !important;
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.95) !important;
+            transform: scale(1.02); z-index: 15;
         }
 
         .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -107,8 +118,8 @@
 
         .mini-spk {
             background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
-            width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex;
-            align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.2s;
+            width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.15s;
         }
         .mini-spk.speaking { background: var(--neon-green); color: #03060c; border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
 
@@ -119,8 +130,8 @@
             border-radius: 12px; border-left: 4px solid var(--neon-blue); line-height: 1.5; margin-top: 12px;
         }
 
-        .card.human-alert { border-color: var(--alert-red) !important; box-shadow: 0 0 45px rgba(255, 59, 92, 0.7) !important; }
-        .card.plant-active { border-color: var(--neon-green) !important; box-shadow: 0 0 45px rgba(0, 255, 136, 0.8) !important; }
+        .card.human-alert { border-color: var(--alert-red) !important; box-shadow: 0 0 45px rgba(255, 59, 92, 0.75) !important; }
+        .card.plant-active { border-color: var(--neon-green) !important; box-shadow: 0 0 45px rgba(0, 255, 136, 0.85) !important; }
 
         .cam-box { position: relative; width: 100%; height: 240px; background: #000; border-radius: 16px; overflow: hidden; border: 2px solid #334155; }
         video#webcam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
@@ -128,7 +139,7 @@
 
         .hud-pill-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; z-index: 6; pointer-events: none; }
         .hud-tag {
-            background: rgba(3, 6, 12, 0.9); border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            background: rgba(3, 6, 12, 0.92); border: 1px solid var(--neon-blue); color: var(--neon-blue);
             padding: 4px 10px; border-radius: 15px; font-size: 0.78rem; font-weight: 800;
         }
 
@@ -143,8 +154,8 @@
         .btn-row { display: flex; gap: 10px; margin-top: 12px; }
         .action-btn {
             flex: 1; padding: 14px; border: none; border-radius: 12px; font-weight: 900;
-            font-size: 0.95rem; cursor: pointer; color: #fff;
-            background: linear-gradient(135deg, #00c853, #008e3a); transition: all 0.2s;
+            font-size: 0.92rem; cursor: pointer; color: #fff;
+            background: linear-gradient(135deg, #00c853, #008e3a); transition: all 0.15s;
         }
         .action-btn.stop-cam { background: linear-gradient(135deg, #ef4444, #b91c1c); }
         
@@ -152,6 +163,12 @@
         .gesture-mode-btn.active {
             background: linear-gradient(135deg, #ffd700, #ff8a00); color: #03060c;
             border-color: #ffffff; box-shadow: 0 0 20px #ffd700;
+        }
+
+        .gesture-guide-strip {
+            margin-top: 10px; padding: 8px 10px; border-radius: 10px;
+            background: rgba(0, 210, 255, 0.1); border: 1px dashed rgba(0, 210, 255, 0.4);
+            font-size: 0.8rem; color: #cbd5e1; text-align: center; line-height: 1.4;
         }
 
         .log-list {
@@ -166,6 +183,7 @@
             background: linear-gradient(145deg, rgba(12, 18, 30, 0.95), rgba(5, 9, 18, 0.98));
             border: 3px solid var(--gold-prime); border-radius: 24px; padding: 28px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
+            transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
         }
 
         .report-scroll-area {
@@ -193,7 +211,7 @@
             color: var(--neon-blue); font-weight: 800; padding: 16px; border-radius: 14px;
             cursor: pointer; font-size: 1.05rem;
         }
-        .btn-voice.active-spk { background: var(--neon-blue); color: #03060c; box-shadow: 0 0 20px var(--neon-blue); }
+        .btn-voice.speaking { background: var(--neon-blue); color: #03060c; box-shadow: 0 0 20px var(--neon-blue); }
         .btn-mute {
             flex: 1; min-width: 140px; background: rgba(255, 59, 92, 0.2); border: 2px solid var(--alert-red);
             color: var(--alert-red); font-weight: 800; padding: 16px; border-radius: 14px;
@@ -203,10 +221,10 @@
 </head>
 <body>
 
+    <!-- Apple Style Premium Instant Boot Screen -->
     <div id="bootScreen">
-        <div class="app-logo">🌱</div>
+        <div class="apple-logo-boot">🌱</div>
         <div class="boot-title">SMART AGRI-AI OS</div>
-        <div style="color: #94a3b8; font-size: 0.85rem; margin-top: 6px; letter-spacing: 2px;">LIGHTNING CORE INITIALIZED</div>
         <div class="boot-bar-container"><div class="boot-bar"></div></div>
     </div>
 
@@ -215,7 +233,7 @@
             <div class="app-logo">🌱</div>
             <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Ultra-Fast 3D Neural Architecture</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | National Level Champion Master Dashboard</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -276,6 +294,9 @@
                     <button class="action-btn" id="camToggleBtn" onclick="toggleCamera()">कैमरा और AI चालू करें</button>
                     <button class="action-btn gesture-mode-btn" id="gestureModeBtn" onclick="toggleGestureMode()">🎛️ फुल जेस्चर कंट्रोल: OFF</button>
                 </div>
+                <div class="gesture-guide-strip" id="gestureGuideText">
+                    <strong>OFF मोड:</strong> 🤟 3 उंगली = लिस्ट खोलें | ☝️ 1 उंगली = वॉइस ON/OFF
+                </div>
             </div>
 
             <div class="card" id="card-logs">
@@ -296,7 +317,7 @@
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। 1 उंगली (वॉइस टॉगल), 3 उंगलियां (पूरी जाँच), 5 उंगलियां (नीचे नेविगेट), या हाथ घुमाकर बॉक्स चुनें।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। कैमरे के सामने 3 उंगलियां दिखाएं या नीचे बटन दबाएं।</p>
                 </div>
 
                 <div class="master-controls">
@@ -313,10 +334,9 @@
             setTimeout(() => {
                 const boot = document.getElementById('bootScreen');
                 if(boot) boot.classList.add('hidden');
-            }, 200); 
+            }, 180); 
         });
 
-        // Satellite & Fluctuation Logic
         let satelliteActive = true;
         function toggleSatellite() {
             satelliteActive = !satelliteActive;
@@ -349,7 +369,7 @@
 
         const DAY_MS = 86400000;
         let state = { cycleStart: Date.now(), lastHourlySim: Date.now(), nextShot: Date.now() + 3600000, logs: [] };
-        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम चालू हुआ और 3D AI निगरानी शुरू की गई।`;
+        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम चालू हुआ और AI निगरानी शुरू की गई।`;
 
         try { 
             const sav = JSON.parse(localStorage.getItem('agriUltraState')); 
@@ -400,7 +420,7 @@
 
             let diff = Math.floor((state.nextShot - now)/1000);
             if(diff <= 0) {
-                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने हाई-रेज़ोल्यूशन फोटो कैप्चर की।`);
+                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने फोटो कैप्चर की।`);
                 const isN = (d.getHours() >= 18 || d.getHours() < 6);
                 state.nextShot = now + (isN ? 3 : 1)*3600000;
                 saveState(); renderLogs(); diff = (isN ? 3 : 1)*3600;
@@ -409,19 +429,31 @@
         }
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
-        // Speech System
+        let isSpeakingState = false;
         let currentSpeakerBtn = null;
+
         function speakText(text, btnElement = null) {
             if(!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
             
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = 'hi-IN';
-            utter.rate = 1.1;
+            utter.rate = 1.12;
             
-            utter.onstart = () => { if(btnElement) btnElement.classList.add('speaking'); };
-            utter.onend = () => { if(btnElement) btnElement.classList.remove('speaking'); currentSpeakerBtn = null; };
-            utter.onerror = () => { if(btnElement) btnElement.classList.remove('speaking'); currentSpeakerBtn = null; };
+            utter.onstart = () => { 
+                isSpeakingState = true;
+                if(btnElement) btnElement.classList.add('speaking'); 
+            };
+            utter.onend = () => { 
+                isSpeakingState = false;
+                if(btnElement) btnElement.classList.remove('speaking'); 
+                currentSpeakerBtn = null;
+            };
+            utter.onerror = () => { 
+                isSpeakingState = false;
+                if(btnElement) btnElement.classList.remove('speaking'); 
+                currentSpeakerBtn = null;
+            };
             
             currentSpeakerBtn = btnElement;
             window.speechSynthesis.speak(utter);
@@ -429,28 +461,41 @@
 
         function stopVoiceImmediately() {
             if('speechSynthesis' in window) window.speechSynthesis.cancel();
+            isSpeakingState = false;
             if(currentSpeakerBtn) currentSpeakerBtn.classList.remove('speaking');
-            const mainBtn = document.getElementById('mainSpeakBtn');
-            if(mainBtn) mainBtn.classList.remove('active-spk');
-            document.querySelectorAll('.mini-spk').forEach(b => b.classList.remove('speaking'));
+            document.querySelectorAll('.mini-spk, .btn-voice').forEach(b => b.classList.remove('speaking'));
             currentSpeakerBtn = null;
         }
 
         const fullDetailedHTML = `
-            <div class="report-section-box">
-                <h4>🔬 1. मिट्टी और पर्यावरण परीक्षण</h4>
-                <ul><li>मिट्टी का पीएच मान <strong>7.0 (न्यूट्रल)</strong> है, जो फसलों के लिए सर्वोत्तम है।</li><li>नाइट्रोजन, फास्फोरस, पोटाश की भरपूर मात्रा मौजूद है।</li></ul>
-            </div>
             <div class="report-section-box chilli-alert">
-                <h4>🌶️ 2. मिर्च का पौधा (संख्या: 1) — आपातकालीन उन्मूलन सलाह</h4>
-                <ul><li>यह मिर्च का पौधा हमारे डेटाबेस में नहीं था, आप इसे बाहर से लाए हैं और 95% संभावना है कि यह नर्सरी से ही संक्रमित था।</li><li>इसमें गंभीर <strong>फाइटोप्थोरा रूट रोट (जड़ सड़न)</strong> और <strong>लीफ कर्ल वायरस</strong> है जो 7 दिनों से अधिक पुराना है।</li><li>जाइलम नसें ब्लॉक होने के कारण अब कोई भी ऑर्गेनिक या रासायनिक दवाई असर नहीं करेगी (0% रिकवरी)।</li><li>यह पौधा खुद तो मरेगा ही, व्हाइटफ्लाई द्वारा गोभी को भी संक्रमित करेगा। इसे उखाड़कर नष्ट करना ही सबसे बड़ा फायदा है।</li></ul>
+                <h4>🌶️ 1. मिर्च का पौधा (संख्या: 1) — आपातकालीन रिपोर्ट एवं सलाह</h4>
+                <ul>
+                    <li>यह मिर्च का पौधा हमारे डेटाबेस में नहीं था, आप इसे बाहर से लाए हैं और 95% संभावना है कि यह नर्सरी से ही संक्रमित आया था।</li>
+                    <li>इसमें गंभीर <strong>फाइटोप्थोरा रूट रोट (जड़ सड़न)</strong> और <strong>लीफ कर्ल वायरस</strong> है, जिसे 7 दिन से ज़्यादा हो चुके हैं और यह अपना बड़ा रूप ले चुका है।</li>
+                    <li>पौधे की <strong>जाइलम (Xylem) नसें पूरी तरह ब्लॉक हो चुकी हैं</strong>, इसलिए अब इसके बचने के <strong>0% चांस</strong> हैं।</li>
+                    <li>इसके ऊपर कोई भी ऑर्गेनिक, रासायनिक या कीटनाशक दवाई डालना केवल <strong>पैसे की बर्बादी</strong> होगी।</li>
+                    <li>यह पौधा खुद तो मरेगा ही, साथ ही व्हाइटफ्लाई के ज़रिए गोभी की स्वस्थ फसलों को भी संक्रमित कर देगा। इसलिए इसे तुरंत उखाड़कर नष्ट करना ही सबसे समझदारी और फायदेमंद फैसला है।</li>
+                </ul>
             </div>
             <div class="report-section-box cabbage-safe">
-                <h4>🥬 3. फूलगोभी के पौधे (कुल संख्या: 4) — 100% सुरक्षा कवच</h4>
-                <ul><li>चारों गोभी के पौधे नियंत्रण में हैं, केवल शुरुआती इल्ली का असर है।</li><li>1 लीटर पानी में 5 मिलीलीटर नीम का तेल और जैविक साबुन मिलाकर छिड़काव करें। सुबह राख बुरकना भी 100% प्रभावी है।</li></ul>
+                <h4>🥬 2. फूलगोभी के पौधे (कुल संख्या: 4) — सुरक्षा एवं ऑर्गेनिक इलाज</h4>
+                <ul>
+                    <li>चारों गोभी के पौधे नियंत्रण में हैं। इनमें शुरुआती <strong>डाइमंडबैक मोथ (इल्ली/सुंडी)</strong> और हल्के फंगस का असर है जो केवल 2 से 3 दिन पुराना है (यानी इन्हें <strong>100% बचाया जा सकता है</strong>)।</li>
+                    <li><strong>5 असरदार ऑर्गेनिक और घरेलू दवाइयाँ:</strong>
+                        <ol>
+                            <li><strong>नीम का तेल:</strong> 1 लीटर पानी में 5 मिलीलीटर शुद्ध नीम का तेल और जैविक साबुन मिलाकर स्प्रे करें।</li>
+                            <li><strong>सुबह की राख:</strong> ओस के समय गोभी के पत्तों पर सूखी लकड़ी की राख बुरकें।</li>
+                            <li><strong>लहसुन-मिर्च का अर्क:</strong> लहसुन और तीखी मिर्च का घोल बनाकर छिड़काव करें।</li>
+                            <li><strong>खट्टी छाछ और तांबे का घोल:</strong> 5 दिन पुरानी खट्टी छाछ को तांबे के बर्तन में रखकर फंगस भगाएं।</li>
+                            <li><strong>गोमूत्र और नीम पत्ती का काढ़ा:</strong> देशी गोमूत्र में नीम की पत्तियां उबालकर स्प्रे करें।</li>
+                        </ol>
+                    </li>
+                </ul>
             </div>
         `;
-        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है। अब कोई भी देसी या अंग्रेजी दवाई इस पर असर नहीं करेगी। यह गोभी की फसल को भी बर्बाद कर देगा, इसलिए इसे उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर नीम के तेल और राख का छिड़काव करके सौ प्रतिशत बचाया जा सकता है।";
+
+        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पांच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
 
         function speakFullDetailedReport() { 
             speakText(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
@@ -474,9 +519,6 @@
             if(type === 'report') speakFullDetailedReport();
         }
 
-        // ==========================================
-        // HIGH-SPEED GESTURE & VISION ENGINE (1, 3, 5 Fingers & Swipe)
-        // ==========================================
         let camStream = null; let cocoModel = null; let handsModel = null;
         let isProcessing = false; let fullGestureMode = false;
         let currentBoxIndex = 0;
@@ -497,70 +539,109 @@
             }
         }
 
-        let lastPalmX = null;
+        let prevHandX = null;
+        let prevHandY = null;
         let lastActionTime = 0;
+        let scrollToggleDown = true;
+
+        function countExtendedFingers(lm) {
+            let count = 0;
+            const tips = [8, 12, 16, 20];
+            const pips = [6, 10, 14, 18];
+            for(let i = 0; i < 4; i++) {
+                if(lm[tips[i]].y < lm[pips[i]].y - 0.03) count++;
+            }
+            const thumbDist = Math.abs(lm[4].x - lm[5].x);
+            if(thumbDist > 0.09) count++;
+            return count;
+        }
 
         function handleHands(results) {
             const now = performance.now();
             if(!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
-                lastPalmX = null;
+                prevHandX = null;
+                prevHandY = null;
                 return;
             }
 
             const lm = results.multiHandLandmarks[0];
-            const palmX = lm[0].x;
+            const handX = lm[9].x;
+            const handY = lm[9].y;
+            const fingers = countExtendedFingers(lm);
 
-            const tips = [8, 12, 16, 20];
-            const pips = [6, 10, 14, 18];
-            let openCount = 0;
-            for(let i=0; i<4; i++) { if(lm[tips[i]].y < lm[pips[i]].y - 0.02) openCount++; }
-            // Thumb check
-            if(Math.abs(lm[4].x - lm[17].x) > 0.1) openCount++;
+            if(!fullGestureMode) {
+                if(now - lastActionTime > 600) {
+                    if(fingers === 3) {
+                        lastActionTime = now;
+                        gestureTag.innerText = "🤟 3 उंगली: लिस्ट खुली";
+                        triggerFullReportAndVoice();
+                    } else if(fingers === 1) {
+                        lastActionTime = now;
+                        if(isSpeakingState || window.speechSynthesis.speaking) {
+                            gestureTag.innerText = "🔇 1 उंगली: वॉइस बंद";
+                            stopVoiceImmediately();
+                        } else {
+                            gestureTag.innerText = "🔊 1 उंगली: वॉइस चालू";
+                            speakFullDetailedReport();
+                        }
+                    }
+                }
+            } 
+            else {
+                if(fingers >= 5 && (now - lastActionTime > 700)) {
+                    lastActionTime = now;
+                    if(scrollToggleDown) {
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                        gestureTag.innerText = "🖐️ 5 उंगली: नीचे स्क्रॉल";
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        gestureTag.innerText = "🖐️ 5 उंगली: ऊपर स्क्रॉल";
+                    }
+                    scrollToggleDown = !scrollToggleDown;
+                } 
+                else if(fingers === 2 && prevHandX !== null && prevHandY !== null) {
+                    const dx = handX - prevHandX;
+                    const dy = handY - prevHandY;
+                    const threshold = 0.07;
 
-            if(now - lastActionTime > 400) {
-                if(openCount >= 5) {
-                    // 5 Fingers -> Scroll down to report / bottom
+                    // Exactly 1 second (1000ms) delay between box ticks as requested
+                    if((Math.abs(dx) > threshold || Math.abs(dy) > threshold) && (now - lastActionTime > 1000)) {
+                        lastActionTime = now;
+                        if(Math.abs(dx) > Math.abs(dy)) {
+                            if(dx < 0) {
+                                currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
+                                gestureTag.innerText = `👉 दाएं: बॉक्स ${currentBoxIndex + 1}`;
+                            } else {
+                                currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
+                                gestureTag.innerText = `👈 बाएं: बॉक्स ${currentBoxIndex + 1}`;
+                            }
+                        } else {
+                            if(dy > 0) {
+                                currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
+                                gestureTag.innerText = `👇 नीचे: बॉक्स ${currentBoxIndex + 1}`;
+                            } else {
+                                currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
+                                gestureTag.innerText = `👆 ऊपर: बॉक्स ${currentBoxIndex + 1}`;
+                            }
+                        }
+                        updateFocusRing();
+                    }
+                } 
+                else if(fingers === 1 && (now - lastActionTime > 600)) {
                     lastActionTime = now;
-                    gestureTag.innerText = "🖐️ 5 उंगली: नीचे स्क्रॉल";
-                    const m = document.getElementById('reportCardMaster');
-                    if(m) m.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    return;
-                } else if(openCount === 3) {
-                    // 3 Fingers -> Open Report List
-                    lastActionTime = now;
-                    gestureTag.innerText = "🤟 3 उंगली: पूरी रिपोर्ट";
-                    triggerFullReportAndVoice();
-                    return;
-                } else if(openCount === 1) {
-                    // 1 Finger -> Toggle Voice (On / Off)
-                    lastActionTime = now;
-                    if('speechSynthesis' in window && window.speechSynthesis.speaking) {
-                        gestureTag.innerText = "🔇 1 उंगली: ऑडियो बंद";
+                    const activeCardId = focusableCards[currentBoxIndex];
+                    if(isSpeakingState || window.speechSynthesis.speaking) {
+                        gestureTag.innerText = `🔇 बॉक्स ${currentBoxIndex + 1}: बंद`;
                         stopVoiceImmediately();
                     } else {
-                        gestureTag.innerText = "🔊 1 उंगली: ऑडियो चालू";
-                        speakFullDetailedReport();
+                        gestureTag.innerText = `🔊 बॉक्स ${currentBoxIndex + 1}: चालू`;
+                        triggerCardAction(activeCardId);
                     }
-                    return;
                 }
             }
 
-            // Left / Right / Up / Down Swipe Navigation in Full Gesture Mode
-            if(fullGestureMode && lastPalmX !== null) {
-                const diffX = palmX - lastPalmX;
-                if(Math.abs(diffX) > 0.09 && (now - lastActionTime > 300)) {
-                    lastActionTime = now;
-                    if(diffX < 0) {
-                        currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
-                        gestureTag.innerText = `👉 अगला बॉक्स: ${currentBoxIndex+1}`;
-                    } else {
-                        currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
-                        gestureTag.innerText = `👈 पिछला बॉक्स: ${currentBoxIndex+1}`;
-                    }
-                    updateFocusRing();
-                }
-            }
-            lastPalmX = palmX;
+            prevHandX = handX;
+            prevHandY = handY;
         }
 
         function updateFocusRing() {
@@ -575,19 +656,38 @@
             if(activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
+        function triggerCardAction(cardId) {
+            const map = {
+                'card-cycle': () => speakFromCard('cycle'),
+                'card-temp': () => speakFromCard('temp'),
+                'card-vib': () => speakFromCard('vib'),
+                'visionCard': () => speakFromCard('vision'),
+                'card-logs': () => speakFromCard('logs'),
+                'reportCardMaster': () => triggerFullReportAndVoice()
+            };
+            if(map[cardId]) map[cardId]();
+        }
+
         function toggleGestureMode() {
             fullGestureMode = !fullGestureMode;
             const btn = document.getElementById('gestureModeBtn');
+            const guide = document.getElementById('gestureGuideText');
             if(fullGestureMode) {
                 btn.className = "action-btn gesture-mode-btn active";
-                btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: ON (हाथ दाएं-बाएं हिलाएं)";
-                currentBoxIndex = 0; updateFocusRing();
+                btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: ON";
+                guide.innerHTML = "<strong>ON मोड:</strong> 🖐️ 5 उंगली = स्क्रॉल | ✌️ 2 उंगली हिलाएं = बॉक्स चुनें (1s टिक) | ☝️ 1 उंगली = वॉइस";
+                currentBoxIndex = 0; 
+                updateFocusRing();
             } else {
                 btn.className = "action-btn gesture-mode-btn";
                 btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: OFF";
+                guide.innerHTML = "<strong>OFF मोड:</strong> 🤟 3 उंगली = लिस्ट खोलें | ☝️ 1 उंगली = वॉइस ON/OFF";
                 focusableCards.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('focused'); });
             }
         }
+
+        let frameSkip = 0;
+        let cachedPreds = [];
 
         async function visionLoop() {
             if(!camStream || !isProcessing) return;
@@ -595,15 +695,20 @@
                 if(overlayCanvas.width !== videoEl.clientWidth || overlayCanvas.height !== videoEl.clientHeight) {
                     overlayCanvas.width = videoEl.clientWidth; overlayCanvas.height = videoEl.clientHeight;
                 }
-                const preds = cocoModel ? await cocoModel.detect(videoEl, 3, 0.4) : [];
+
                 if(handsModel) await handsModel.send({ image: videoEl });
+
+                if(frameSkip % 2 === 0 && cocoModel) {
+                    cachedPreds = await cocoModel.detect(videoEl, 3, 0.42);
+                }
+                frameSkip++;
 
                 overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                 const scaleX = overlayCanvas.width / videoEl.videoWidth;
                 const scaleY = overlayCanvas.height / videoEl.videoHeight;
                 let hasHuman = false; let hasPlant = false;
 
-                preds.forEach(p => {
+                cachedPreds.forEach(p => {
                     const [bx, by, bw, bh] = p.bbox;
                     const mx = overlayCanvas.width - (bx + bw) * scaleX;
                     if(p.class === 'person') {
@@ -618,12 +723,12 @@
                 });
 
                 const vc = document.getElementById('visionCard');
-                if(hasHuman) {
-                    vc.className = "card human-alert"; visionBanner.className = "vision-banner is-human";
-                    visionBanner.innerText = "🚫 इंसान detected (RED) | रिकॉर्डिंग जारी";
-                } else if(hasPlant) {
+                if(hasPlant) {
                     vc.className = "card plant-active"; visionBanner.className = "vision-banner is-plant";
                     visionBanner.innerText = "🌱 पौधा पहचाना गया (GREEN) | निगरानी सक्रिय";
+                } else if(hasHuman) {
+                    vc.className = "card human-alert"; visionBanner.className = "vision-banner is-human";
+                    visionBanner.innerText = "🚫 इंसान detected (RED) | रिकॉर्डिंग जारी";
                 } else {
                     vc.className = "card"; visionBanner.className = "vision-banner";
                     visionBanner.innerText = "🔍 स्कैनिंग... सामने पौधा या हाथ लाएं";
