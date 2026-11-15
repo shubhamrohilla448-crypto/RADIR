@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Instant Zero-Delay Master Edition</title>
+    <title>Smart Agri-AI OS | Ultimate Smooth Voice Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -51,11 +51,6 @@
             background: linear-gradient(90deg, #00d2ff, #e6c687, #00ff88);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;
         }
-        .boot-bar-container {
-            width: 200px; height: 3px; background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px; margin-top: 10px; overflow: hidden;
-        }
-        .boot-bar { height: 100%; width: 100%; background: linear-gradient(90deg, #00d2ff, #00ff88); }
 
         .app-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
 
@@ -160,12 +155,6 @@
             background: linear-gradient(135deg, #00c853, #008e3a);
         }
         .action-btn.stop-cam { background: linear-gradient(135deg, #ef4444, #b91c1c); }
-        
-        .gesture-mode-btn { background: linear-gradient(135deg, #6200ea, #3700b3); border: 1px solid #bb86fc; }
-        .gesture-mode-btn.active {
-            background: linear-gradient(135deg, #ffd700, #ff8a00); color: #03060c;
-            border-color: #ffffff; box-shadow: 0 0 20px #ffd700;
-        }
 
         .gesture-guide-strip {
             margin-top: 10px; padding: 8px 10px; border-radius: 10px;
@@ -225,7 +214,6 @@
     <div id="bootScreen">
         <div class="apple-logo-boot">🌱</div>
         <div class="boot-title">SMART AGRI-AI OS</div>
-        <div class="boot-bar-container"><div class="boot-bar"></div></div>
     </div>
 
     <div class="app-wrapper">
@@ -236,7 +224,7 @@
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Zero-Delay Instant Response Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Ultra-Smooth Zero-Lag Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -250,7 +238,7 @@
             <div class="card" id="card-cycle">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">A</span> RPi 5 + Sony AI Cycle</span></h3>
-                    <button class="mini-spk" id="spk-cycle" onclick="speakFromCard('cycle')">🔊</button>
+                    <button class="mini-spk" id="spk-cycle" onclick="speakTextFromCard('cycle')">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);" id="cycleModeText">Next Capture:</div>
                 <div class="big-metric" id="timerDisplay">--:--</div>
@@ -262,7 +250,7 @@
             <div class="card" id="card-temp">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">B</span> RPi 5 Enclosure Temp</span></h3>
-                    <button class="mini-spk" id="spk-temp" onclick="speakFromCard('temp')">🔊</button>
+                    <button class="mini-spk" id="spk-temp" onclick="speakTextFromCard('temp')">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Thermal Monitor</div>
                 <div class="big-metric" id="tempDisplay">26.4 °C</div>
@@ -274,7 +262,7 @@
             <div class="card" id="card-vib">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">C</span> Acoustic Insect Scan</span></h3>
-                    <button class="mini-spk" id="spk-vib" onclick="speakFromCard('vib')">🔊</button>
+                    <button class="mini-spk" id="spk-vib" onclick="speakTextFromCard('vib')">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Stem Micro-Vibration</div>
                 <div class="big-metric" id="vibDisplay">5 Hz</div>
@@ -286,7 +274,7 @@
             <div class="card" id="visionCard">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">D</span> Live AI Vision & Gesture</span></h3>
-                    <button class="mini-spk" id="spk-vision" onclick="speakFromCard('vision')">🔊</button>
+                    <button class="mini-spk" id="spk-vision" onclick="speakTextFromCard('vision')">🔊</button>
                 </div>
                 <div class="cam-box">
                     <div class="hud-pill-top">
@@ -299,10 +287,9 @@
                 <div class="vision-banner" id="visionBanner">🔍 AI स्कैनिंग चालू करें</div>
                 <div class="btn-row">
                     <button class="action-btn" id="camToggleBtn" onclick="toggleCamera()">कैमरा और AI चालू करें</button>
-                    <button class="action-btn gesture-mode-btn" id="gestureModeBtn" onclick="toggleGestureMode()">🎛️ फुल जेस्चर कंट्रोल: OFF</button>
                 </div>
                 <div class="gesture-guide-strip" id="gestureGuideText">
-                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = टॉगल वॉइस | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ बोलें A से F
+                    <strong>जेस्चर मोड:</strong> 🖐️ पंजा ऊपर/नीचे = स्क्रॉल | ☝️ 1 उंगली = वॉइस ऑन/ऑफ | 🤟 3 उंगली = सबसे नीचे रिपोर्ट
                 </div>
             </div>
 
@@ -310,7 +297,7 @@
             <div class="card" id="card-logs">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">E</span> 24-Hour Capture History</span></h3>
-                    <button class="mini-spk" id="spk-logs" onclick="speakFromCard('logs')">🔊</button>
+                    <button class="mini-spk" id="spk-logs" onclick="speakTextFromCard('logs')">🔊</button>
                 </div>
                 <div class="log-list" id="logContainer"></div>
                 <div style="margin-top: 10px;">
@@ -322,7 +309,7 @@
             <div class="report-master-card" id="reportCardMaster">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">F</span> Gemini Smart Agri-AI Assistant</span></h3>
-                    <button class="mini-spk" id="spk-report" onclick="speakFromCard('report')">🔊</button>
+                    <button class="mini-spk" id="spk-report" onclick="speakTextFromCard('report')">🔊</button>
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
@@ -339,12 +326,11 @@
     </div>
 
     <script>
-        // Instant Boot Screen Removal (0.05s)
         window.addEventListener('DOMContentLoaded', () => { 
             setTimeout(() => {
                 const boot = document.getElementById('bootScreen');
                 if(boot) boot.classList.add('hidden');
-            }, 60); 
+            }, 50); 
         });
 
         let satelliteActive = true;
@@ -439,49 +425,43 @@
         }
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
-        // ==========================================
-        // ZERO-DELAY INSTANT SPEECH & NOISE-PROOF ENGINE
-        // ==========================================
-        let isSpeakingState = false;
-        let currentSpeakerBtn = null;
-        let allowVoiceFeedbackBySpeech = true;
+        // ==========================================================
+        // ANTI-FREEZE & CHUNK-BASED SMOOTH SPEECH ENGINE (NO STUTTER)
+        // ==========================================================
+        let allowVoiceFeedback = true;
         let recognition = null;
         let isMicListening = false;
 
         function speakText(text, btnElement = null) {
-            if(!allowVoiceFeedbackBySpeech) return;
+            if(!allowVoiceFeedback) return;
             if(!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel(); // Instant cut for zero delay
+            window.speechSynthesis.cancel(); // Instant reset
             
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = 'hi-IN';
-            utter.rate = 1.15;
-            
-            utter.onstart = () => { 
-                isSpeakingState = true;
-                if(btnElement) btnElement.classList.add('speaking'); 
-            };
-            utter.onend = () => { 
-                isSpeakingState = false;
-                if(btnElement) btnElement.classList.remove('speaking'); 
-                currentSpeakerBtn = null;
-            };
-            utter.onerror = () => { 
-                isSpeakingState = false;
-                if(btnElement) btnElement.classList.remove('speaking'); 
-                currentSpeakerBtn = null;
-            };
-            
-            currentSpeakerBtn = btnElement;
-            window.speechSynthesis.speak(utter);
+            if(btnElement) btnElement.classList.add('speaking');
+
+            // Split long text into smooth manageable chunks to prevent browser freeze/stutter
+            const sentences = text.match(/[^.!?]+[.!?]+|\S+/g) || [text];
+            let index = 0;
+
+            function speakNextChunk() {
+                if (index >= sentences.length) {
+                    if(btnElement) btnElement.classList.remove('speaking');
+                    return;
+                }
+                const chunk = sentences[index++];
+                const utter = new SpeechSynthesisUtterance(chunk.trim());
+                utter.lang = 'hi-IN';
+                utter.rate = 1.1;
+                utter.onend = speakNextChunk;
+                utter.onerror = speakNextChunk;
+                window.speechSynthesis.speak(utter);
+            }
+            speakNextChunk();
         }
 
         function stopVoiceImmediately() {
             if('speechSynthesis' in window) window.speechSynthesis.cancel();
-            isSpeakingState = false;
-            if(currentSpeakerBtn) currentSpeakerBtn.classList.remove('speaking');
             document.querySelectorAll('.mini-spk, .btn-voice').forEach(b => b.classList.remove('speaking'));
-            currentSpeakerBtn = null;
         }
 
         function toggleVoiceCommand() {
@@ -506,25 +486,25 @@
                 recognition.onstart = () => {
                     isMicListening = true;
                     micBtn.className = "mic-btn-top listening";
-                    micBtn.innerText = "🎙️ सुन रहा है (A-F)...";
+                    micBtn.innerText = "🎙️ कमांड सुन रहा है (A-F)...";
                 };
 
                 recognition.onresult = (event) => {
                     const rawText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-                    console.log("Instant Audio:", rawText);
+                    console.log("Heard Voice:", rawText);
 
-                    let matchedBox = null;
-                    if (rawText.includes('a') || rawText.includes('ए') || rawText.includes('बॉक्स ए')) matchedBox = 0;
-                    else if (rawText.includes('b') || rawText.includes('बी') || rawText.includes('बॉक्स बी')) matchedBox = 1;
-                    else if (rawText.includes('c') || rawText.includes('सी') || rawText.includes('बॉक्स सी')) matchedBox = 2;
-                    else if (rawText.includes('d') || rawText.includes('डी') || rawText.includes('बॉक्स डी')) matchedBox = 3;
-                    else if (rawText.includes('e') || rawText.includes('ई') || rawText.includes('बॉक्स ई')) matchedBox = 4;
-                    else if (rawText.includes('f') || rawText.includes('एफ') || rawText.includes('रिपोर्ट') || rawText.includes('जांच')) matchedBox = 5;
-
-                    if (matchedBox !== null) {
-                        currentBoxIndex = matchedBox;
-                        updateFocusRing();
-                        triggerCardAction(focusableCards[currentBoxIndex]);
+                    if (rawText.includes('a') || rawText.includes('ए') || rawText.includes('साइक्लिंग')) {
+                        focusAndSpeak('card-cycle', 'cycle');
+                    } else if (rawText.includes('b') || rawText.includes('बी') || rawText.includes('तापमान') || rawText.includes('टेंपरेचर')) {
+                        focusAndSpeak('card-temp', 'temp');
+                    } else if (rawText.includes('c') || rawText.includes('सी') || rawText.includes('कीट') || rawText.includes('वाइब्रेशन')) {
+                        focusAndSpeak('card-vib', 'vib');
+                    } else if (rawText.includes('d') || rawText.includes('डी') || rawText.includes('कैमरा') || rawText.includes('विजन')) {
+                        focusAndSpeak('visionCard', 'vision');
+                    } else if (rawText.includes('e') || rawText.includes('ई') || rawText.includes('लॉग') || rawText.includes('इतिहास')) {
+                        focusAndSpeak('card-logs', 'logs');
+                    } else if (rawText.includes('f') || rawText.includes('एफ') || rawText.includes('रिपोर्ट') || rawText.includes('जांच')) {
+                        focusAndSpeak('reportCardMaster', 'report');
                     }
                 };
 
@@ -533,6 +513,16 @@
 
                 try { recognition.start(); } catch(e){}
             }
+        }
+
+        function focusAndSpeak(cardId, type) {
+            document.querySelectorAll('.card, .report-master-card').forEach(c => c.classList.remove('focused'));
+            const el = document.getElementById(cardId);
+            if(el) {
+                el.classList.add('focused');
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            speakTextFromCard(type);
         }
 
         const fullDetailedHTML = `
@@ -573,11 +563,14 @@
             const box = document.getElementById('reportContentBox');
             const m = document.getElementById('reportCardMaster');
             if(box) { box.innerHTML = fullDetailedHTML; box.scrollTop = 0; }
-            if(m) m.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if(m) {
+                m.classList.add('focused');
+                m.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
             speakFullDetailedReport();
         }
 
-        function speakFromCard(type) {
+        function speakTextFromCard(type) {
             const b = document.getElementById(`spk-${type}`);
             if(type === 'cycle') speakText(`बॉक्स ए। अगली फोटो कैप्चर में ${document.getElementById('timerDisplay').innerText} बाकी हैं।`, b);
             if(type === 'temp') speakText(`बॉक्स बी। सिस्टम का तापमान ${document.getElementById('tempDisplay').innerText} है।`, b);
@@ -588,10 +581,7 @@
         }
 
         let camStream = null; let cocoModel = null; let handsModel = null;
-        let isProcessing = false; let fullGestureMode = false;
-        let currentBoxIndex = 0;
-        const focusableCards = ['card-cycle', 'card-temp', 'card-vib', 'visionCard', 'card-logs', 'reportCardMaster'];
-
+        let isProcessing = false;
         const videoEl = document.getElementById('webcam');
         const overlayCanvas = document.getElementById('overlayCanvas');
         const overlayCtx = overlayCanvas.getContext('2d');
@@ -602,16 +592,13 @@
             if(!cocoModel) cocoModel = await cocoSsd.load({ base: 'lite_mobilenet_v2' });
             if(!handsModel) {
                 handsModel = new Hands({ locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
-                handsModel.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.45, minTrackingConfidence: 0.45 });
+                handsModel.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
                 handsModel.onResults(handleHands);
             }
         }
 
-        let prevHandX = null;
-        let prevHandY = null;
-        let lastActionTime = 0;
+        let lastGestureTime = 0;
         let lastFingerState = 0;
-        let voiceActiveByGesture = true;
 
         function countExtendedFingers(lm) {
             let count = 0;
@@ -627,43 +614,35 @@
 
         function handleHands(results) {
             const now = performance.now();
-            if(!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
-                prevHandX = null;
-                prevHandY = null;
-                return;
-            }
+            if(!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) return;
 
             const lm = results.multiHandLandmarks[0];
-            const handX = lm[9].x;
             const handY = lm[9].y;
             const fingers = countExtendedFingers(lm);
 
-            if(!fullGestureMode) {
-                if(now - lastActionTime > 250) {
-                    if(fingers === 3) {
-                        lastActionTime = now;
-                        gestureTag.innerText = "🤟 3 उंगली: लिस्ट खुली";
-                        allowVoiceFeedbackBySpeech = true;
-                        triggerFullReportAndVoice();
-                    } else if(fingers === 1 && lastFingerState !== 1) {
-                        lastActionTime = now;
-                        if(voiceActiveByGesture) {
-                            voiceActiveByGesture = false;
-                            allowVoiceFeedbackBySpeech = false;
-                            stopVoiceImmediately();
-                            gestureTag.innerText = "🔇 1 उंगली: वॉइस बंद";
-                        } else {
-                            voiceActiveByGesture = true;
-                            allowVoiceFeedbackBySpeech = true;
-                            gestureTag.innerText = "🔊 1 उंगली: वॉइस चालू";
-                            speakText("वॉइस फीडबैक चालू है।");
-                        }
+            if(now - lastGestureTime > 400) {
+                // 3 Fingers: Jump straight to bottom report card (Box F)
+                if(fingers === 3) {
+                    lastGestureTime = now;
+                    gestureTag.innerText = "🤟 3 उंगली: सबसे नीचे रिपोर्ट";
+                    triggerFullReportAndVoice();
+                } 
+                // 1 Finger: Toggle Voice ON/OFF sequentially
+                else if(fingers === 1 && lastFingerState !== 1) {
+                    lastGestureTime = now;
+                    if(allowVoiceFeedback) {
+                        allowVoiceFeedback = false;
+                        stopVoiceImmediately();
+                        gestureTag.innerText = "🔇 1 उंगली: वॉइस फीडबैक बंद";
+                    } else {
+                        allowVoiceFeedback = true;
+                        gestureTag.innerText = "🔊 1 उंगली: वॉइस फीडबैक चालू";
+                        speakText("वॉइस फीडबैक चालू है।");
                     }
-                }
-            } 
-            else {
-                if(fingers >= 5 && (now - lastActionTime > 300)) {
-                    lastActionTime = now;
+                } 
+                // Open Palm (>=5 fingers): Scroll Up or Down based on Hand Height
+                else if(fingers >= 5) {
+                    lastGestureTime = now;
                     if(handY < 0.4) {
                         window.scrollBy({ top: -450, behavior: 'smooth' });
                         gestureTag.innerText = "🖐️ पंजा ऊपर: स्क्रॉल ऊपर";
@@ -671,78 +650,9 @@
                         window.scrollBy({ top: 450, behavior: 'smooth' });
                         gestureTag.innerText = "🖐️ पंजा नीचे: स्क्रॉल नीचे";
                     }
-                } 
-                else if(fingers >= 5 && prevHandX !== null) {
-                    // Open palm left-right movement for box selection
-                    const dx = handX - prevHandX;
-                    const threshold = 0.04;
-
-                    if(Math.abs(dx) > threshold && (now - lastActionTime > 250)) {
-                        lastActionTime = now;
-                        if(dx < 0) {
-                            currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
-                            gestureTag.innerText = `👉 बॉक्स (${['A','B','C','D','E','F'][currentBoxIndex]})`;
-                        } else {
-                            currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
-                            gestureTag.innerText = `👈 बॉक्स (${['A','B','C','D','E','F'][currentBoxIndex]})`;
-                        }
-                        updateFocusRing();
-                        triggerCardAction(focusableCards[currentBoxIndex]);
-                    }
-                } 
-                else if(fingers === 0 && lastFingerState !== 0 && (now - lastActionTime > 300)) {
-                    lastActionTime = now;
-                    const activeCardId = focusableCards[currentBoxIndex];
-                    gestureTag.innerText = `✊ मुट्ठी बंद: बॉक्स ${['A','B','C','D','E','F'][currentBoxIndex]}`;
-                    triggerCardAction(activeCardId);
                 }
             }
-
             lastFingerState = fingers;
-            prevHandX = handX;
-            prevHandY = handY;
-        }
-
-        function updateFocusRing() {
-            focusableCards.forEach((id, idx) => {
-                const el = document.getElementById(id);
-                if(el) {
-                    if(idx === currentBoxIndex) el.classList.add('focused');
-                    else el.classList.remove('focused');
-                }
-            });
-            const activeEl = document.getElementById(focusableCards[currentBoxIndex]);
-            if(activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function triggerCardAction(cardId) {
-            const map = {
-                'card-cycle': () => speakFromCard('cycle'),
-                'card-temp': () => speakFromCard('temp'),
-                'card-vib': () => speakFromCard('vib'),
-                'visionCard': () => speakFromCard('vision'),
-                'card-logs': () => speakFromCard('logs'),
-                'reportCardMaster': () => triggerFullReportAndVoice()
-            };
-            if(map[cardId]) map[cardId]();
-        }
-
-        function toggleGestureMode() {
-            fullGestureMode = !fullGestureMode;
-            const btn = document.getElementById('gestureModeBtn');
-            const guide = document.getElementById('gestureGuideText');
-            if(fullGestureMode) {
-                btn.className = "action-btn gesture-mode-btn active";
-                btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: ON";
-                guide.innerHTML = "<strong>ON मोड:</strong> 🖐️ पंजा ऊपर-नीचे = स्क्रॉल | 🖐️ पंजा दाएं-बाएं = बॉक्स A-F | ✊ मुट्ठी बंद = वॉइस";
-                currentBoxIndex = 0; 
-                updateFocusRing();
-            } else {
-                btn.className = "action-btn gesture-mode-btn";
-                btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: OFF";
-                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ बोलें A से F";
-                focusableCards.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('focused'); });
-            }
         }
 
         let frameSkip = 0;
@@ -784,13 +694,13 @@
                 const vc = document.getElementById('visionCard');
                 if(hasPlant) {
                     vc.className = "card plant-active"; visionBanner.className = "vision-banner is-plant";
-                    visionBanner.innerText = "🌱 पौधा पहचाना गया (GREEN) | निगरानी सक्रिय";
+                    visionBanner.innerText = "🌱 पौधा पहचाना गया (GREEN)";
                 } else if(hasHuman) {
                     vc.className = "card human-alert"; visionBanner.className = "vision-banner is-human";
-                    visionBanner.innerText = "🚫 इंसान detected (RED) | रिकॉर्डिंग जारी";
+                    visionBanner.innerText = "🚫 इंसान detected (RED)";
                 } else {
                     vc.className = "card"; visionBanner.className = "vision-banner";
-                    visionBanner.innerText = "🔍 स्कैनिंग... सामने पौधा या हाथ लाएं";
+                    visionBanner.innerText = "🔍 स्कैनिंग जारी है...";
                 }
             }
             requestAnimationFrame(visionLoop);
