@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Hyper-Responsive Command Center</title>
+    <title>Smart Agri-AI OS | Ultra-Fast 3D Neural Control Room</title>
     <!-- High-Speed AI Vision & Gesture Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
@@ -40,7 +40,7 @@
             overflow-x: hidden;
         }
 
-        /* Instant Boot Screen (0.6s) */
+        /* Instant Boot Screen */
         #bootScreen {
             position: fixed;
             inset: 0;
@@ -73,7 +73,7 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #00d2ff, #00ff88);
-            animation: loadInstant 0.6s ease-out forwards;
+            animation: loadInstant 0.5s ease-out forwards;
         }
         @keyframes loadInstant { to { width: 100%; } }
 
@@ -171,7 +171,6 @@
             position: relative;
         }
 
-        /* Focus Ring for Full Gesture Control Mode */
         .card.focused {
             border-color: var(--focus-border) !important;
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.6) !important;
@@ -232,7 +231,6 @@
             margin-top: 12px;
         }
 
-        /* Live Vision Card Dynamic Borders */
         .card.human-alert { border-color: var(--alert-red) !important; box-shadow: 0 0 35px rgba(255, 59, 92, 0.5) !important; }
         .card.plant-active { border-color: var(--neon-green) !important; box-shadow: 0 0 35px rgba(0, 255, 136, 0.5) !important; }
 
@@ -506,7 +504,7 @@
     </div>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => { setTimeout(() => document.getElementById('bootScreen').classList.add('hidden'), 600); });
+        window.addEventListener('DOMContentLoaded', () => { setTimeout(() => document.getElementById('bootScreen').classList.add('hidden'), 500); });
 
         // State & Timing
         const DAY_MS = 86400000;
@@ -569,18 +567,18 @@
         const fullDetailedHTML = `
             <div class="report-section-box">
                 <h4>🔬 1. मिट्टी और पर्यावरण परीक्षण</h4>
-                <ul><li>मिट्टी का पीएच मान <strong>7.0 (न्यूट्रल)</strong> है, जो फसलों के लिए सर्वोत्तम है।</li><li>नाइट्रोजन, फास्फोरस, पोटाश की भरपूर मात्रा मौजूद है।</li></ul>
+                <ul><li>मिट्टी का पीएच मान <strong>7.0 (न्यूट्रल)</strong> है, जो फसलों के लिए सर्वोत्तम है。</li><li>नाइट्रोजन, फास्फोरस, पोटाश की भरपूर मात्रा मौजूद है。</li></ul>
             </div>
             <div class="report-section-box chilli-alert">
                 <h4>🌶️ 2. मिर्च का पौधा (संख्या: 1) — आपातकालीन उन्मूलन सलाह</h4>
-                <ul><li>यह मिर्च का पौधा हमारे डेटाबेस में नहीं था, आप इसे बाहर से लाए हैं और 95% संभावना है कि यह नर्सरी से ही संक्रमित था।</li><li>इसमें गंभीर <strong>फाइटोप्थोरा रूट रोट (जड़ सड़न)</strong> और <strong>लीफ कर्ल वायरस</strong> है जो 7 दिनों से अधिक पुराना है।</li><li>जाइलम नसें ब्लॉक होने के कारण अब कोई भी ऑर्गेनिक या रासायनिक दवाई असर नहीं करेगी (0% रिकवरी)।</li><li>यह पौधा खुद तो मरेगा ही, व्हाइटफ्लाई द्वारा गोभी को भी संक्रमित करेगा। इसे उखाड़कर नष्ट करना ही सबसे बड़ा फायदा है।</li></ul>
+                <ul><li>यह मिर्च का पौधा हमारे डेटाबेस में नहीं था, आप इसे बाहर से लाए हैं और 95% संभावना है कि यह नर्सरी से ही संक्रमित था。</li><li>इसमें गंभीर <strong>फाइटोप्थोरा रूट रोट (जड़ सड़न)</strong> और <strong>लीफ कर्ल वायरस</strong> है जो 7 दिनों से अधिक पुराना है。</li><li>जाइलम नसें ब्लॉक होने के कारण अब कोई भी ऑर्गेनिक या रासायनिक दवाई असर नहीं करेगी (0% रिकवरी)。</li><li>यह पौधा खुद तो मरेगा ही, व्हाइटफ्लाई द्वारा गोभी को भी संक्रमित करेगा। इसे उखाड़कर नष्ट करना ही सबसे बड़ा फायदा है。</li></ul>
             </div>
             <div class="report-section-box cabbage-safe">
                 <h4>🥬 3. फूलगोभी के पौधे (कुल संख्या: 4) — 100% सुरक्षा कवच</h4>
-                <ul><li>चारों गोभी के पौधे नियंत्रण में हैं, केवल शुरुआती इल्ली का असर है।</li><li>1 लीटर पानी में 5 मिलीलीटर नीम का तेल और जैविक साबुन मिलाकर छिड़काव करें। सुबह राख बुरकना भी 100% प्रभावी है।</li></ul>
+                <ul><li>चारों गोभी के पौधे नियंत्रण में हैं, केवल शुरुआती इल्ली का असर है。</li><li>1 लीटर पानी में 5 मिलीलीटर नीम का तेल और जैविक साबुन मिलाकर छिड़काव करें। सुबह राख बुरकना भी 100% प्रभावी है。</li></ul>
             </div>
         `;
-        const fullSpeechScript = "सिस्टर ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है। अब कोई भी देसी या अंग्रेजी दवाई इस पर असर नहीं करेगी। यह गोभी की फसल को भी बर्बाद कर देगा, इसलिए इसे उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर नीम के तेल और राख का छिड़काव करके सौ प्रतिशत बचाया जा सकता है।";
+        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है। अब कोई भी देसी या अंग्रेजी दवाई इस पर असर नहीं करेगी। यह गोभी की फसल को भी बर्बाद कर देगा, इसलिए इसे उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर नीम के तेल और राख का छिड़काव करके सौ प्रतिशत बचाया जा सकता है।";
 
         function speakFullDetailedReport() { speakText(fullSpeechScript, document.getElementById('mainSpeakBtn')); }
         function triggerFullReportAndVoice() {
@@ -650,7 +648,7 @@
                 gestureFrameCount = 1;
             }
 
-            if(gestureFrameCount >= 3 && (now - lastActionTime > 800)) {
+            if(gestureFrameCount >= 2 && (now - lastActionTime > 600)) {
                 lastActionTime = now;
                 if(!fullGestureMode) {
                     if(detectedGesture === "3_FINGERS") {
@@ -665,7 +663,7 @@
                     if(detectedGesture === "2_FINGERS_DOWN") {
                         currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
                         updateFocusRing();
-                        gestureTag.innerText = `👇 नेविगेट: बॉक्स ${currentBoxIndex+1}`;
+                        gestureTag.innerText = `👇 नेविगेट: ${currentBoxIndex+1}`;
                     } else if(detectedGesture === "1_FINGER") {
                         triggerCardSpeaker(focusableCards[currentBoxIndex]);
                     }
@@ -711,7 +709,7 @@
                 if(overlayCanvas.width !== videoEl.clientWidth || overlayCanvas.height !== videoEl.clientHeight) {
                     overlayCanvas.width = videoEl.clientWidth; overlayCanvas.height = videoEl.clientHeight;
                 }
-                const preds = cocoModel ? await cocoModel.detect(videoEl, 3, 0.5) : [];
+                const preds = cocoModel ? await cocoModel.detect(videoEl, 3, 0.45) : [];
                 if(handsModel) await handsModel.send({ image: videoEl });
 
                 overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
@@ -726,7 +724,7 @@
                         hasHuman = true;
                         overlayCtx.strokeStyle = '#ff3b5c'; overlayCtx.lineWidth = 4;
                         overlayCtx.strokeRect(mx, by*scaleY, bw*scaleX, bh*scaleY);
-                    } else if(p.class === 'potted plant' || p.class === 'broccoli') {
+                    } else if(p.class === 'potted plant' || p.class === 'broccoli' || p.class === 'plant') {
                         hasPlant = true;
                         overlayCtx.strokeStyle = '#00ff88'; overlayCtx.lineWidth = 4;
                         overlayCtx.strokeRect(mx, by*scaleY, bw*scaleX, bh*scaleY);
