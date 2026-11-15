@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | National Level Champion Master Edition with Voice Command</title>
+    <title>Smart Agri-AI OS | National Level Ultra-Fast Master Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -33,32 +33,31 @@
             scroll-behavior: smooth;
         }
 
-        /* Apple Style Premium Instant Boot Screen */
         #bootScreen {
             position: fixed; inset: 0; background: #03060c; z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.15s ease;
         }
         #bootScreen.hidden { opacity: 0; pointer-events: none; }
         
         .apple-logo-boot {
-            width: 80px; height: 80px; background: linear-gradient(135deg, #00d2ff, #00ff88);
-            border-radius: 22px; display: flex; align-items: center; justify-content: center;
-            font-size: 40px; box-shadow: 0 0 40px rgba(0, 210, 255, 0.8); border: 2px solid #fff;
-            animation: pulseLogo 0.8s infinite alternate;
+            width: 75px; height: 75px; background: linear-gradient(135deg, #00d2ff, #00ff88);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 38px; box-shadow: 0 0 35px rgba(0, 210, 255, 0.7); border: 2px solid #fff;
+            animation: pulseLogo 0.6s infinite alternate;
         }
         @keyframes pulseLogo { from { transform: scale(0.95); } to { transform: scale(1.05); } }
 
         .boot-title {
-            font-size: 1.6rem; letter-spacing: 4px; margin-top: 15px;
+            font-size: 1.5rem; letter-spacing: 4px; margin-top: 12px;
             background: linear-gradient(90deg, #00d2ff, #e6c687, #00ff88);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;
         }
         .boot-bar-container {
-            width: 260px; height: 5px; background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px; margin-top: 15px; overflow: hidden;
+            width: 240px; height: 4px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px; margin-top: 12px; overflow: hidden;
         }
-        .boot-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #00d2ff, #00ff88); animation: loadInstant 0.18s ease-out forwards; }
+        .boot-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #00d2ff, #00ff88); animation: loadInstant 0.12s ease-out forwards; }
         @keyframes loadInstant { to { width: 100%; } }
 
         .app-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
@@ -70,9 +69,9 @@
         }
 
         .app-logo {
-            width: 50px; height: 50px; background: linear-gradient(135deg, #00d2ff, #00ff88);
-            border-radius: 14px; display: flex; align-items: center; justify-content: center;
-            font-size: 26px; box-shadow: 0 0 20px rgba(0, 210, 255, 0.5); border: 2px solid #fff;
+            width: 48px; height: 48px; background: linear-gradient(135deg, #00d2ff, #00ff88);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 0 18px rgba(0, 210, 255, 0.5); border: 2px solid #fff;
         }
 
         header h1 {
@@ -85,10 +84,10 @@
         .top-btn-group { position: absolute; top: 16px; right: 20px; display: flex; gap: 10px; }
         .sync-btn-top, .mic-btn-top {
             background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
-            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.15s;
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.1s;
         }
         .sync-btn-top:hover, .mic-btn-top:hover { background: var(--neon-blue); color: #03060c; }
-        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); animation: pulseMic 0.8s infinite alternate; }
+        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); animation: pulseMic 0.6s infinite alternate; }
         @keyframes pulseMic { from { transform: scale(1); } to { transform: scale(1.08); } }
 
         .top-badges { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; }
@@ -106,7 +105,7 @@
         .card {
             background: var(--card-glass); border: 2px solid rgba(0, 210, 255, 0.3); border-radius: 20px;
             padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column;
-            justify-content: space-between; transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease; position: relative;
+            justify-content: space-between; transition: transform 0.08s ease, border-color 0.08s ease, box-shadow 0.08s ease; position: relative;
         }
 
         .card.focused, .report-master-card.focused {
@@ -116,12 +115,17 @@
         }
 
         .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .card-top h3 { margin: 0; font-size: 1.15rem; color: #ffffff; font-weight: 800; }
+        .card-top h3 { margin: 0; font-size: 1.15rem; color: #ffffff; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        
+        .box-tag-badge {
+            background: linear-gradient(135deg, #ffd700, #ff8a00); color: #03060c;
+            font-size: 0.75rem; font-weight: 900; padding: 2px 8px; border-radius: 8px;
+        }
 
         .mini-spk {
             background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
             width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex;
-            align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.15s;
+            align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.1s;
         }
         .mini-spk.speaking { background: var(--neon-green); color: #03060c; border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
 
@@ -157,7 +161,7 @@
         .action-btn {
             flex: 1; padding: 14px; border: none; border-radius: 12px; font-weight: 900;
             font-size: 0.92rem; cursor: pointer; color: #fff;
-            background: linear-gradient(135deg, #00c853, #008e3a); transition: all 0.15s;
+            background: linear-gradient(135deg, #00c853, #008e3a); transition: all 0.1s;
         }
         .action-btn.stop-cam { background: linear-gradient(135deg, #ef4444, #b91c1c); }
         
@@ -185,7 +189,7 @@
             background: linear-gradient(145deg, rgba(12, 18, 30, 0.95), rgba(5, 9, 18, 0.98));
             border: 3px solid var(--gold-prime); border-radius: 24px; padding: 28px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
-            transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+            transition: transform 0.08s ease, border-color 0.08s ease, box-shadow 0.08s ease;
         }
 
         .report-scroll-area {
@@ -223,7 +227,6 @@
 </head>
 <body>
 
-    <!-- Apple Style Premium Instant Boot Screen -->
     <div id="bootScreen">
         <div class="apple-logo-boot">🌱</div>
         <div class="boot-title">SMART AGRI-AI OS</div>
@@ -238,7 +241,7 @@
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | National Level Master Edition with Voice Control</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Ultra-Fast Zero-Delay Master Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -248,9 +251,10 @@
         </header>
 
         <div class="dashboard-grid">
+            <!-- Box A -->
             <div class="card" id="card-cycle">
                 <div class="card-top">
-                    <h3>🖥️ RPi 5 + Sony AI Cycle</h3>
+                    <h3><span><span class="box-tag-badge">A</span> RPi 5 + Sony AI Cycle</span></h3>
                     <button class="mini-spk" id="spk-cycle" onclick="speakFromCard('cycle')">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);" id="cycleModeText">Next Capture:</div>
@@ -259,9 +263,10 @@
                 <div class="info-note">☀️ दिन: 1 घंटा | 🌙 रात: 3 घंटे</div>
             </div>
 
+            <!-- Box B -->
             <div class="card" id="card-temp">
                 <div class="card-top">
-                    <h3>🌡️ RPi 5 Enclosure Temp</h3>
+                    <h3><span><span class="box-tag-badge">B</span> RPi 5 Enclosure Temp</span></h3>
                     <button class="mini-spk" id="spk-temp" onclick="speakFromCard('temp')">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Thermal Monitor</div>
@@ -270,9 +275,10 @@
                 <div class="info-note">💤 Deep Sleep Mode Active</div>
             </div>
 
+            <!-- Box C -->
             <div class="card" id="card-vib">
                 <div class="card-top">
-                    <h3>🦗 Acoustic Insect Scan</h3>
+                    <h3><span><span class="box-tag-badge">C</span> Acoustic Insect Scan</span></h3>
                     <button class="mini-spk" id="spk-vib" onclick="speakFromCard('vib')">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Stem Micro-Vibration</div>
@@ -281,9 +287,10 @@
                 <div class="info-note">🌱 4 गोभी + 1 मिर्च मॉनिटरिंग</div>
             </div>
 
+            <!-- Box D -->
             <div class="card" id="visionCard">
                 <div class="card-top">
-                    <h3>📷 Live AI Vision & Gesture</h3>
+                    <h3><span><span class="box-tag-badge">D</span> Live AI Vision & Gesture</span></h3>
                     <button class="mini-spk" id="spk-vision" onclick="speakFromCard('vision')">🔊</button>
                 </div>
                 <div class="cam-box">
@@ -300,13 +307,14 @@
                     <button class="action-btn gesture-mode-btn" id="gestureModeBtn" onclick="toggleGestureMode()">🎛️ फुल जेस्चर कंट्रोल: OFF</button>
                 </div>
                 <div class="gesture-guide-strip" id="gestureGuideText">
-                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल | 🤟 3 उंगली = पूरी लिस्ट खोलें | 🎙️ माइक बटन = बोलकर कंट्रोल
+                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ बोलें A, B, C...
                 </div>
             </div>
 
+            <!-- Box E -->
             <div class="card" id="card-logs">
                 <div class="card-top">
-                    <h3>📸 24-Hour Capture History</h3>
+                    <h3><span><span class="box-tag-badge">E</span> 24-Hour Capture History</span></h3>
                     <button class="mini-spk" id="spk-logs" onclick="speakFromCard('logs')">🔊</button>
                 </div>
                 <div class="log-list" id="logContainer"></div>
@@ -315,14 +323,15 @@
                 </div>
             </div>
 
+            <!-- Box F (Master Report) -->
             <div class="report-master-card" id="reportCardMaster">
                 <div class="card-top">
-                    <h3>🤖 Gemini Smart Agri-AI Assistant</h3>
+                    <h3><span><span class="box-tag-badge">F</span> Gemini Smart Agri-AI Assistant</span></h3>
                     <button class="mini-spk" id="spk-report" onclick="speakFromCard('report')">🔊</button>
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक बटन दबाकर बोलें या जेस्चर दिखाएं।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक में A, B, C बोलें या जेस्चर दिखाएं।</p>
                 </div>
 
                 <div class="master-controls">
@@ -339,7 +348,7 @@
             setTimeout(() => {
                 const boot = document.getElementById('bootScreen');
                 if(boot) boot.classList.add('hidden');
-            }, 180); 
+            }, 150); 
         });
 
         let satelliteActive = true;
@@ -435,90 +444,22 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================
-        // VOICE RECOGNITION (MIC COMMAND) ENGINE
+        // INSTANT ZERO-DELAY SPEECH & MIC ENGINE
         // ==========================================
-        let recognition = null;
-        let isMicListening = false;
-        let allowVoiceFeedbackBySpeech = true; // Default voice enabled
-
-        function toggleVoiceCommand() {
-            const micBtn = document.getElementById('micBtnTop');
-            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("आपका ब्राउज़र वॉइस रिकग्निशन सपोर्ट नहीं करता। कृपया Google Chrome इस्तेमाल करें।");
-                return;
-            }
-
-            if(isMicListening) {
-                if(recognition) recognition.stop();
-                isMicListening = false;
-                micBtn.className = "mic-btn-top";
-                micBtn.innerText = "🎙️ माइक कमांड: OFF";
-            } else {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.lang = 'hi-IN';
-                recognition.continuous = true;
-                recognition.interimResults = false;
-
-                recognition.onstart = () => {
-                    isMicListening = true;
-                    micBtn.className = "mic-btn-top listening";
-                    micBtn.innerText = "🎙️ सुन रहा है...";
-                };
-
-                recognition.onresult = (event) => {
-                    const speechToText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-                    console.log("Voice Command Recognized:", speechToText);
-
-                    // Voice Command Parsing
-                    if(speechToText.includes('टेंपरेचर') || speechToText.includes('तापमान')) {
-                        currentBoxIndex = 1; updateFocusRing();
-                        if(allowVoiceFeedbackBySpeech) speakFromCard('temp');
-                    } else if(speechToText.includes('साइकिल') || speechToText.includes('कैप्चर')) {
-                        currentBoxIndex = 0; updateFocusRing();
-                        if(allowVoiceFeedbackBySpeech) speakFromCard('cycle');
-                    } else if(speechToText.includes('कीट') || speechToText.includes('वाइब्रेशन')) {
-                        currentBoxIndex = 2; updateFocusRing();
-                        if(allowVoiceFeedbackBySpeech) speakFromCard('vib');
-                    } else if(speechToText.includes('कैमरा') || speechToText.includes('विजन')) {
-                        currentBoxIndex = 3; updateFocusRing();
-                        if(allowVoiceFeedbackBySpeech) speakFromCard('vision');
-                    } else if(speechToText.includes('लॉग') || speechToText.includes('इतिहास')) {
-                        currentBoxIndex = 4; updateFocusRing();
-                        if(allowVoiceFeedbackBySpeech) speakFromCard('logs');
-                    } else if(speechToText.includes('रिपोर्ट') || speechToText.includes('जांच') || speechToText.includes('गोभी') || speechToText.includes('मिर्च')) {
-                        currentBoxIndex = 5; updateFocusRing();
-                        triggerFullReportAndVoice();
-                    } else if(speechToText.includes('वॉइस बंद') || speechToText.includes('मत बोलो')) {
-                        allowVoiceFeedbackBySpeech = false;
-                        stopVoiceImmediately();
-                        speakText("वॉइस फीडबैक बंद कर दिया गया है।");
-                    } else if(speechToText.includes('वॉइस चालू') || speechToText.includes('बोलो')) {
-                        allowVoiceFeedbackBySpeech = true;
-                        speakText("वॉइस फीडबैक चालू है।");
-                    }
-                };
-
-                recognition.onerror = () => { isMicListening = false; micBtn.className = "mic-btn-top"; micBtn.innerText = "🎙️ माइक कमांड: OFF"; };
-                recognition.onend = () => {
-                    if(isMicListening) { try { recognition.start(); } catch(e){} }
-                };
-
-                try { recognition.start(); } catch(e){ console.error(e); }
-            }
-        }
-
         let isSpeakingState = false;
         let currentSpeakerBtn = null;
+        let allowVoiceFeedbackBySpeech = true;
+        let recognition = null;
+        let isMicListening = false;
 
         function speakText(text, btnElement = null) {
-            if(!allowVoiceFeedbackBySpeech) return; // Honor voice mute rule
+            if(!allowVoiceFeedbackBySpeech) return;
             if(!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
             
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = 'hi-IN';
-            utter.rate = 1.12;
+            utter.rate = 1.15;
             
             utter.onstart = () => { 
                 isSpeakingState = true;
@@ -545,6 +486,64 @@
             if(currentSpeakerBtn) currentSpeakerBtn.classList.remove('speaking');
             document.querySelectorAll('.mini-spk, .btn-voice').forEach(b => b.classList.remove('speaking'));
             currentSpeakerBtn = null;
+        }
+
+        function toggleVoiceCommand() {
+            const micBtn = document.getElementById('micBtnTop');
+            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert("आपका ब्राउज़र वॉइस रिकग्निशन सपोर्ट नहीं करता।");
+                return;
+            }
+
+            if(isMicListening) {
+                if(recognition) recognition.stop();
+                isMicListening = false;
+                micBtn.className = "mic-btn-top";
+                micBtn.innerText = "🎙️ माइक कमांड: OFF";
+            } else {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'hi-IN';
+                recognition.continuous = true;
+                recognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    isMicListening = true;
+                    micBtn.className = "mic-btn-top listening";
+                    micBtn.innerText = "🎙️ सुन रहा है...";
+                };
+
+                recognition.onresult = (event) => {
+                    const text = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+                    console.log("Instant Voice Input:", text);
+
+                    // Instant Fast Response for A, B, C, D, E, F or Hindi names
+                    if(text.includes('a') || text.includes('ए') || text.includes('साइक्लिंग')) {
+                        currentBoxIndex = 0; updateFocusRing();
+                        speakFromCard('cycle');
+                    } else if(text.includes('b') || text.includes('बी') || text.includes('तापमान') || text.includes('टेंपरेचर')) {
+                        currentBoxIndex = 1; updateFocusRing();
+                        speakFromCard('temp');
+                    } else if(text.includes('c') || text.includes('सी') || text.includes('कीट') || text.includes('वाइब्रेशन')) {
+                        currentBoxIndex = 2; updateFocusRing();
+                        speakFromCard('vib');
+                    } else if(text.includes('d') || text.includes('डी') || text.includes('कैमरा') || text.includes('विजन')) {
+                        currentBoxIndex = 3; updateFocusRing();
+                        speakFromCard('vision');
+                    } else if(text.includes('e') || text.includes('ई') || text.includes('लॉग') || text.includes('इतिहास')) {
+                        currentBoxIndex = 4; updateFocusRing();
+                        speakFromCard('logs');
+                    } else if(text.includes('f') || text.includes('एफ') || text.includes('रिपोर्ट') || text.includes('जांच') || text.includes('गोभी') || text.includes('मिर्च')) {
+                        currentBoxIndex = 5; updateFocusRing();
+                        triggerFullReportAndVoice();
+                    }
+                };
+
+                recognition.onerror = () => { isMicListening = false; micBtn.className = "mic-btn-top"; micBtn.innerText = "🎙️ माइक कमांड: OFF"; };
+                recognition.onend = () => { if(isMicListening) { try { recognition.start(); } catch(e){} } };
+
+                try { recognition.start(); } catch(e){}
+            }
         }
 
         const fullDetailedHTML = `
@@ -591,11 +590,11 @@
 
         function speakFromCard(type) {
             const b = document.getElementById(`spk-${type}`);
-            if(type === 'cycle') speakText(`अगली फोटो कैप्चर में ${document.getElementById('timerDisplay').innerText} बाकी हैं।`, b);
-            if(type === 'temp') speakText(`सिस्टम का तापमान ${document.getElementById('tempDisplay').innerText} है।`, b);
-            if(type === 'vib') speakText(`तने का कंपन ${document.getElementById('vibDisplay').innerText} हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।`, b);
-            if(type === 'vision') speakText("लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।", b);
-            if(type === 'logs') speakText("चौबीस घंटे का लॉग सिंक हो गया है।", b);
+            if(type === 'cycle') speakText(`बॉक्स ए। अगली फोटो कैप्चर में ${document.getElementById('timerDisplay').innerText} बाकी हैं।`, b);
+            if(type === 'temp') speakText(`बॉक्स बी। सिस्टम का तापमान ${document.getElementById('tempDisplay').innerText} है।`, b);
+            if(type === 'vib') speakText(`बॉक्स सी। तने का कंपन ${document.getElementById('vibDisplay').innerText} हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।`, b);
+            if(type === 'vision') speakText(`बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।`, b);
+            if(type === 'logs') speakText(`बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।`, b);
             if(type === 'report') speakFullDetailedReport();
         }
 
@@ -614,7 +613,7 @@
             if(!cocoModel) cocoModel = await cocoSsd.load({ base: 'lite_mobilenet_v2' });
             if(!handsModel) {
                 handsModel = new Hands({ locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
-                handsModel.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.55, minTrackingConfidence: 0.55 });
+                handsModel.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
                 handsModel.onResults(handleHands);
             }
         }
@@ -623,7 +622,7 @@
         let prevHandY = null;
         let lastActionTime = 0;
         let lastFingerState = 0;
-        let voiceActiveByGesture = false;
+        let voiceActiveByGesture = true;
 
         function countExtendedFingers(lm) {
             let count = 0;
@@ -633,7 +632,7 @@
                 if(lm[tips[i]].y < lm[pips[i]].y - 0.03) count++;
             }
             const thumbDist = Math.abs(lm[4].x - lm[5].x);
-            if(thumbDist > 0.09) count++;
+            if(thumbDist > 0.08) count++;
             return count;
         }
 
@@ -650,68 +649,84 @@
             const handY = lm[9].y;
             const fingers = countExtendedFingers(lm);
 
+            // ==========================================================
+            // OFF MODE
+            // 1 Finger (Toggle Voice Feedback ON / OFF sequentially)
+            // 3 Fingers (Open Report List & Voice ON)
+            // ==========================================================
             if(!fullGestureMode) {
-                if(now - lastActionTime > 500) {
+                if(now - lastActionTime > 400) {
                     if(fingers === 3) {
                         lastActionTime = now;
                         gestureTag.innerText = "🤟 3 उंगली: लिस्ट खुली और वॉइस ऑन";
+                        allowVoiceFeedbackBySpeech = true;
                         triggerFullReportAndVoice();
                     } else if(fingers === 1 && lastFingerState !== 1) {
                         lastActionTime = now;
-                        if(!voiceActiveByGesture) {
-                            voiceActiveByGesture = true;
-                            gestureTag.innerText = "🔊 1 उंगली: वॉइस फीडबैक चालू";
-                            speakFullDetailedReport();
-                        } else {
+                        if(voiceActiveByGesture) {
                             voiceActiveByGesture = false;
-                            gestureTag.innerText = "🔇 1 उंगली नीचे से उठाने पर: वॉइस बंद";
+                            allowVoiceFeedbackBySpeech = false;
                             stopVoiceImmediately();
+                            gestureTag.innerText = "🔇 1 उंगली: वॉइस फीडबैक बंद";
+                        } else {
+                            voiceActiveByGesture = true;
+                            allowVoiceFeedbackBySpeech = true;
+                            gestureTag.innerText = "🔊 1 उंगली: वॉइस फीडबैक चालू";
+                            speakText("वॉइस फीडबैक फिर से चालू हो गया है।");
                         }
                     }
                 }
             } 
+            // ==========================================================
+            // ON MODE (Full Gesture Mode)
+            // 5 Fingers (Open Palm): Up/Down Page Scroll
+            // 2 Fingers (Left/Right swipe): Fast Box Selection
+            // Closed Fist (0 Fingers): Trigger Voice Feedback on Selected Box
+            // ==========================================================
             else {
-                if(fingers >= 5 && (now - lastActionTime > 600)) {
+                if(fingers >= 5 && (now - lastActionTime > 450)) {
                     lastActionTime = now;
                     if(handY < 0.4) {
-                        window.scrollBy({ top: -300, behavior: 'smooth' });
+                        window.scrollBy({ top: -350, behavior: 'smooth' });
                         gestureTag.innerText = "🖐️ पंजा ऊपर: पेज ऊपर स्क्रॉल";
                     } else if(handY > 0.6) {
-                        window.scrollBy({ top: 300, behavior: 'smooth' });
+                        window.scrollBy({ top: 350, behavior: 'smooth' });
                         gestureTag.innerText = "🖐️ पंजा नीचे: पेज नीचे स्क्रॉल";
                     }
                 } 
                 else if(fingers === 2 && prevHandX !== null && prevHandY !== null) {
                     const dx = handX - prevHandX;
                     const dy = handY - prevHandY;
-                    const threshold = 0.08;
+                    const threshold = 0.06;
 
-                    if((Math.abs(dx) > threshold || Math.abs(dy) > threshold) && (now - lastActionTime > 1000)) {
+                    // Ultra-fast responsive box switching (0.4s limit for instant experience)
+                    if((Math.abs(dx) > threshold || Math.abs(dy) > threshold) && (now - lastActionTime > 400)) {
                         lastActionTime = now;
                         if(Math.abs(dx) > Math.abs(dy)) {
                             if(dx < 0) {
                                 currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
-                                gestureTag.innerText = `👉 दाईं ओर बॉक्स: ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👉 दाईं ओर बॉक्स (${['A','B','C','D','E','F'][currentBoxIndex]})`;
                             } else {
                                 currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
-                                gestureTag.innerText = `👈 बाईं ओर बॉक्स: ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👈 बाईं ओर बॉक्स (${['A','B','C','D','E','F'][currentBoxIndex]})`;
                             }
                         } else {
                             if(dy > 0) {
                                 currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
-                                gestureTag.innerText = `👇 नीचे बॉक्स: ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👇 नीचे बॉक्स (${['A','B','C','D','E','F'][currentBoxIndex]})`;
                             } else {
                                 currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
-                                gestureTag.innerText = `👆 ऊपर बॉक्स: ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👆 ऊपर बॉक्स (${['A','B','C','D','E','F'][currentBoxIndex]})`;
                             }
                         }
                         updateFocusRing();
+                        triggerCardAction(focusableCards[currentBoxIndex]);
                     }
                 } 
-                else if(fingers === 0 && lastFingerState !== 0 && (now - lastActionTime > 800)) {
+                else if(fingers === 0 && lastFingerState !== 0 && (now - lastActionTime > 500)) {
                     lastActionTime = now;
                     const activeCardId = focusableCards[currentBoxIndex];
-                    gestureTag.innerText = `✊ मुट्ठी बंद: बॉक्स ${currentBoxIndex + 1} फीडबैक ऑन`;
+                    gestureTag.innerText = `✊ मुट्ठी बंद: बॉक्स ${['A','B','C','D','E','F'][currentBoxIndex]} फीडबैक ऑन`;
                     triggerCardAction(activeCardId);
                 }
             }
@@ -752,13 +767,13 @@
             if(fullGestureMode) {
                 btn.className = "action-btn gesture-mode-btn active";
                 btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: ON";
-                guide.innerHTML = "<strong>ON मोड:</strong> 🖐️ पंजा ऊपर-नीचे = स्क्रॉल | ✌️ हाथ बाएं-दाएं = बॉक्स टिक (1s) | ✊ मुट्ठी बंद = वॉइस फीडबैक";
+                guide.innerHTML = "<strong>ON मोड:</strong> 🖐️ पंजा ऊपर-नीचे = स्क्रॉल | ✌️ हाथ बाएं-दाएं = बॉक्स A-F टिक | ✊ मुट्ठी बंद = वॉइस";
                 currentBoxIndex = 0; 
                 updateFocusRing();
             } else {
                 btn.className = "action-btn gesture-mode-btn";
                 btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: OFF";
-                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस ON/OFF | 🤟 3 उंगली = पूरी लिस्ट खोलें | 🎙️ माइक बटन = बोलकर कंट्रोल";
+                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल (बंद/चालू) | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ बोलें A-F";
                 focusableCards.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('focused'); });
             }
         }
