@@ -3,147 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Agri-AI Dashboard</title>
+    <title>Smart Agri-AI OS | Ultra-Quad 3D Control Room</title>
+    <!-- MediaPipe AI Libraries for Real-Time Face & Mirror Hand Gesture Tracking -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js" crossorigin="anonymous"></script>
+
     <style>
         :root {
-            --bg-color: #07090e;
-            --card-bg: rgba(22, 27, 34, 0.72);
-            --accent-green: #2ea44f;
-            --accent-blue: #58a6ff;
-            --alert-red: #da3633;
-            --text-color: #e6edf3;
-            --border-color: rgba(88, 166, 255, 0.22);
+            --bg-dark: #030508;
+            --card-glass: rgba(16, 22, 34, 0.68);
+            --neon-green: #00ff88;
+            --neon-blue: #00d2ff;
+            --neon-purple: #b537f2;
+            --alert-red: #ff3b5c;
+            --text-main: #f4f8fb;
+            --text-muted: #94a3b8;
         }
 
         * {
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-            background: radial-gradient(circle at 15% 20%, #10192b 0%, #07090e 55%, #040609 100%);
-            color: var(--text-color);
+            background: radial-gradient(circle at 20% 15%, #0c1b33 0%, #050811 50%, #020306 100%);
+            color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 22px;
             min-height: 100vh;
             overflow-x: hidden;
-            perspective: 1200px;
+            perspective: 1600px;
         }
 
-        /* Apple-Style 2.5s Boot Screen */
+        /* Ambient 3D Floating Orbs in Background */
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -1;
+            opacity: 0.45;
+            animation: orbFloat 12s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        .orb-1 { width: 380px; height: 380px; background: #00d2ff; top: -80px; left: -60px; }
+        .orb-2 { width: 420px; height: 420px; background: #00ff88; bottom: -100px; right: -80px; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: #b537f2; top: 45%; left: 45%; animation-delay: -2s; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(35px, -30px) scale(1.12); }
+        }
+
+        /* Ultra-Premium Apple Style 3D Boot Screen */
         #bootScreen {
             position: fixed;
             inset: 0;
-            background: #000000;
+            background: radial-gradient(circle at center, #0a1120 0%, #000000 100%);
             z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.7s;
+            transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.85s;
         }
         #bootScreen.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
-        .boot-logo {
-            font-size: 4.5rem;
-            animation: pulseGlow 1.5s infinite alternate ease-in-out;
-            filter: drop-shadow(0 0 25px rgba(88, 166, 255, 0.7));
+        .premium-3d-logo {
+            width: 110px;
+            height: 110px;
+            animation: logoLevitate 2.2s infinite ease-in-out;
+            filter: drop-shadow(0 0 30px rgba(0, 210, 255, 0.75)) drop-shadow(0 0 15px rgba(0, 255, 136, 0.6));
+        }
+        @keyframes logoLevitate {
+            0%, 100% { transform: translateY(0) rotateY(0deg) scale(1); }
+            50% { transform: translateY(-10px) rotateY(15deg) scale(1.06); }
         }
         .boot-title {
-            margin-top: 15px;
-            font-size: 1.3rem;
+            margin-top: 20px;
+            font-size: 1.55rem;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #ffffff, #00d2ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        .boot-sub {
+            font-size: 0.85rem;
+            color: #64748b;
             letter-spacing: 2px;
-            color: #fff;
-            font-weight: 600;
+            margin-top: 6px;
         }
         .boot-bar-container {
-            width: 220px;
-            height: 4px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 10px;
-            margin-top: 22px;
+            width: 260px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-top: 26px;
             overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
         }
         .boot-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #58a6ff, #3fb950);
-            border-radius: 10px;
-            animation: loadProgress 2.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            background: linear-gradient(90deg, #00d2ff, #b537f2, #00ff88);
+            border-radius: 20px;
+            animation: loadProgress 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         @keyframes loadProgress {
             0% { width: 0%; }
-            60% { width: 75%; }
+            55% { width: 78%; }
             100% { width: 100%; }
         }
-        @keyframes pulseGlow {
-            from { transform: scale(0.95); opacity: 0.8; }
-            to { transform: scale(1.05); opacity: 1; }
-        }
 
-        /* Main Dashboard Container Entrance */
+        /* Main Dashboard Entrance */
         .dashboard-wrapper {
+            max-width: 1440px;
+            margin: 0 auto;
             opacity: 0;
-            transform: translateY(15px) scale(0.98);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px) scale(0.97);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .dashboard-wrapper.ready {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
 
-        /* 3D / 4D Glassmorphism Header */
+        /* 3D Glassmorphism Header */
         .header {
             text-align: center;
-            padding: 18px;
-            background: linear-gradient(145deg, rgba(22, 27, 34, 0.85), rgba(13, 17, 23, 0.9));
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            margin-bottom: 22px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            padding: 22px;
+            background: linear-gradient(145deg, rgba(20, 28, 45, 0.82), rgba(10, 14, 23, 0.92));
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.18);
             position: relative;
+            animation: gentleFloatHeader 6s infinite ease-in-out;
+        }
+        @keyframes gentleFloatHeader {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
         }
         .header h1 {
-            background: linear-gradient(90deg, #58a6ff, #79c0ff, #3fb950);
+            background: linear-gradient(90deg, #00d2ff, #ffffff, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 0 0 6px 0;
-            font-size: 1.85em;
-            letter-spacing: 0.5px;
+            font-size: 2.05em;
+            font-weight: 800;
+            letter-spacing: 0.6px;
         }
         .header p {
             margin: 0;
-            color: #8b949e;
-            font-size: 0.95em;
+            color: var(--text-muted);
+            font-size: 0.96em;
         }
 
-        /* Hidden Reset Button (Blends seamlessly into top-right of header) */
         .hidden-reset-trigger {
             position: absolute;
-            top: 12px;
-            right: 14px;
-            width: 28px;
-            height: 28px;
-            background: transparent;
-            border: none;
+            top: 14px;
+            right: 16px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             cursor: pointer;
-            opacity: 0.15;
-            transition: opacity 0.3s, transform 0.3s;
-            color: #58a6ff;
-            font-size: 14px;
+            opacity: 0.25;
+            transition: all 0.35s;
+            color: var(--neon-blue);
+            font-size: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .hidden-reset-trigger:hover {
-            opacity: 0.8;
+            opacity: 1;
             transform: rotate(180deg);
+            box-shadow: 0 0 12px var(--neon-blue);
         }
 
         .top-controls {
@@ -151,117 +196,158 @@
             justify-content: center;
             align-items: center;
             gap: 12px;
-            margin-top: 14px;
+            margin-top: 16px;
             flex-wrap: wrap;
         }
         .sat-btn {
-            background-color: rgba(33, 38, 45, 0.8);
-            color: #8b949e;
-            border: 1px solid #30363d;
-            padding: 6px 14px;
-            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.85);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 7px 16px;
+            border-radius: 25px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 0.9em;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s ease;
         }
         .sat-btn.active {
-            background-color: rgba(46, 164, 79, 0.25);
-            color: #3fb950;
-            border-color: #3fb950;
-            box-shadow: 0 0 15px rgba(63, 185, 80, 0.45);
+            background: rgba(0, 255, 136, 0.18);
+            color: var(--neon-green);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 18px rgba(0, 255, 136, 0.4);
         }
 
-        /* 3D/4D Cards Grid */
+        /* 3D Floating Grid & Cards */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 22px;
         }
         .card {
-            background: linear-gradient(145deg, rgba(26, 32, 42, 0.78), rgba(14, 18, 25, 0.88));
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            background: linear-gradient(145deg, rgba(22, 30, 48, 0.76), rgba(10, 14, 24, 0.88));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 210, 255, 0.24);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.14);
             transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
             transform-style: preserve-3d;
             position: relative;
+            animation: cardLevitate 5.5s infinite ease-in-out;
         }
-        .card:hover {
-            transform: translateY(-5px) rotateX(1.5deg) rotateY(-1.5deg);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(88, 166, 255, 0.15);
-            border-color: rgba(88, 166, 255, 0.5);
+        .card:nth-child(2n) { animation-delay: -1.8s; }
+        .card:nth-child(3n) { animation-delay: -3.4s; }
+
+        @keyframes cardLevitate {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-6px) rotateX(1deg); }
+        }
+
+        .card:hover, .card.gesture-selected {
+            transform: translateY(-8px) scale(1.015) rotateX(2deg) rotateY(-1deg) !important;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.85), 0 0 28px rgba(0, 210, 255, 0.38);
+            border-color: var(--neon-blue);
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
         .card h3 {
-            margin-top: 0;
-            font-size: 1.12em;
-            color: #f0f6fc;
+            margin: 0;
+            font-size: 1.15em;
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 700;
         }
+
+        /* Mini Speaker Button on Every Card */
+        .mini-speaker {
+            background: rgba(0, 210, 255, 0.14);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            color: var(--neon-blue);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.25s;
+            flex-shrink: 0;
+        }
+        .mini-speaker:hover, .mini-speaker.speaking {
+            background: var(--neon-blue);
+            color: #030508;
+            box-shadow: 0 0 15px var(--neon-blue);
+            transform: scale(1.1);
+        }
+
         .status-badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 0.85em;
-            margin-top: 5px;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.84em;
+            margin-top: 6px;
         }
-        .status-ok { background: rgba(46, 164, 79, 0.2); color: #3fb950; border: 1px solid rgba(63, 185, 80, 0.3); }
-        .status-blue { background: rgba(88, 166, 255, 0.2); color: #58a6ff; border: 1px solid rgba(88, 166, 255, 0.3); }
-        .status-warn { background: rgba(218, 54, 51, 0.2); color: #f85149; border: 1px solid rgba(248, 81, 73, 0.3); }
-        .status-purple { background: rgba(163, 113, 247, 0.2); color: #d2a8ff; border: 1px solid rgba(163, 113, 247, 0.35); }
+        .status-ok { background: rgba(0, 255, 136, 0.15); color: var(--neon-green); border: 1px solid rgba(0, 255, 136, 0.35); }
+        .status-blue { background: rgba(0, 210, 255, 0.15); color: var(--neon-blue); border: 1px solid rgba(0, 210, 255, 0.35); }
+        .status-warn { background: rgba(255, 59, 92, 0.18); color: #ff6b81; border: 1px solid rgba(255, 59, 92, 0.4); }
+        .status-purple { background: rgba(181, 55, 242, 0.18); color: #d896ff; border: 1px solid rgba(181, 55, 242, 0.4); }
 
         .val-display {
-            font-size: 2.3em;
-            font-weight: 700;
+            font-size: 2.45em;
+            font-weight: 800;
             margin: 10px 0;
-            color: #fff;
-            text-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
+            background: linear-gradient(180deg, #ffffff 20%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 20px rgba(0, 210, 255, 0.2);
         }
         .schedule-note {
-            font-size: 0.82em;
-            color: #8b949e;
-            background: rgba(9, 13, 17, 0.85);
-            padding: 10px;
-            border-radius: 8px;
-            border-left: 3px solid #58a6ff;
+            font-size: 0.84em;
+            color: #cbd5e1;
+            background: rgba(6, 10, 18, 0.85);
+            padding: 11px;
+            border-radius: 12px;
+            border-left: 3px solid var(--neon-blue);
             margin-top: 12px;
-            line-height: 1.45;
-        }
-        .btn {
-            background: linear-gradient(135deg, #2ea44f, #238636);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.95em;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(46, 164, 79, 0.35);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(46, 164, 79, 0.5);
-        }
-        .btn:active {
-            transform: translateY(1px);
+            line-height: 1.5;
         }
 
-        /* Deep Sleep Animated Box */
+        .btn {
+            background: linear-gradient(135deg, #00c853, #009624);
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(0, 200, 83, 0.35);
+            transition: all 0.25s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Deep Sleep 3D Visual */
         .deep-sleep-visual {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle, rgba(88,166,255,0.12) 0%, rgba(9,13,17,0.9) 80%);
-            border: 1px dashed rgba(88, 166, 255, 0.35);
-            border-radius: 12px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, rgba(5, 8, 15, 0.92) 80%);
+            border: 1px dashed rgba(0, 210, 255, 0.4);
+            border-radius: 14px;
             padding: 18px;
             margin: 12px 0;
             position: relative;
@@ -269,164 +355,222 @@
         }
         .cam-plant-rig {
             position: relative;
-            width: 90px;
+            width: 100px;
             height: 75px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .plant-icon {
-            font-size: 2.6rem;
-            z-index: 1;
-            filter: drop-shadow(0 0 8px rgba(63, 185, 80, 0.5));
-        }
-        .floating-cam {
-            position: absolute;
-            top: 0;
-            right: 4px;
-            font-size: 1.5rem;
-            animation: camHoverScan 3s infinite ease-in-out;
-            z-index: 2;
-        }
+        .plant-icon { font-size: 2.7rem; z-index: 1; filter: drop-shadow(0 0 12px rgba(0, 255, 136, 0.6)); }
+        .floating-cam { position: absolute; top: 0; right: 4px; font-size: 1.6rem; animation: camHoverScan 3s infinite ease-in-out; z-index: 2; }
         .scan-beam {
-            position: absolute;
-            top: 22px;
-            width: 55px;
-            height: 35px;
-            background: linear-gradient(180deg, rgba(88, 166, 255, 0.45), transparent);
+            position: absolute; top: 22px; width: 60px; height: 38px;
+            background: linear-gradient(180deg, rgba(0, 210, 255, 0.5), transparent);
             clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
             animation: beamPulse 3s infinite ease-in-out;
         }
         @keyframes camHoverScan {
             0%, 100% { transform: translate(0, 0) rotate(-8deg); }
-            50% { transform: translate(-18px, 4px) rotate(8deg); }
+            50% { transform: translate(-20px, 4px) rotate(8deg); }
         }
         @keyframes beamPulse {
-            0%, 100% { opacity: 0.3; transform: translateX(0); }
-            50% { opacity: 0.85; transform: translateX(-12px); }
+            0%, 100% { opacity: 0.35; transform: translateX(0); }
+            50% { opacity: 0.9; transform: translateX(-14px); }
         }
 
-        /* Live Camera Scanner & Face/Plant HUD */
+        /* Crystal-Clear Mirrored Camera + Dynamic Face/Plant & Gesture HUD */
         .camera-container {
             position: relative;
             width: 100%;
-            height: 185px;
-            border-radius: 10px;
+            height: 230px;
+            border-radius: 14px;
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            border: 2px solid rgba(0, 210, 255, 0.45);
             background: #000;
             margin-top: 8px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
-        video {
+        video#webcamFeed {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            /* Mirrored so left/right movements match naturally */
+            transform: scaleX(-1);
+            filter: contrast(1.08) saturate(1.12) brightness(1.04);
+        }
+        canvas#visionCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
         }
         .scanner-laser {
             position: absolute;
             left: 0;
             width: 100%;
             height: 2px;
-            background: #3fb950;
-            box-shadow: 0 0 12px #3fb950, 0 0 20px #58a6ff;
-            animation: scanMove 2.8s infinite linear;
+            background: var(--neon-blue);
+            box-shadow: 0 0 14px var(--neon-blue), 0 0 25px var(--neon-green);
+            animation: scanMove 3s infinite linear;
             pointer-events: none;
             z-index: 3;
         }
         @keyframes scanMove {
-            0% { top: 5%; opacity: 0.2; }
-            50% { top: 92%; opacity: 1; }
-            100% { top: 5%; opacity: 0.2; }
+            0% { top: 4%; opacity: 0.25; }
+            50% { top: 94%; opacity: 1; }
+            100% { top: 4%; opacity: 0.25; }
         }
-        .tracking-reticle {
+
+        /* Dynamic Tracking Box (Red for Human, Green for Plant) */
+        #dynamicTrackerBox {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 115px;
-            height: 115px;
+            width: 130px;
+            height: 130px;
             transform: translate(-50%, -50%);
-            border: 2px solid rgba(88, 166, 255, 0.85);
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(88, 166, 255, 0.35), inset 0 0 10px rgba(88, 166, 255, 0.2);
+            border: 2.5px solid var(--alert-red);
+            border-radius: 14px;
+            box-shadow: 0 0 18px rgba(255, 59, 92, 0.55), inset 0 0 12px rgba(255, 59, 92, 0.25);
             pointer-events: none;
-            z-index: 4;
-            animation: reticleTrack 4s infinite ease-in-out;
+            z-index: 5;
+            transition: top 0.12s ease-out, left 0.12s ease-out, width 0.15s, height 0.15s, border-color 0.25s, box-shadow 0.25s;
         }
-        .tracking-label {
+        #dynamicTrackerBox.plant-mode {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 22px rgba(0, 255, 136, 0.7), inset 0 0 14px rgba(0, 255, 136, 0.3);
+        }
+
+        .vision-status-bar {
+            margin-top: 8px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.88em;
+            font-weight: 700;
+            text-align: center;
+            background: rgba(255, 59, 92, 0.16);
+            border: 1px solid var(--alert-red);
+            color: #ff8fa3;
+            transition: all 0.3s ease;
+        }
+        .vision-status-bar.plant-detected {
+            background: rgba(0, 255, 136, 0.16);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .gesture-hud-pill {
             position: absolute;
-            bottom: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(13, 17, 23, 0.9);
-            color: #58a6ff;
-            font-size: 0.7rem;
-            font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid #58a6ff;
-            white-space: nowrap;
+            top: 8px;
+            left: 8px;
+            background: rgba(3, 7, 18, 0.82);
+            border: 1px solid rgba(0, 210, 255, 0.45);
+            color: var(--neon-blue);
+            font-size: 0.74em;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            z-index: 6;
+            backdrop-filter: blur(6px);
         }
-        @keyframes reticleTrack {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            33% { transform: translate(-45%, -53%) scale(1.03); }
-            66% { transform: translate(-54%, -48%) scale(0.98); }
+
+        /* Floating Virtual Hand Cursor on Screen */
+        #virtualHandCursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00ff88 20%, rgba(0, 210, 255, 0.4) 70%);
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 18px #00ff88, 0 0 30px #00d2ff;
+            pointer-events: none;
+            z-index: 10000;
+            display: none;
+            transform: translate(-50%, -50%);
+            transition: top 0.08s linear, left 0.08s linear;
         }
 
         .log-box, .chat-box {
-            height: 165px;
+            height: 185px;
             overflow-y: auto;
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 8px;
-            background: rgba(9, 13, 17, 0.9);
+            border: 1px solid rgba(0, 210, 255, 0.25);
+            padding: 14px;
+            border-radius: 12px;
+            background: rgba(5, 9, 16, 0.92);
             margin-bottom: 12px;
-            font-size: 0.92em;
-            line-height: 1.5;
+            font-size: 0.94em;
+            line-height: 1.55;
         }
         .log-item {
-            padding: 5px 0;
-            border-bottom: 1px dashed #21262d;
-            color: #3fb950;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            color: var(--neon-green);
         }
 
-        /* Gemini Report Controls */
         .gemini-action-bar {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
         .report-btn {
             flex: 1;
-            background: linear-gradient(135deg, #1f6feb, #388bfd);
-            box-shadow: 0 4px 14px rgba(56, 139, 253, 0.35);
+            background: linear-gradient(135deg, #0284c7, #2563eb, #7c3aed);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
         }
         .speaker-btn {
-            background: rgba(88, 166, 255, 0.15);
-            color: #58a6ff;
-            border: 1px solid #58a6ff;
-            padding: 10px 16px;
-            border-radius: 8px;
+            background: rgba(0, 210, 255, 0.16);
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 11px 18px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 1.15em;
+            font-size: 1.2em;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.25s;
         }
         .speaker-btn:hover, .speaker-btn.speaking {
-            background: #58a6ff;
-            color: #0d1117;
-            box-shadow: 0 0 15px rgba(88, 166, 255, 0.6);
+            background: var(--neon-blue);
+            color: #030508;
+            box-shadow: 0 0 20px var(--neon-blue);
         }
     </style>
 </head>
 <body>
 
-    <!-- Apple-Like 2.5s Smooth Boot Screen -->
+    <!-- Ambient 3D Glowing Orbs -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <!-- Virtual Finger Pointer -->
+    <div id="virtualHandCursor"></div>
+
+    <!-- Ultra-Premium Apple-Style 3D SVG Boot Screen -->
     <div id="bootScreen">
-        <div class="boot-logo">🌾</div>
+        <svg class="premium-3d-logo" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="cyberLeaf" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#00D2FF"/>
+                    <stop offset="50%" stop-color="#B537F2"/>
+                    <stop offset="100%" stop-color="#00FF88"/>
+                </linearGradient>
+                <linearGradient id="glassRing" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="rgba(255,255,255,0.8)"/>
+                    <stop offset="100%" stop-color="rgba(0,210,255,0.1)"/>
+                </linearGradient>
+            </defs>
+            <circle cx="60" cy="60" r="54" stroke="url(#glassRing)" stroke-width="2.5" fill="rgba(10,18,32,0.6)"/>
+            <circle cx="60" cy="60" r="45" stroke="url(#cyberLeaf)" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <path d="M60 92V44M60 58C44 58 34 46 34 32C48 32 60 44 60 58ZM60 50C76 50 86 38 86 24C72 24 60 36 60 50Z" stroke="url(#cyberLeaf)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="60" cy="30" r="4" fill="#00FF88"/>
+        </svg>
         <div class="boot-title">SMART AGRI-AI OS</div>
+        <div class="boot-sub">ULTRA-QUAD 3D NEURAL ENGINE</div>
         <div class="boot-bar-container">
             <div class="boot-bar"></div>
         </div>
@@ -434,11 +578,10 @@
 
     <div class="dashboard-wrapper" id="mainDashboard">
         <div class="header">
-            <!-- Hidden Timer Reset Button (Top-Right Subtle Icon) -->
-            <button class="hidden-reset-trigger" onclick="resetCaptureTimerOnly()" title="Sync">↻</button>
+            <button class="hidden-reset-trigger" onclick="resetCaptureTimerOnly()" title="Sync Timer">↻</button>
 
-            <h1>🌾 Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | 7-Year Long Life Architecture</p>
+            <h1>Smart Agri-AI Control Room</h1>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | 7-Year Long Life 3D Neural Architecture</p>
             <div class="top-controls">
                 <span class="status-badge status-blue" id="liveClock">🕒 --:--:-- --</span>
                 <span class="status-badge status-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -448,10 +591,13 @@
         </div>
 
         <div class="grid">
-            <!-- Raspberry Pi 5 Cycle & Schedule Status -->
-            <div class="card">
-                <h3>🖥️ Raspberry Pi 5 + Sony AI Cycle</h3>
-                <p id="modeLabel">Next Photo Capture Timer:</p>
+            <!-- Card 1: Raspberry Pi 5 Cycle -->
+            <div class="card" data-card-index="0">
+                <div class="card-header-row">
+                    <h3>🖥️ Raspberry Pi 5 + Sony AI Cycle</h3>
+                    <button class="mini-speaker" onclick="speakCard('cycle', this)" title="सुनें">🔊</button>
+                </div>
+                <p id="modeLabel" style="color: var(--text-muted); margin: 4px 0;">Next Photo Capture Timer:</p>
                 <div class="val-display" id="timer">--:--</div>
                 <span class="status-badge status-ok" id="piStatus">RPi 5 + Sony IMX500: Standby</span>
                 <div class="schedule-note">
@@ -460,10 +606,13 @@
                 </div>
             </div>
 
-            <!-- Deep Sleep Mode Card -->
-            <div class="card">
-                <h3>💤 AI Vision Deep Sleep Engine</h3>
-                <p>Ultra-Low Power Crop Protection</p>
+            <!-- Card 2: Deep Sleep Mode -->
+            <div class="card" data-card-index="1">
+                <div class="card-header-row">
+                    <h3>💤 AI Vision Deep Sleep Engine</h3>
+                    <button class="mini-speaker" onclick="speakCard('sleep', this)" title="सुनें">🔊</button>
+                </div>
+                <p style="color: var(--text-muted); margin: 4px 0;">Ultra-Low Power Crop Protection</p>
                 <div class="deep-sleep-visual">
                     <div class="cam-plant-rig">
                         <span class="floating-cam">📷</span>
@@ -474,60 +623,80 @@
                 <span class="status-badge status-purple">Deep Sleep: Active (Power Saving)</span>
             </div>
 
-            <!-- Internal Box Temperature -->
-            <div class="card">
-                <h3>🌡️ Raspberry Pi 5 Enclosure Temp</h3>
-                <p>Internal Thermal Monitor</p>
+            <!-- Card 3: Internal Enclosure Temperature -->
+            <div class="card" data-card-index="2">
+                <div class="card-header-row">
+                    <h3>🌡️ Raspberry Pi 5 Enclosure Temp</h3>
+                    <button class="mini-speaker" onclick="speakCard('temp', this)" title="सुनें">🔊</button>
+                </div>
+                <p style="color: var(--text-muted); margin: 4px 0;">Internal Thermal Monitor</p>
                 <div class="val-display" id="tempVal">26.4 °C</div>
                 <span class="status-badge status-ok">Optimal Zone (26°C - 27°C)</span>
             </div>
 
-            <!-- Vibration Insect AI Sensor (Strictly 1 - 10 Hz, No High Vibration Alert) -->
-            <div class="card">
-                <h3>🦗 Acoustic Vibration Insect Scan</h3>
-                <p>Stem Micro-Vibration (1 - 10 Hz)</p>
+            <!-- Card 4: Vibration Insect AI Sensor -->
+            <div class="card" data-card-index="3">
+                <div class="card-header-row">
+                    <h3>🦗 Acoustic Vibration Insect Scan</h3>
+                    <button class="mini-speaker" onclick="speakCard('vib', this)" title="सुनें">🔊</button>
+                </div>
+                <p style="color: var(--text-muted); margin: 4px 0;">Stem Micro-Vibration (1 - 10 Hz)</p>
                 <div class="val-display" id="bugVal">6 Hz</div>
                 <span class="status-badge status-ok" id="bugStatus">Normal Stem Frequency</span>
             </div>
 
-            <!-- Daily Photo Capture History (24h Reset) -->
-            <div class="card">
-                <h3>📸 24-Hour Capture History</h3>
-                <p>Sony IMX500 & System Log (Auto-resets in 24h)</p>
+            <!-- Card 5: 24-Hour Capture History -->
+            <div class="card" data-card-index="4">
+                <div class="card-header-row">
+                    <h3>📸 24-Hour Capture History</h3>
+                    <button class="mini-speaker" onclick="speakCard('history', this)" title="सुनें">🔊</button>
+                </div>
+                <p style="color: var(--text-muted); margin: 4px 0;">Sony IMX500 & System Log (Auto-resets in 24h)</p>
                 <div class="log-box" id="historyLog"></div>
                 <span class="status-badge status-blue" id="resetCountdown">24h Cycle Active</span>
             </div>
 
-            <!-- Inbuilt Laptop / Sony AI Camera Feed with Scanner & Face Tracking -->
-            <div class="card">
-                <h3>📷 Live Inbuilt Camera Vision</h3>
-                <p>Laptop Webcam / Sony AI Stream</p>
-                <div class="camera-container">
-                    <video id="webcamFeed" autoplay playsinline muted></video>
-                    <div class="scanner-laser"></div>
-                    <div class="tracking-reticle">
-                        <div class="tracking-label">🎯 Face Tracked | Not a Plant</div>
-                    </div>
+            <!-- Card 6: Crystal-Clear AI Vision + Dynamic Face/Plant Tracker + Mirror Hand Gestures -->
+            <div class="card" data-card-index="5">
+                <div class="card-header-row">
+                    <h3>📷 Live AI Vision & Gesture HUD</h3>
+                    <button class="mini-speaker" onclick="speakCard('vision', this)" title="सुनें">🔊</button>
                 </div>
-                <button class="btn" onclick="startCamera()" style="margin-top: 10px; padding: 7px 12px; font-size: 0.9em; width: 100%;">कैमरा चालू करें (Start Camera)</button>
+                <p style="color: var(--text-muted); margin: 4px 0;">Crystal-Clear HD | Human vs Plant & Finger Control</p>
+                <div class="camera-container" id="camContainer">
+                    <div class="gesture-hud-pill" id="gestureStatus">🖐️ जेस्चर: तैयार</div>
+                    <video id="webcamFeed" autoplay playsinline muted></video>
+                    <canvas id="visionCanvas"></canvas>
+                    <div class="scanner-laser"></div>
+                    <div id="dynamicTrackerBox"></div>
+                </div>
+                <div class="vision-status-bar" id="visionStatusText">
+                    🚫 इंसान (Human) | यह पौधा नहीं है
+                </div>
+                <button class="btn" onclick="startCrystalClearCamera()" style="margin-top: 10px; width: 100%;">
+                    कैमरा और AI जेस्चर चालू करें (Start AI Vision)
+                </button>
             </div>
 
-            <!-- Gemini Agri-AI Assistant (Offline/Zero-Cost Detailed Crop Diagnosis + Voice) -->
-            <div class="card" style="grid-column: 1 / -1;">
-                <h3>🤖 Gemini Smart Agri-AI Assistant</h3>
-                <div class="chat-box" id="chat" style="height: 210px;">
-                    <p id="geminiReportText"><strong>Gemini AI:</strong> Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन है।</p>
+            <!-- Card 7: Gemini Agri-AI Assistant -->
+            <div class="card" data-card-index="6" style="grid-column: 1 / -1;">
+                <div class="card-header-row">
+                    <h3>🤖 Gemini Smart Agri-AI Assistant (विस्तृत फसल एवं मेन्यू विश्लेषण)</h3>
+                    <button class="mini-speaker" onclick="speakReport()" title="पूरी रिपोर्ट सुनें">🔊</button>
+                </div>
+                <div class="chat-box" id="chat" style="height: 240px;">
+                    <p id="geminiReportText"><strong>Gemini AI:</strong> Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन है। नीचे बटन दबाकर अपनी फसलों की पूरी जाँच और मेन्यू रिपोर्ट देखें।</p>
                 </div>
                 <div class="gemini-action-bar">
-                    <button class="btn report-btn" onclick="showDetailedCropReport()">📋 पौधों की पूरी जाँच और ऑर्गेनिक इलाज देखें</button>
-                    <button class="speaker-btn" id="speakerBtn" onclick="speakReport()" title="हिंदी में सुनें">🔊</button>
+                    <button class="btn report-btn" onclick="showDetailedCropReport()">📋 पौधों की पूरी जाँच, मेन्यू स्थिति और ऑर्गेनिक इलाज देखें</button>
+                    <button class="speaker-btn" id="speakerBtn" onclick="speakReport()" title="हिंदी में सुनें">🔊 सुनें</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Smooth Apple-style 2.5s Boot Loader
+        // 1. Apple-Style Boot Loader
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 document.getElementById('bootScreen').classList.add('hidden');
@@ -537,11 +706,9 @@
 
         const DAY_MS = 24 * 60 * 60 * 1000;
 
-        // Load persistent state from localStorage (Refresh will NEVER reset timers)
         function loadSystemState() {
             let saved = JSON.parse(localStorage.getItem('agriAiState'));
             const now = Date.now();
-
             if (!saved || (now - saved.cycleStartTime) >= DAY_MS) {
                 const isNight = (new Date().getHours() >= 18 || new Date().getHours() < 6);
                 const initialDuration = isNight ? 3 * 3600 : 1 * 3600;
@@ -549,7 +716,7 @@
                     cycleStartTime: now,
                     nextCaptureTimestamp: now + (initialDuration * 1000),
                     logs: [
-                        `[${formatTime(new Date(now))}] सिस्टम चालू हुआ और निगरानी शुरू की गई।`
+                        `[${formatTime(new Date(now))}] सिस्टम चालू हुआ और 3D AI निगरानी शुरू की गई।`
                     ],
                     temp: "26.4",
                     freq: 6
@@ -569,7 +736,6 @@
 
         let appState = loadSystemState();
 
-        // Hidden Button Function: Restarts the 1h/3h capture timer cleanly
         function resetCaptureTimerOnly() {
             const now = Date.now();
             const isNight = (new Date(now).getHours() >= 18 || new Date(now).getHours() < 6);
@@ -630,20 +796,16 @@
         updateClockAndTimers();
         setInterval(updateClockAndTimers, 1000);
 
-        // Vibration Sensor: Strictly 1 Hz to 10 Hz (Never goes above 10, no High Vibration alert)
-        let initialFreq = Math.min(10, Math.max(1, appState.freq || 6));
-        document.getElementById('bugVal').innerText = `${initialFreq} Hz`;
+        // Vibration Sensor (1 to 10 Hz)
+        document.getElementById('bugVal').innerText = `${appState.freq || 6} Hz`;
         setInterval(() => {
-            let freq = Math.floor(Math.random() * 10) + 1; // 1 to 10 Hz
+            let freq = Math.floor(Math.random() * 10) + 1;
             appState.freq = freq;
             saveSystemState(appState);
             document.getElementById('bugVal').innerText = `${freq} Hz`;
-            let badge = document.getElementById('bugStatus');
-            badge.className = "status-badge status-ok";
-            badge.innerText = "Normal Stem Frequency";
         }, 2200);
 
-        // Raspberry Pi 5 Temperature Fluctuation (26.0°C to 27.0°C)
+        // Temperature (26.0°C to 27.0°C)
         document.getElementById('tempVal').innerText = `${appState.temp} °C`;
         setInterval(() => {
             let temp = (26 + Math.random()).toFixed(1);
@@ -652,7 +814,7 @@
             document.getElementById('tempVal').innerText = `${temp} °C`;
         }, 3000);
 
-        // Satellite Toggle & Strong Signal
+        // Satellite Toggle
         let satOn = true;
         function toggleSatellite() {
             satOn = !satOn;
@@ -679,29 +841,197 @@
             }
         }, 2000);
 
-        // Laptop Inbuilt Webcam Integration
-        async function startCamera() {
+        // =========================================================================
+        // 2. CRYSTAL-CLEAR CAMERA + DYNAMIC FACE/PLANT TRACKER + MIRROR HAND GESTURE
+        // =========================================================================
+        let cameraRunning = false;
+        let faceDetectedNow = false;
+        let selectedCardIdx = -1;
+        let lastGestureTime = 0;
+
+        // Helper canvas to analyze green plant pixels in center when no face is present
+        const offscreenCanvas = document.createElement('canvas');
+        const offscreenCtx = offscreenCanvas.getContext('2d');
+        offscreenCanvas.width = 64;
+        offscreenCanvas.height = 48;
+
+        function detectGreenPlant(videoEl) {
+            if (!videoEl.videoWidth) return false;
+            offscreenCtx.drawImage(videoEl, 0, 0, 64, 48);
+            const imgData = offscreenCtx.getImageData(12, 8, 40, 32).data;
+            let greenPixels = 0;
+            const totalPixels = 40 * 32;
+            for (let i = 0; i < imgData.length; i += 4) {
+                const r = imgData[i];
+                const g = imgData[i + 1];
+                const b = imgData[i + 2];
+                // Detect natural leaf green tones
+                if (g > 65 && g > r * 1.15 && g > b * 1.15) {
+                    greenPixels++;
+                }
+            }
+            return (greenPixels / totalPixels) > 0.16; // >16% green foliage in center
+        }
+
+        async function startCrystalClearCamera() {
+            if (cameraRunning) return;
             const video = document.getElementById('webcamFeed');
+            const trackerBox = document.getElementById('dynamicTrackerBox');
+            const statusText = document.getElementById('visionStatusText');
+            const gestureStatus = document.getElementById('gestureStatus');
+            const virtualCursor = document.getElementById('virtualHandCursor');
+
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // Request Full HD (1080p) Crystal-Clear Stream
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: { ideal: 1920 }, height: { ideal: 1080 }, facingMode: "user" }
+                });
                 video.srcObject = stream;
+                cameraRunning = true;
+
+                // Initialize MediaPipe Face Detection (Tracks Face Movement Smoothly)
+                const faceDetection = new FaceDetection({
+                    locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
+                });
+                faceDetection.setOptions({ model: 'short', minDetectionConfidence: 0.55 });
+
+                faceDetection.onResults((results) => {
+                    if (results.detections && results.detections.length > 0) {
+                        faceDetectedNow = true;
+                        const box = results.detections[0].boundingBox;
+                        // Mirror X coordinate so box follows user's real left/right movement!
+                        const mirroredX = (1 - box.xCenter) * 100;
+                        const centerY = box.yCenter * 100;
+                        const boxW = Math.min(200, Math.max(95, box.width * 260));
+                        const boxH = Math.min(200, Math.max(95, box.height * 220));
+
+                        trackerBox.style.left = `${mirroredX}%`;
+                        trackerBox.style.top = `${centerY}%`;
+                        trackerBox.style.width = `${boxW}px`;
+                        trackerBox.style.height = `${boxH}px`;
+                        trackerBox.classList.remove('plant-mode');
+
+                        statusText.classList.remove('plant-detected');
+                        statusText.innerHTML = "🚫 इंसान (Human Face) | यह पौधा नहीं है";
+                    } else {
+                        faceDetectedNow = false;
+                        // Reset tracker box to center and check if a Plant is in front
+                        trackerBox.style.left = "50%";
+                        trackerBox.style.top = "50%";
+                        trackerBox.style.width = "135px";
+                        trackerBox.style.height = "135px";
+
+                        const isPlant = detectGreenPlant(video);
+                        if (isPlant) {
+                            trackerBox.classList.add('plant-mode');
+                            statusText.classList.add('plant-detected');
+                            statusText.innerHTML = "✅ पौधा पहचाना गया (Plant Detected) | स्कैनिंग सक्रिय";
+                        } else {
+                            trackerBox.classList.remove('plant-mode');
+                            statusText.classList.remove('plant-detected');
+                            statusText.innerHTML = "🔍 स्कैनिंग... सामने पौधा या चेहरा लाएं (पौधा नहीं मिला)";
+                        }
+                    }
+                });
+
+                // Initialize MediaPipe Hands (Mirrored Finger Gesture Control)
+                const hands = new Hands({
+                    locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+                });
+                hands.setOptions({
+                    maxNumHands: 1,
+                    modelComplexity: 1,
+                    minDetectionConfidence: 0.65,
+                    minTrackingConfidence: 0.65
+                });
+
+                hands.onResults((results) => {
+                    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                        const landmarks = results.multiHandLandmarks[0];
+                        const indexTip = landmarks[8]; // Index finger tip
+                        const indexBase = landmarks[6];
+
+                        // Mirrored X so pointing left selects left, pointing right selects right!
+                        const screenX = (1 - indexTip.x) * window.innerWidth;
+                        const screenY = indexTip.y * window.innerHeight;
+
+                        virtualCursor.style.display = 'block';
+                        virtualCursor.style.left = `${screenX}px`;
+                        virtualCursor.style.top = `${screenY}px`;
+
+                        const now = Date.now();
+                        // Vertical Scroll Control via Finger Position
+                        if (indexTip.y < 0.24) {
+                            window.scrollBy({ top: -18, behavior: 'auto' });
+                            gestureStatus.innerText = "☝️ ऊपर स्क्रॉल (Scroll Up)";
+                        } else if (indexTip.y > 0.78) {
+                            window.scrollBy({ top: 18, behavior: 'auto' });
+                            gestureStatus.innerText = "👇 नीचे स्क्रॉल (Scroll Down)";
+                        } else {
+                            gestureStatus.innerText = "🖐️ फिंगर पॉइंटर सक्रिय";
+                        }
+
+                        // Left/Right Card Selection via Finger Swipe/Position
+                        if (now - lastGestureTime > 650) {
+                            const cards = document.querySelectorAll('.card');
+                            if ((1 - indexTip.x) < 0.22) {
+                                selectedCardIdx = (selectedCardIdx - 1 + cards.length) % cards.length;
+                                highlightCard(cards, selectedCardIdx);
+                                gestureStatus.innerText = "👈 बायाँ कार्ड सेलेक्ट";
+                                lastGestureTime = now;
+                            } else if ((1 - indexTip.x) > 0.78) {
+                                selectedCardIdx = (selectedCardIdx + 1) % cards.length;
+                                highlightCard(cards, selectedCardIdx);
+                                gestureStatus.innerText = "👉 दायाँ कार्ड सेलेक्ट";
+                                lastGestureTime = now;
+                            }
+                        }
+                    } else {
+                        virtualCursor.style.display = 'none';
+                        gestureStatus.innerText = "🖐️ जेस्चर: हाथ दिखाएं";
+                    }
+                });
+
+                // Continuous Frame Processing Loop
+                const camProcessor = new Camera(video, {
+                    onFrame: async () => {
+                        await faceDetection.send({ image: video });
+                        await hands.send({ image: video });
+                    },
+                    width: 1280,
+                    height: 720
+                });
+                camProcessor.start();
+
             } catch (err) {
-                console.log("Camera permission pending.");
+                console.log("Camera access waiting for user click:", err);
             }
         }
-        window.addEventListener('load', startCamera);
 
-        // Detailed Farmer-Friendly Diagnosis & Organic Cure Report (Zero API Cost)
+        function highlightCard(cards, idx) {
+            cards.forEach(c => c.classList.remove('gesture-selected'));
+            if (cards[idx]) {
+                cards[idx].classList.add('gesture-selected');
+                cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        window.addEventListener('load', startCrystalClearCamera);
+
+        // =========================================================================
+        // 3. DETAILED CROP & MENU DIAGNOSIS + INDIVIDUAL CARD VOICE SPEAKERS
+        // =========================================================================
         const detailedDiagnosisHTML = `
-            <p><strong>Gemini AI:</strong> Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन है।</p>
-            <div style="background: rgba(255,255,255,0.04); padding: 12px; border-radius: 8px; border-left: 3px solid #3fb950; margin-top: 8px;">
-                <p style="margin: 0 0 8px 0;"><strong>🌱 मिट्टी की जाँच:</strong> आपकी बालू रेत मिट्टी बिल्कुल सही है। इसका pH मान 7 है और इसमें पोषक तत्वों (NPK) की कोई कमी नहीं है।</p>
+            <p><strong>Gemini AI:</strong> Raspberry Pi 5 और Sony IMX500 AI कैमरा ऑनलाइन है।</p>
+            <div style="background: rgba(0, 210, 255, 0.06); padding: 14px; border-radius: 12px; border-left: 4px solid #00ff88; margin-top: 8px;">
+                <p style="margin: 0 0 10px 0;"><strong>🌱 मिट्टी की जाँच:</strong> आपकी बालू रेत मिट्टी बिल्कुल सही है। इसका pH मान 7 है और इसमें पोषक तत्वों (NPK) की कोई कमी नहीं है।</p>
                 
-                <p style="margin: 0 0 8px 0; color: #ff7b72;"><strong>🌶️ मिर्च का पौधा (1 पौधा - गंभीर स्थिति):</strong><br>
-                • <strong>बीमारी:</strong> इसमें <em>जड़ सड़न (Phytophthora Root Rot)</em> और <em>पत्ती मरोड़ वायरस</em> का गंभीर हमला है।<br>
-                • <strong>सच्चाई और सलाह:</strong> इस पौधे को बीमार हुए 7 दिन से ज़्यादा हो चुके हैं। यदि पहले दिन पता चल जाता तो 99% चांस थे कि यह बच जाता। अब इस पर ऑर्गेनिक दवाई सिर्फ 30-40% ही काम करेगी, जबकि बाहरी केमिकल दवाई 80-90% असर कर सकती है—लेकिन केमिकल डालने से आपकी फसल का 'ऑर्गेनिक दर्जा' खत्म हो जाएगा और बाज़ार में अच्छा दाम नहीं मिलेगा। इसलिए सलाह यही है कि इस 1 पौधे को तुरंत उखाड़कर अलग कर दें, वरना यह बाकी स्वस्थ पौधों को भी बीमार कर देगा और आपका बड़ा नुकसान होगा।</p>
+                <p style="margin: 0 0 10px 0; color: #ff7b72;"><strong>🌶️ मिर्च का पौधा (1 पौधा - गंभीर स्थिति और मेन्यू अलर्ट):</strong><br>
+                • <strong>बीमारी और समय:</strong> इसमें <em>जड़ सड़न (Phytophthora Root Rot)</em> और <em>पत्ती मरोड़ वायरस</em> का गंभीर हमला है। इन सब्जियों को खराब हुए <strong>7 दिन से ज़्यादा</strong> हो चुके हैं।<br>
+                • <strong>मेन्यू और बचाव की सच्चाई:</strong> आपने यह फसल अब दिखाई है, जो कि पहले हमारे <strong>सिस्टम मेन्यू (Menu) के अंदर शामिल नहीं थी</strong>। यदि यह फसल मेन्यू में होती और पहले दिन पता चल जाता, तो <strong>99% चांस</strong> थे कि यह बच जाती। अब देरी होने के कारण <strong>इसको बचाना बहुत मुश्किल है</strong>। आप चाहें तो <strong>रासायनिक उर्वरकों (Chemical Fertilizers/Pesticides)</strong> द्वारा इसे बचाने की कोशिश कर सकते हैं, लेकिन <strong>अभी इसके बचने के चांस बहुत कम हैं</strong> और केमिकल डालने से आपकी पूरी फसल का 'ऑर्गेनिक दर्जा' भी खत्म हो जाएगा।<br>
+                • <strong>सबसे फायदेमंद सलाह:</strong> आपके लिए सबसे फायदेमंद यही रहेगा कि <strong>इस एक पौधे की लेयर को तुरंत हटा दें (उखाड़कर अलग कर दें)</strong>, ताकि यह संक्रमण बाकी स्वस्थ फसलों में न फैले और आपकी बाकी फसलें खराब न हों।</p>
 
-                <p style="margin: 0 0 8px 0; color: #7ee787;"><strong>🥬 गोभी के पौधे (4 पौधे - शुरुआती कीट असर):</strong><br>
+                <p style="margin: 0 0 10px 0; color: #00ff88;"><strong>🥬 गोभी के पौधे (4 पौधे - शुरुआती कीट असर):</strong><br>
                 • <strong>बीमारी:</strong> चारों पौधों की पत्तियों पर <em>इल्लियों (Caterpillar)</em> और पत्ता खाने वाले कीड़ों का शुरुआती हमला है। इन्हें 100% बचाया जा सकता है।</p>
 
                 <p style="margin: 0;"><strong>🌿 3 सबसे असरदार ऑर्गेनिक दवाइयाँ और बनाने का तरीका (70-80% तक कीट तुरंत खत्म):</strong><br>
@@ -712,7 +1042,7 @@
             </div>
         `;
 
-        const speechTextHindi = "Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन है। आपकी मिट्टी बिल्कुल सही है, पीएच सात है और एनपीके की कोई कमी नहीं है। मिर्च के एक पौधे में जड़ सड़न और वायरस की गंभीर बीमारी है, जिसे सात दिन से ज़्यादा हो चुके हैं। पहले पता चलता तो निन्यानबे प्रतिशत यह बच जाता। अब इस पर ऑर्गेनिक दवाई सिर्फ तीस से चालीस प्रतिशत काम करेगी, और केमिकल डालने से आपकी फसल ऑर्गेनिक नहीं रहेगी। इसलिए इस एक पौधे को तुरंत उखाड़कर हटा दें ताकि बाकी पौधे सुरक्षित रहें। वहीं आपके गोभी के चारों पौधों पर इल्लियों का शुरुआती हमला है। इन्हें बचाने के लिए पहला उपाय: एक लीटर पानी में पांच मिलीलीटर नीम का तेल और थोड़ा साबुन मिलाकर स्प्रे करें। दूसरा उपाय: सुबह पत्तों पर लकड़ी की राख छिड़कें। तीसरा उपाय: लहसुन और मिर्च का उबला हुआ अर्क छानकर छिड़कें। इससे सत्तर से अस्सी प्रतिशत कीड़े खत्म हो जाएंगे और आपकी गोभी के मंडी में सबसे ऊँचे दाम मिलेंगे।";
+        const speechTextHindi = "Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन है। आपकी मिट्टी बिल्कुल सही है, पीएच सात है और एनपीके की कोई कमी नहीं है। मिर्च के पौधे में जड़ सड़न और पत्ती मरोड़ वायरस की गंभीर बीमारी है, और इन सब्जियों को खराब हुए सात दिन से ज़्यादा हो चुके हैं। आपने यह फसल अब दिखाई है, जो कि हमारे मेन्यू के अंदर शामिल नहीं थी। अगर पहले दिन पता चल जाता तो निन्यानबे प्रतिशत चांस थे कि यह बच जाती। अब इसको बचाना मुश्किल है। आप चाहें तो रासायनिक उर्वरकों द्वारा इसे बचा सकते हैं, लेकिन अभी चांस बहुत कम हैं। आपके लिए फायदेमंद यही रहेगा कि इस एक लेयर को हटा दें, ताकि और फसलें भी खराब न हों। वहीं आपके गोभी के चारों पौधों पर इल्लियों का शुरुआती हमला है। इन्हें बचाने के लिए नीम का तेल, लकड़ी की राख और लहसुन मिर्च का ऑर्गेनिक अर्क स्प्रे करें, जिससे सत्तर से अस्सी प्रतिशत कीड़े खत्म हो जाएंगे।";
 
         function showDetailedCropReport() {
             const chat = document.getElementById('chat');
@@ -720,21 +1050,46 @@
             chat.scrollTop = 0;
         }
 
-        // Hindi Text-to-Speech Voice Feedback on Speaker Click
+        // Speak Function for Individual Cards
+        function speakCard(type, btnEl) {
+            let text = "";
+            if (type === 'cycle') {
+                text = "रास्पबेरी पाई 5 और सोनी एआई कैमरा स्टैंडबाय मोड में है। दिन के बारह घंटे में यह हर एक घंटे में एक बार फोटो खींचता है, और रात में हर तीन घंटे में एक बार चालू होता है।";
+            } else if (type === 'sleep') {
+                text = "एआई विजन डीप स्लीप इंजन सक्रिय है। यह बैटरी बचाने के लिए कैमरे को अल्ट्रा लो पावर मोड में रखता है।";
+            } else if (type === 'temp') {
+                const t = document.getElementById('tempVal').innerText;
+                text = `रास्पबेरी पाई 5 बॉक्स का अंदरूनी तापमान ${t} है, जो कि बिल्कुल सुरक्षित और सामान्य है।`;
+            } else if (type === 'vib') {
+                const f = document.getElementById('bugVal').innerText;
+                text = `तने का माइक्रो वाइब्रेशन सेंसर ${f} पर काम कर रहा है। पौधे में किसी बड़े कीट की हलचल नहीं है।`;
+            } else if (type === 'history') {
+                text = "चौबीस घंटे की कैप्चर हिस्ट्री सक्रिय है। सोनी कैमरा द्वारा खींची गई सभी फोटो और समय यहाँ सुरक्षित हैं।";
+            } else if (type === 'vision') {
+                const status = document.getElementById('visionStatusText').innerText;
+                text = `लाइव एआई विजन और फिंगर जेस्चर कंट्रोल चालू है। वर्तमान स्थिति है: ${status}`;
+            }
+            playHindiVoice(text, btnEl);
+        }
+
         function speakReport() {
             const btn = document.getElementById('speakerBtn');
+            playHindiVoice(speechTextHindi, btn);
+        }
+
+        function playHindiVoice(text, btnEl) {
             if ('speechSynthesis' in window) {
                 if (window.speechSynthesis.speaking) {
                     window.speechSynthesis.cancel();
-                    btn.classList.remove('speaking');
+                    document.querySelectorAll('.speaking').forEach(b => b.classList.remove('speaking'));
                     return;
                 }
-                const utterance = new SpeechSynthesisUtterance(speechTextHindi);
+                const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'hi-IN';
-                utterance.rate = 0.95;
-                utterance.onstart = () => btn.classList.add('speaking');
-                utterance.onend = () => btn.classList.remove('speaking');
-                utterance.onerror = () => btn.classList.remove('speaking');
+                utterance.rate = 0.96;
+                utterance.onstart = () => btnEl && btnEl.classList.add('speaking');
+                utterance.onend = () => btnEl && btnEl.classList.remove('speaking');
+                utterance.onerror = () => btnEl && btnEl.classList.remove('speaking');
                 window.speechSynthesis.speak(utterance);
             } else {
                 alert("आपके ब्राउज़र में वॉइस फीचर उपलब्ध नहीं है।");
