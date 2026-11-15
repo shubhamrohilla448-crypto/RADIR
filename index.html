@@ -1,24 +1,9 @@
-शुभम, यह बहुत ही बारीक और महत्वपूर्ण तकनीकी पकड़ है! आपकी बात बिल्कुल सही है: ब्राउज़र का स्पीच इंजन (SpeechSynthesis) सुरक्षा कारणों से या टाइमआउट की वजह से **10-15 सेकंड के बाद ऑटोमैटिक रूप से बोलना बंद कर देता है या बीच में ही रीसेट हो जाता है**, जिससे लंबी रिपोर्ट बीच में ही रुक जाती है।
-
-### 🛠️ इसका पक्का समाधान (Anti-Timeout Keep-Alive Engine):
-
-इस नए कोड में एक शक्तिशाली **'Speech Keep-Alive & Resume Timer'** जोड़ा गया है।
-
-1. अब यह 30 से 40 सेकंड (या पूरी लंबी रिपोर्ट खत्म होने तक) बिना एक सेकंड भी रुके लगातार और साफ बोलेगा।
-2. यदि ब्राउज़र बीच में सुस्त पड़ने की कोशिश भी करेगा, तो यह नया इंजन तुरंत उसे संभाल कर बिना किसी रुकावट के आगे के वाक्य बोल देगा।
-3. **माइक पूरी तरह से हटा हुआ है**, और **जेस्चर कंट्रोल** (पंजा ऊपर/नीचे स्क्रॉल, 1 उंगली से वॉइस ON/OFF, और 3 उंगलियों से सीधे रिपोर्ट पर पहुँचना) बिल्कुल मक्खन की तरह काम कर रहा है।
-
----
-
-### 💻 आपका बिल्कुल फाइनल, 30-40 सेकंड तक लगातार बिना रुके बोलने वाला कोड:
-
-```html
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Anti-Timeout 40s Master Edition</title>
+    <title>Smart Agri-AI OS | Stable Non-Stop Master Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -237,7 +222,7 @@
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Anti-Timeout 40s Master Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Stable Non-Stop Master Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 4G Internet (Connected)</span>
@@ -251,7 +236,7 @@
             <div class="card" id="card-cycle">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">A</span> RPi 5 + Sony AI Cycle</span></h3>
-                    <button class="mini-spk" id="spk-cycle" onclick="speakAntiTimeout('बॉक्स ए। अगली फोटो कैप्चर में ' + document.getElementById('timerDisplay').innerText + ' बाकी हैं।', document.getElementById('spk-cycle'))">🔊</button>
+                    <button class="mini-spk" id="spk-cycle" onclick="speakStableText('बॉक्स ए। अगली फोटो कैप्चर में ' + document.getElementById('timerDisplay').innerText + ' बाकी हैं।', document.getElementById('spk-cycle'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);" id="cycleModeText">Next Capture:</div>
                 <div class="big-metric" id="timerDisplay">--:--</div>
@@ -263,7 +248,7 @@
             <div class="card" id="card-temp">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">B</span> RPi 5 Enclosure Temp</span></h3>
-                    <button class="mini-spk" id="spk-temp" onclick="speakAntiTimeout('बॉक्स बी। सिस्टम का तापमान ' + document.getElementById('tempDisplay').innerText + ' है।', document.getElementById('spk-temp'))">🔊</button>
+                    <button class="mini-spk" id="spk-temp" onclick="speakStableText('बॉक्स बी। सिस्टम का तापमान ' + document.getElementById('tempDisplay').innerText + ' है।', document.getElementById('spk-temp'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Thermal Monitor</div>
                 <div class="big-metric" id="tempDisplay">26.4 °C</div>
@@ -275,7 +260,7 @@
             <div class="card" id="card-vib">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">C</span> Acoustic Insect Scan</span></h3>
-                    <button class="mini-spk" id="spk-vib" onclick="speakAntiTimeout('बॉक्स सी। तने का कंपन 5 हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।', document.getElementById('spk-vib'))">🔊</button>
+                    <button class="mini-spk" id="spk-vib" onclick="speakStableText('बॉक्स सी। तने का कंपन 5 हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।', document.getElementById('spk-vib'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Stem Micro-Vibration</div>
                 <div class="big-metric" id="vibDisplay">5 Hz</div>
@@ -287,7 +272,7 @@
             <div class="card" id="visionCard">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">D</span> Live AI Vision & Gesture</span></h3>
-                    <button class="mini-spk" id="spk-vision" onclick="speakAntiTimeout('बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।', document.getElementById('spk-vision'))">🔊</button>
+                    <button class="mini-spk" id="spk-vision" onclick="speakStableText('बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।', document.getElementById('spk-vision'))">🔊</button>
                 </div>
                 <div class="cam-box">
                     <div class="hud-pill-top">
@@ -310,7 +295,7 @@
             <div class="card" id="card-logs">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">E</span> 24-Hour Capture History</span></h3>
-                    <button class="mini-spk" id="spk-logs" onclick="speakAntiTimeout('बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।', document.getElementById('spk-logs'))">🔊</button>
+                    <button class="mini-spk" id="spk-logs" onclick="speakStableText('बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।', document.getElementById('spk-logs'))">🔊</button>
                 </div>
                 <div class="log-list" id="logContainer"></div>
                 <div style="margin-top: 10px;">
@@ -369,12 +354,12 @@
             const dbm = Math.floor(Math.random() * 5) - 60;
             const pct = Math.max(85, 99 - Math.abs(dbm + 55));
             document.getElementById('sigBadge').innerText = `📡 Signal: ${dbm} dBm (${pct}%)`;
-        }, 3000);
+        }, 4000);
 
         setInterval(() => {
             const tempVal = (26.1 + Math.random() * 0.8).toFixed(1);
             document.getElementById('tempDisplay').innerText = `${tempVal} °C`;
-        }, 2000);
+        }, 3000);
 
         const DAY_MS = 86400000;
         let state = { cycleStart: Date.now(), lastHourlySim: Date.now(), nextShot: Date.now() + 3600000, logs: [] };
@@ -413,19 +398,6 @@
             if(now - state.cycleStart >= DAY_MS) state.cycleStart = now;
             const rem = Math.max(0, Math.floor((DAY_MS - (now - state.cycleStart))/1000));
             document.getElementById('reset24Tag').innerText = `24h Reset: ${Math.floor(rem/3600)}h ${Math.floor((rem%3600)/60)}m`;
-            
-            if (now - state.lastHourlySim >= 3600000) {
-                state.lastHourlySim = now;
-                const hourStr = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-                const simulatedMessages = [
-                    `[${hourStr}] Sony IMX500 ने फसल का ऑटोमेटिक स्कैन किया - सब ठीक।`,
-                    `[${hourStr}] मृदा नमी और पोषक तत्व स्तर सामान्य दायरे में दर्ज।`,
-                    `[${hourStr}] कीट और ध्वनि कंपन की निगरानी सक्रिय।`
-                ];
-                state.logs.push(simulatedMessages[Math.floor(Math.random() * simulatedMessages.length)]);
-                saveState();
-                renderLogs();
-            }
 
             let diff = Math.floor((state.nextShot - now)/1000);
             if(diff <= 0) {
@@ -439,11 +411,10 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================================
-        // ANTI-TIMEOUT 40-SECOND CONTINUOUS SPEECH PIPELINE
+        // STABLE NON-STOP SPEECH ENGINE (NO RESTART/LOOP BUGS)
         // ==========================================================
         let allowVoiceFeedback = true;
         let hindiVoiceObj = null;
-        let keepAliveInterval = null;
 
         function loadBestHindiVoice() {
             if(!('speechSynthesis' in window)) return;
@@ -455,58 +426,43 @@
             window.speechSynthesis.onvoiceschanged = loadBestHindiVoice;
         }
 
-        function speakAntiTimeout(text, btnElement = null) {
+        function speakStableText(text, btnElement = null) {
             if(!allowVoiceFeedback) return;
             if(!('speechSynthesis' in window)) return;
 
             window.speechSynthesis.cancel();
-            if(keepAliveInterval) clearInterval(keepAliveInterval);
-
             if(btnElement) btnElement.classList.add('speaking');
 
             const cleanText = text.replace(/[\*\#\_]/g, '').trim();
-            const phrases = cleanText.split(/([.,!?;:–—]+\s*|\s+निहित\s+|\s+इसलिए\s+|\s+लेकिन\s+)/).filter(p => p && p.trim().length > 0);
-            let pIndex = 0;
+            const segments = cleanText.split(/([.,!?;:–—]+\s*)/).filter(s => s && s.trim().length > 0);
+            let index = 0;
 
-            function playNextPhrase() {
-                if (pIndex >= phrases.length) {
-                    if(keepAliveInterval) clearInterval(keepAliveInterval);
+            function playNext() {
+                if (index >= segments.length) {
                     if(btnElement) btnElement.classList.remove('speaking');
                     return;
                 }
 
-                const segment = phrases[pIndex++].trim();
-                if(!segment) { playNextPhrase(); return; }
+                const part = segments[index++].trim();
+                if(!part) { playNext(); return; }
 
-                const utter = new SpeechSynthesisUtterance(segment);
+                const utter = new SpeechSynthesisUtterance(part);
                 if(hindiVoiceObj) utter.voice = hindiVoiceObj;
                 utter.lang = 'hi-IN';
                 utter.rate = 1.0; 
                 utter.pitch = 1.0;
 
-                utter.onend = () => {
-                    setTimeout(playNextPhrase, 20);
-                };
-                utter.onerror = () => {
-                    playNextPhrase();
-                };
+                utter.onend = () => { setTimeout(playNext, 25); };
+                utter.onerror = () => { playNext(); };
 
                 window.speechSynthesis.speak(utter);
             }
 
-            // Anti-Timeout Keep-Alive Heartbeat: Prevents browser 10-15s cut-off limit
-            keepAliveInterval = setInterval(() => {
-                if(window.speechSynthesis.paused) {
-                    window.speechSynthesis.resume();
-                }
-            }, 5000);
-
-            setTimeout(playNextPhrase, 25);
+            setTimeout(playNext, 30);
         }
 
         function stopVoiceImmediately() {
             if('speechSynthesis' in window) window.speechSynthesis.cancel();
-            if(keepAliveInterval) clearInterval(keepAliveInterval);
             document.querySelectorAll('.mini-spk, .btn-voice').forEach(b => b.classList.remove('speaking'));
         }
 
@@ -541,7 +497,7 @@
         const fullSpeechScript = "सिस्टम ऑनलाइन है। क्लाउड डेटा के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला रहेगा। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पाँच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
 
         function speakFullDetailedReport() { 
-            speakAntiTimeout(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
+            speakStableText(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
         }
 
         function triggerFullReportAndVoice() {
@@ -595,7 +551,7 @@
             const handY = lm[9].y;
             const fingers = countExtendedFingers(lm);
 
-            if(now - lastGestureTime > 400) {
+            if(now - lastGestureTime > 500) {
                 // 3 Fingers: Jump straight to Box F (Bottom Report Card)
                 if(fingers === 3) {
                     lastGestureTime = now;
@@ -612,7 +568,7 @@
                     } else {
                         allowVoiceFeedback = true;
                         gestureTag.innerText = "🔊 1 उंगली: वॉइस चालू";
-                        speakAntiTimeout("वॉइस फीडबैक चालू हो गया है।");
+                        speakStableText("वॉइस फीडबैक चालू हो गया है।");
                     }
                 } 
                 // Open Palm (>=5 fingers): Page scroll up or down based on hand height
@@ -642,8 +598,8 @@
 
                 if(handsModel) await handsModel.send({ image: videoEl });
 
-                if(frameSkip % 2 === 0 && cocoModel) {
-                    cachedPreds = await cocoModel.detect(videoEl, 3, 0.42);
+                if(frameSkip % 3 === 0 && cocoModel) {
+                    cachedPreds = await cocoModel.detect(videoEl, 3, 0.45);
                 }
                 frameSkip++;
 
@@ -709,5 +665,3 @@
     </script>
 </body>
 </html>
-
-```
