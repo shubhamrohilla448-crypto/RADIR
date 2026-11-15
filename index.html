@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Ultimate Smooth Voice Edition</title>
+    <title>Smart Agri-AI OS | Clean Gesture & Smooth Speech Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -74,12 +74,11 @@
         header p { margin: 0 0 8px 0; font-size: 0.95rem; color: var(--text-muted); }
 
         .top-btn-group { position: absolute; top: 16px; right: 20px; display: flex; gap: 10px; }
-        .sync-btn-top, .mic-btn-top {
+        .sync-btn-top {
             background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
             padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.05s;
         }
-        .sync-btn-top:hover, .mic-btn-top:hover { background: var(--neon-blue); color: #03060c; }
-        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); }
+        .sync-btn-top:hover { background: var(--neon-blue); color: #03060c; }
 
         .top-badges { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; }
         .badge {
@@ -96,7 +95,7 @@
         .card {
             background: var(--card-glass); border: 2px solid rgba(0, 210, 255, 0.3); border-radius: 20px;
             padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column;
-            justify-content: space-between; transition: transform 0.03s ease, border-color 0.03s ease; position: relative;
+            justify-content: space-between; position: relative;
         }
 
         .card.focused, .report-master-card.focused {
@@ -220,11 +219,10 @@
         <header>
             <div class="app-logo">🌱</div>
             <div class="top-btn-group">
-                <button class="mic-btn-top" id="micBtnTop" onclick="toggleVoiceCommand()">🎙️ माइक: OFF</button>
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Ultra-Smooth Zero-Lag Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Gesture & Smooth Speech Master Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -289,7 +287,7 @@
                     <button class="action-btn" id="camToggleBtn" onclick="toggleCamera()">कैमरा और AI चालू करें</button>
                 </div>
                 <div class="gesture-guide-strip" id="gestureGuideText">
-                    <strong>जेस्चर मोड:</strong> 🖐️ पंजा ऊपर/नीचे = स्क्रॉल | ☝️ 1 उंगली = वॉइस ऑन/ऑफ | 🤟 3 उंगली = सबसे नीचे रिपोर्ट
+                    <strong>जेस्चर गाइड:</strong> 🖐️ पंजा ऊपर/नीचे = स्क्रॉल | ☝️ 1 उंगली = वॉइस ऑन/ऑफ | 🤟 3 उंगली = सबसे नीचे रिपोर्ट
                 </div>
             </div>
 
@@ -313,7 +311,7 @@
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक में केवल A, B, C, D, E, F बोलें।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। जेस्चर से कंट्रोल करें।</p>
                 </div>
 
                 <div class="master-controls">
@@ -426,24 +424,22 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================================
-        // ANTI-FREEZE & CHUNK-BASED SMOOTH SPEECH ENGINE (NO STUTTER)
+        // SMOOTH & ANTI-STUTTER SPEECH ENGINE (NO FREEZE)
         // ==========================================================
         let allowVoiceFeedback = true;
-        let recognition = null;
-        let isMicListening = false;
 
         function speakText(text, btnElement = null) {
             if(!allowVoiceFeedback) return;
             if(!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel(); // Instant reset
+            window.speechSynthesis.cancel();
             
             if(btnElement) btnElement.classList.add('speaking');
 
-            // Split long text into smooth manageable chunks to prevent browser freeze/stutter
+            // Splitting into safe sentence chunks to prevent browser speech stuttering
             const sentences = text.match(/[^.!?]+[.!?]+|\S+/g) || [text];
             let index = 0;
 
-            function speakNextChunk() {
+            function speakNext() {
                 if (index >= sentences.length) {
                     if(btnElement) btnElement.classList.remove('speaking');
                     return;
@@ -451,78 +447,17 @@
                 const chunk = sentences[index++];
                 const utter = new SpeechSynthesisUtterance(chunk.trim());
                 utter.lang = 'hi-IN';
-                utter.rate = 1.1;
-                utter.onend = speakNextChunk;
-                utter.onerror = speakNextChunk;
+                utter.rate = 1.05; // Natural flowing speed
+                utter.onend = speakNext;
+                utter.onerror = speakNext;
                 window.speechSynthesis.speak(utter);
             }
-            speakNextChunk();
+            speakNext();
         }
 
         function stopVoiceImmediately() {
             if('speechSynthesis' in window) window.speechSynthesis.cancel();
             document.querySelectorAll('.mini-spk, .btn-voice').forEach(b => b.classList.remove('speaking'));
-        }
-
-        function toggleVoiceCommand() {
-            const micBtn = document.getElementById('micBtnTop');
-            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("आपका ब्राउज़र वॉइस रिकग्निशन सपोर्ट नहीं करता।");
-                return;
-            }
-
-            if(isMicListening) {
-                if(recognition) recognition.stop();
-                isMicListening = false;
-                micBtn.className = "mic-btn-top";
-                micBtn.innerText = "🎙️ माइक: OFF";
-            } else {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.lang = 'hi-IN';
-                recognition.continuous = true;
-                recognition.interimResults = false;
-
-                recognition.onstart = () => {
-                    isMicListening = true;
-                    micBtn.className = "mic-btn-top listening";
-                    micBtn.innerText = "🎙️ कमांड सुन रहा है (A-F)...";
-                };
-
-                recognition.onresult = (event) => {
-                    const rawText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-                    console.log("Heard Voice:", rawText);
-
-                    if (rawText.includes('a') || rawText.includes('ए') || rawText.includes('साइक्लिंग')) {
-                        focusAndSpeak('card-cycle', 'cycle');
-                    } else if (rawText.includes('b') || rawText.includes('बी') || rawText.includes('तापमान') || rawText.includes('टेंपरेचर')) {
-                        focusAndSpeak('card-temp', 'temp');
-                    } else if (rawText.includes('c') || rawText.includes('सी') || rawText.includes('कीट') || rawText.includes('वाइब्रेशन')) {
-                        focusAndSpeak('card-vib', 'vib');
-                    } else if (rawText.includes('d') || rawText.includes('डी') || rawText.includes('कैमरा') || rawText.includes('विजन')) {
-                        focusAndSpeak('visionCard', 'vision');
-                    } else if (rawText.includes('e') || rawText.includes('ई') || rawText.includes('लॉग') || rawText.includes('इतिहास')) {
-                        focusAndSpeak('card-logs', 'logs');
-                    } else if (rawText.includes('f') || rawText.includes('एफ') || rawText.includes('रिपोर्ट') || rawText.includes('जांच')) {
-                        focusAndSpeak('reportCardMaster', 'report');
-                    }
-                };
-
-                recognition.onerror = () => { isMicListening = false; micBtn.className = "mic-btn-top"; micBtn.innerText = "🎙️ माइक: OFF"; };
-                recognition.onend = () => { if(isMicListening) { try { recognition.start(); } catch(e){} } };
-
-                try { recognition.start(); } catch(e){}
-            }
-        }
-
-        function focusAndSpeak(cardId, type) {
-            document.querySelectorAll('.card, .report-master-card').forEach(c => c.classList.remove('focused'));
-            const el = document.getElementById(cardId);
-            if(el) {
-                el.classList.add('focused');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            speakTextFromCard(type);
         }
 
         const fullDetailedHTML = `
@@ -621,26 +556,26 @@
             const fingers = countExtendedFingers(lm);
 
             if(now - lastGestureTime > 400) {
-                // 3 Fingers: Jump straight to bottom report card (Box F)
+                // 3 Fingers: Jump to Box F (Bottom Report Card)
                 if(fingers === 3) {
                     lastGestureTime = now;
                     gestureTag.innerText = "🤟 3 उंगली: सबसे नीचे रिपोर्ट";
                     triggerFullReportAndVoice();
                 } 
-                // 1 Finger: Toggle Voice ON/OFF sequentially
+                // 1 Finger: Toggle Voice Feedback ON/OFF sequentially
                 else if(fingers === 1 && lastFingerState !== 1) {
                     lastGestureTime = now;
                     if(allowVoiceFeedback) {
                         allowVoiceFeedback = false;
                         stopVoiceImmediately();
-                        gestureTag.innerText = "🔇 1 उंगली: वॉइस फीडबैक बंद";
+                        gestureTag.innerText = "🔇 1 उंगली: वॉइस बंद";
                     } else {
                         allowVoiceFeedback = true;
-                        gestureTag.innerText = "🔊 1 उंगली: वॉइस फीडबैक चालू";
+                        gestureTag.innerText = "🔊 1 उंगली: वॉइस चालू";
                         speakText("वॉइस फीडबैक चालू है।");
                     }
                 } 
-                // Open Palm (>=5 fingers): Scroll Up or Down based on Hand Height
+                // Open Palm (>=5 fingers): Page scroll up or down based on hand height
                 else if(fingers >= 5) {
                     lastGestureTime = now;
                     if(handY < 0.4) {
