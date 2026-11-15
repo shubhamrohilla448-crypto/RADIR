@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | National Level Ultra-Fast Master Edition</title>
+    <title>Smart Agri-AI OS | National Level Noise-Proof Ultra-Fast Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -36,7 +36,7 @@
         #bootScreen {
             position: fixed; inset: 0; background: #03060c; z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.15s ease;
+            transition: opacity 0.1s ease;
         }
         #bootScreen.hidden { opacity: 0; pointer-events: none; }
         
@@ -44,7 +44,7 @@
             width: 75px; height: 75px; background: linear-gradient(135deg, #00d2ff, #00ff88);
             border-radius: 20px; display: flex; align-items: center; justify-content: center;
             font-size: 38px; box-shadow: 0 0 35px rgba(0, 210, 255, 0.7); border: 2px solid #fff;
-            animation: pulseLogo 0.6s infinite alternate;
+            animation: pulseLogo 0.5s infinite alternate;
         }
         @keyframes pulseLogo { from { transform: scale(0.95); } to { transform: scale(1.05); } }
 
@@ -57,7 +57,7 @@
             width: 240px; height: 4px; background: rgba(255, 255, 255, 0.1);
             border-radius: 10px; margin-top: 12px; overflow: hidden;
         }
-        .boot-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #00d2ff, #00ff88); animation: loadInstant 0.12s ease-out forwards; }
+        .boot-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #00d2ff, #00ff88); animation: loadInstant 0.1s ease-out forwards; }
         @keyframes loadInstant { to { width: 100%; } }
 
         .app-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
@@ -87,7 +87,7 @@
             padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.1s;
         }
         .sync-btn-top:hover, .mic-btn-top:hover { background: var(--neon-blue); color: #03060c; }
-        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); animation: pulseMic 0.6s infinite alternate; }
+        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); animation: pulseMic 0.5s infinite alternate; }
         @keyframes pulseMic { from { transform: scale(1); } to { transform: scale(1.08); } }
 
         .top-badges { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; }
@@ -105,7 +105,7 @@
         .card {
             background: var(--card-glass); border: 2px solid rgba(0, 210, 255, 0.3); border-radius: 20px;
             padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column;
-            justify-content: space-between; transition: transform 0.08s ease, border-color 0.08s ease, box-shadow 0.08s ease; position: relative;
+            justify-content: space-between; transition: transform 0.05s ease, border-color 0.05s ease, box-shadow 0.05s ease; position: relative;
         }
 
         .card.focused, .report-master-card.focused {
@@ -189,7 +189,7 @@
             background: linear-gradient(145deg, rgba(12, 18, 30, 0.95), rgba(5, 9, 18, 0.98));
             border: 3px solid var(--gold-prime); border-radius: 24px; padding: 28px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
-            transition: transform 0.08s ease, border-color 0.08s ease, box-shadow 0.08s ease;
+            transition: transform 0.05s ease, border-color 0.05s ease, box-shadow 0.05s ease;
         }
 
         .report-scroll-area {
@@ -241,7 +241,7 @@
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Ultra-Fast Zero-Delay Master Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Noise-Proof Ultra-Fast Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -307,7 +307,7 @@
                     <button class="action-btn gesture-mode-btn" id="gestureModeBtn" onclick="toggleGestureMode()">🎛️ फुल जेस्चर कंट्रोल: OFF</button>
                 </div>
                 <div class="gesture-guide-strip" id="gestureGuideText">
-                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ बोलें A, B, C...
+                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = टॉगल वॉइस | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ केवल A से F बोलें
                 </div>
             </div>
 
@@ -331,7 +331,7 @@
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक में A, B, C बोलें या जेस्चर दिखाएं।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक में केवल A, B, C, D, E, F बोलें।</p>
                 </div>
 
                 <div class="master-controls">
@@ -348,7 +348,7 @@
             setTimeout(() => {
                 const boot = document.getElementById('bootScreen');
                 if(boot) boot.classList.add('hidden');
-            }, 150); 
+            }, 100); 
         });
 
         let satelliteActive = true;
@@ -444,7 +444,7 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================
-        // INSTANT ZERO-DELAY SPEECH & MIC ENGINE
+        // STRICT NOISE-PROOF STRICT A-F MIC ENGINE
         // ==========================================
         let isSpeakingState = false;
         let currentSpeakerBtn = null;
@@ -510,32 +510,27 @@
                 recognition.onstart = () => {
                     isMicListening = true;
                     micBtn.className = "mic-btn-top listening";
-                    micBtn.innerText = "🎙️ सुन रहा है...";
+                    micBtn.innerText = "🎙️ केवल A-F सुन रहा है...";
                 };
 
                 recognition.onresult = (event) => {
-                    const text = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-                    console.log("Instant Voice Input:", text);
+                    const rawText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+                    console.log("Audio Heard:", rawText);
 
-                    // Instant Fast Response for A, B, C, D, E, F or Hindi names
-                    if(text.includes('a') || text.includes('ए') || text.includes('साइक्लिंग')) {
-                        currentBoxIndex = 0; updateFocusRing();
-                        speakFromCard('cycle');
-                    } else if(text.includes('b') || text.includes('बी') || text.includes('तापमान') || text.includes('टेंपरेचर')) {
-                        currentBoxIndex = 1; updateFocusRing();
-                        speakFromCard('temp');
-                    } else if(text.includes('c') || text.includes('सी') || text.includes('कीट') || text.includes('वाइब्रेशन')) {
-                        currentBoxIndex = 2; updateFocusRing();
-                        speakFromCard('vib');
-                    } else if(text.includes('d') || text.includes('डी') || text.includes('कैमरा') || text.includes('विजन')) {
-                        currentBoxIndex = 3; updateFocusRing();
-                        speakFromCard('vision');
-                    } else if(text.includes('e') || text.includes('ई') || text.includes('लॉग') || text.includes('इतिहास')) {
-                        currentBoxIndex = 4; updateFocusRing();
-                        speakFromCard('logs');
-                    } else if(text.includes('f') || text.includes('एफ') || text.includes('रिपोर्ट') || text.includes('जांच') || text.includes('गोभी') || text.includes('मिर्च')) {
-                        currentBoxIndex = 5; updateFocusRing();
-                        triggerFullReportAndVoice();
+                    // STRICT NOISE FILTER: ONLY exact match for A, B, C, D, E, F (English or Hindi pronunciations)
+                    let matchedBox = null;
+                    if (rawText === 'a' || rawText === 'ए' || rawText.includes('बॉक्स a')) matchedBox = 0;
+                    else if (rawText === 'b' || rawText === 'बी' || rawText.includes('बॉक्स b')) matchedBox = 1;
+                    else if (rawText === 'c' || rawText === 'सी' || rawText.includes('बॉक्स c')) matchedBox = 2;
+                    else if (rawText === 'd' || rawText === 'डी' || rawText.includes('बॉक्स d')) matchedBox = 3;
+                    else if (rawText === 'e' || rawText === 'ई' || rawText.includes('बॉक्स e')) matchedBox = 4;
+                    else if (rawText === 'f' || rawText === 'एफ' || rawText.includes('बॉक्स f')) matchedBox = 5;
+
+                    // If it's not A, B, C, D, E, F, it is treated as ambient noise and completely ignored!
+                    if (matchedBox !== null) {
+                        currentBoxIndex = matchedBox;
+                        updateFocusRing();
+                        triggerCardAction(focusableCards[currentBoxIndex]);
                     }
                 };
 
@@ -649,13 +644,8 @@
             const handY = lm[9].y;
             const fingers = countExtendedFingers(lm);
 
-            // ==========================================================
-            // OFF MODE
-            // 1 Finger (Toggle Voice Feedback ON / OFF sequentially)
-            // 3 Fingers (Open Report List & Voice ON)
-            // ==========================================================
             if(!fullGestureMode) {
-                if(now - lastActionTime > 400) {
+                if(now - lastActionTime > 300) {
                     if(fingers === 3) {
                         lastActionTime = now;
                         gestureTag.innerText = "🤟 3 उंगली: लिस्ट खुली और वॉइस ऑन";
@@ -677,30 +667,23 @@
                     }
                 }
             } 
-            // ==========================================================
-            // ON MODE (Full Gesture Mode)
-            // 5 Fingers (Open Palm): Up/Down Page Scroll
-            // 2 Fingers (Left/Right swipe): Fast Box Selection
-            // Closed Fist (0 Fingers): Trigger Voice Feedback on Selected Box
-            // ==========================================================
             else {
-                if(fingers >= 5 && (now - lastActionTime > 450)) {
+                if(fingers >= 5 && (now - lastActionTime > 350)) {
                     lastActionTime = now;
                     if(handY < 0.4) {
-                        window.scrollBy({ top: -350, behavior: 'smooth' });
+                        window.scrollBy({ top: -400, behavior: 'smooth' });
                         gestureTag.innerText = "🖐️ पंजा ऊपर: पेज ऊपर स्क्रॉल";
                     } else if(handY > 0.6) {
-                        window.scrollBy({ top: 350, behavior: 'smooth' });
+                        window.scrollBy({ top: 400, behavior: 'smooth' });
                         gestureTag.innerText = "🖐️ पंजा नीचे: पेज नीचे स्क्रॉल";
                     }
                 } 
                 else if(fingers === 2 && prevHandX !== null && prevHandY !== null) {
                     const dx = handX - prevHandX;
                     const dy = handY - prevHandY;
-                    const threshold = 0.06;
+                    const threshold = 0.05;
 
-                    // Ultra-fast responsive box switching (0.4s limit for instant experience)
-                    if((Math.abs(dx) > threshold || Math.abs(dy) > threshold) && (now - lastActionTime > 400)) {
+                    if((Math.abs(dx) > threshold || Math.abs(dy) > threshold) && (now - lastActionTime > 300)) {
                         lastActionTime = now;
                         if(Math.abs(dx) > Math.abs(dy)) {
                             if(dx < 0) {
@@ -723,7 +706,7 @@
                         triggerCardAction(focusableCards[currentBoxIndex]);
                     }
                 } 
-                else if(fingers === 0 && lastFingerState !== 0 && (now - lastActionTime > 500)) {
+                else if(fingers === 0 && lastFingerState !== 0 && (now - lastActionTime > 400)) {
                     lastActionTime = now;
                     const activeCardId = focusableCards[currentBoxIndex];
                     gestureTag.innerText = `✊ मुट्ठी बंद: बॉक्स ${['A','B','C','D','E','F'][currentBoxIndex]} फीडबैक ऑन`;
@@ -773,7 +756,7 @@
             } else {
                 btn.className = "action-btn gesture-mode-btn";
                 btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: OFF";
-                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल (बंद/चालू) | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ बोलें A-F";
+                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल (बंद/चालू) | 🤟 3 उंगली = लिस्ट खोलें | 🎙️ केवल A-F बोलें";
                 focusableCards.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('focused'); });
             }
         }
