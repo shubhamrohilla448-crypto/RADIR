@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | National Level Champion Master Edition</title>
+    <title>Smart Agri-AI OS | National Level Champion Master Edition with Voice Command</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -82,12 +82,14 @@
         }
         header p { margin: 0 0 8px 0; font-size: 0.95rem; color: var(--text-muted); }
 
-        .sync-btn-top {
-            position: absolute; top: 16px; right: 20px; background: rgba(0, 210, 255, 0.2);
-            border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px 16px;
-            border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.15s;
+        .top-btn-group { position: absolute; top: 16px; right: 20px; display: flex; gap: 10px; }
+        .sync-btn-top, .mic-btn-top {
+            background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.15s;
         }
-        .sync-btn-top:hover { background: var(--neon-blue); color: #03060c; }
+        .sync-btn-top:hover, .mic-btn-top:hover { background: var(--neon-blue); color: #03060c; }
+        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); animation: pulseMic 0.8s infinite alternate; }
+        @keyframes pulseMic { from { transform: scale(1); } to { transform: scale(1.08); } }
 
         .top-badges { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; }
         .badge {
@@ -231,9 +233,12 @@
     <div class="app-wrapper">
         <header>
             <div class="app-logo">🌱</div>
-            <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
+            <div class="top-btn-group">
+                <button class="mic-btn-top" id="micBtnTop" onclick="toggleVoiceCommand()">🎙️ माइक कमांड: OFF</button>
+                <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
+            </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | National Level Champion Master Dashboard</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | National Level Master Edition with Voice Control</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -295,7 +300,7 @@
                     <button class="action-btn gesture-mode-btn" id="gestureModeBtn" onclick="toggleGestureMode()">🎛️ फुल जेस्चर कंट्रोल: OFF</button>
                 </div>
                 <div class="gesture-guide-strip" id="gestureGuideText">
-                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल | 🤟 3 उंगली = पूरी लिस्ट खोलें
+                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल | 🤟 3 उंगली = पूरी लिस्ट खोलें | 🎙️ माइक बटन = बोलकर कंट्रोल
                 </div>
             </div>
 
@@ -317,7 +322,7 @@
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। कैमरे के सामने जेस्चर दिखाएं या नीचे बटन दबाएं।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक बटन दबाकर बोलें या जेस्चर दिखाएं।</p>
                 </div>
 
                 <div class="master-controls">
@@ -429,10 +434,85 @@
         }
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
+        // ==========================================
+        // VOICE RECOGNITION (MIC COMMAND) ENGINE
+        // ==========================================
+        let recognition = null;
+        let isMicListening = false;
+        let allowVoiceFeedbackBySpeech = true; // Default voice enabled
+
+        function toggleVoiceCommand() {
+            const micBtn = document.getElementById('micBtnTop');
+            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert("आपका ब्राउज़र वॉइस रिकग्निशन सपोर्ट नहीं करता। कृपया Google Chrome इस्तेमाल करें।");
+                return;
+            }
+
+            if(isMicListening) {
+                if(recognition) recognition.stop();
+                isMicListening = false;
+                micBtn.className = "mic-btn-top";
+                micBtn.innerText = "🎙️ माइक कमांड: OFF";
+            } else {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'hi-IN';
+                recognition.continuous = true;
+                recognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    isMicListening = true;
+                    micBtn.className = "mic-btn-top listening";
+                    micBtn.innerText = "🎙️ सुन रहा है...";
+                };
+
+                recognition.onresult = (event) => {
+                    const speechToText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+                    console.log("Voice Command Recognized:", speechToText);
+
+                    // Voice Command Parsing
+                    if(speechToText.includes('टेंपरेचर') || speechToText.includes('तापमान')) {
+                        currentBoxIndex = 1; updateFocusRing();
+                        if(allowVoiceFeedbackBySpeech) speakFromCard('temp');
+                    } else if(speechToText.includes('साइकिल') || speechToText.includes('कैप्चर')) {
+                        currentBoxIndex = 0; updateFocusRing();
+                        if(allowVoiceFeedbackBySpeech) speakFromCard('cycle');
+                    } else if(speechToText.includes('कीट') || speechToText.includes('वाइब्रेशन')) {
+                        currentBoxIndex = 2; updateFocusRing();
+                        if(allowVoiceFeedbackBySpeech) speakFromCard('vib');
+                    } else if(speechToText.includes('कैमरा') || speechToText.includes('विजन')) {
+                        currentBoxIndex = 3; updateFocusRing();
+                        if(allowVoiceFeedbackBySpeech) speakFromCard('vision');
+                    } else if(speechToText.includes('लॉग') || speechToText.includes('इतिहास')) {
+                        currentBoxIndex = 4; updateFocusRing();
+                        if(allowVoiceFeedbackBySpeech) speakFromCard('logs');
+                    } else if(speechToText.includes('रिपोर्ट') || speechToText.includes('जांच') || speechToText.includes('गोभी') || speechToText.includes('मिर्च')) {
+                        currentBoxIndex = 5; updateFocusRing();
+                        triggerFullReportAndVoice();
+                    } else if(speechToText.includes('वॉइस बंद') || speechToText.includes('मत बोलो')) {
+                        allowVoiceFeedbackBySpeech = false;
+                        stopVoiceImmediately();
+                        speakText("वॉइस फीडबैक बंद कर दिया गया है।");
+                    } else if(speechToText.includes('वॉइस चालू') || speechToText.includes('बोलो')) {
+                        allowVoiceFeedbackBySpeech = true;
+                        speakText("वॉइस फीडबैक चालू है।");
+                    }
+                };
+
+                recognition.onerror = () => { isMicListening = false; micBtn.className = "mic-btn-top"; micBtn.innerText = "🎙️ माइक कमांड: OFF"; };
+                recognition.onend = () => {
+                    if(isMicListening) { try { recognition.start(); } catch(e){} }
+                };
+
+                try { recognition.start(); } catch(e){ console.error(e); }
+            }
+        }
+
         let isSpeakingState = false;
         let currentSpeakerBtn = null;
 
         function speakText(text, btnElement = null) {
+            if(!allowVoiceFeedbackBySpeech) return; // Honor voice mute rule
             if(!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
             
@@ -495,7 +575,7 @@
             </div>
         `;
 
-        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पाँच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
+        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला रहेगा। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पाँच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
 
         function speakFullDetailedReport() { 
             speakText(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
@@ -570,11 +650,6 @@
             const handY = lm[9].y;
             const fingers = countExtendedFingers(lm);
 
-            // ==========================================================
-            // 1. OFF MODE (fullGestureMode === false)
-            // 1 Finger: Toggle voice on/off depending on lift/down sequence
-            // 3 Fingers: Open bottom report list & auto voice on
-            // ==========================================================
             if(!fullGestureMode) {
                 if(now - lastActionTime > 500) {
                     if(fingers === 3) {
@@ -595,12 +670,6 @@
                     }
                 }
             } 
-            // ==========================================================
-            // 2. ON MODE (fullGestureMode === true)
-            // 5 Fingers (Open Palm): Smooth page scroll Up/Down
-            // 2 Fingers + Movement (Up/Down/Left/Right): Select boxes slowly
-            // Closed Fist (0 fingers): Trigger voice feedback on focused box
-            // ==========================================================
             else {
                 if(fingers >= 5 && (now - lastActionTime > 600)) {
                     lastActionTime = now;
@@ -617,16 +686,13 @@
                     const dy = handY - prevHandY;
                     const threshold = 0.08;
 
-                    // 1 second interval between box selection as requested
                     if((Math.abs(dx) > threshold || Math.abs(dy) > threshold) && (now - lastActionTime > 1000)) {
                         lastActionTime = now;
                         if(Math.abs(dx) > Math.abs(dy)) {
                             if(dx < 0) {
-                                // Right side box selection (Mirrored camera)
                                 currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
                                 gestureTag.innerText = `👉 दाईं ओर बॉक्स: ${currentBoxIndex + 1}`;
                             } else {
-                                // Left side box selection
                                 currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
                                 gestureTag.innerText = `👈 बाईं ओर बॉक्स: ${currentBoxIndex + 1}`;
                             }
@@ -643,7 +709,6 @@
                     }
                 } 
                 else if(fingers === 0 && lastFingerState !== 0 && (now - lastActionTime > 800)) {
-                    // Closed Fist -> Trigger Voice Feedback on focused box
                     lastActionTime = now;
                     const activeCardId = focusableCards[currentBoxIndex];
                     gestureTag.innerText = `✊ मुट्ठी बंद: बॉक्स ${currentBoxIndex + 1} फीडबैक ऑन`;
@@ -693,7 +758,7 @@
             } else {
                 btn.className = "action-btn gesture-mode-btn";
                 btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: OFF";
-                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस ON/OFF | 🤟 3 उंगली = पूरी लिस्ट खोलें";
+                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस ON/OFF | 🤟 3 उंगली = पूरी लिस्ट खोलें | 🎙️ माइक बटन = बोलकर कंट्रोल";
                 focusableCards.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('focused'); });
             }
         }
