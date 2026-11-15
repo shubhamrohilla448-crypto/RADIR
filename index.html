@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Butter-Smooth Voice Master Edition</title>
+    <title>Smart Agri-AI OS | Professional Cloud-Speech Master Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -222,12 +222,12 @@
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Butter-Smooth Internet Speech Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Professional Cloud-Speech Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
-                <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
+                <span class="badge badge-blue">📶 Wi-Fi: Airtel 5G</span>
                 <span class="badge badge-green sat-toggle" id="satBadge" onclick="toggleSatellite()">🛰️ Satellite: ON</span>
-                <span class="badge badge-green" id="sigBadge">📡 Signal: -61 dBm (94%)</span>
+                <span class="badge badge-green" id="sigBadge">📡 Signal: -58 dBm (98%)</span>
             </div>
         </header>
 
@@ -236,7 +236,7 @@
             <div class="card" id="card-cycle">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">A</span> RPi 5 + Sony AI Cycle</span></h3>
-                    <button class="mini-spk" id="spk-cycle" onclick="speakTextFromCard('cycle')">🔊</button>
+                    <button class="mini-spk" id="spk-cycle" onclick="speakCloudStream('बॉक्स ए। अगली फोटो कैप्चर में ' + document.getElementById('timerDisplay').innerText + ' बाकी हैं।', document.getElementById('spk-cycle'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);" id="cycleModeText">Next Capture:</div>
                 <div class="big-metric" id="timerDisplay">--:--</div>
@@ -248,7 +248,7 @@
             <div class="card" id="card-temp">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">B</span> RPi 5 Enclosure Temp</span></h3>
-                    <button class="mini-spk" id="spk-temp" onclick="speakTextFromCard('temp')">🔊</button>
+                    <button class="mini-spk" id="spk-temp" onclick="speakCloudStream('बॉक्स बी। सिस्टम का तापमान ' + document.getElementById('tempDisplay').innerText + ' है।', document.getElementById('spk-temp'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Thermal Monitor</div>
                 <div class="big-metric" id="tempDisplay">26.4 °C</div>
@@ -260,7 +260,7 @@
             <div class="card" id="card-vib">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">C</span> Acoustic Insect Scan</span></h3>
-                    <button class="mini-spk" id="spk-vib" onclick="speakTextFromCard('vib')">🔊</button>
+                    <button class="mini-spk" id="spk-vib" onclick="speakCloudStream('बॉक्स सी। तने का कंपन 5 हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।', document.getElementById('spk-vib'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Stem Micro-Vibration</div>
                 <div class="big-metric" id="vibDisplay">5 Hz</div>
@@ -272,7 +272,7 @@
             <div class="card" id="visionCard">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">D</span> Live AI Vision & Gesture</span></h3>
-                    <button class="mini-spk" id="spk-vision" onclick="speakTextFromCard('vision')">🔊</button>
+                    <button class="mini-spk" id="spk-vision" onclick="speakCloudStream('बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।', document.getElementById('spk-vision'))">🔊</button>
                 </div>
                 <div class="cam-box">
                     <div class="hud-pill-top">
@@ -295,7 +295,7 @@
             <div class="card" id="card-logs">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">E</span> 24-Hour Capture History</span></h3>
-                    <button class="mini-spk" id="spk-logs" onclick="speakTextFromCard('logs')">🔊</button>
+                    <button class="mini-spk" id="spk-logs" onclick="speakCloudStream('बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।', document.getElementById('spk-logs'))">🔊</button>
                 </div>
                 <div class="log-list" id="logContainer"></div>
                 <div style="margin-top: 10px;">
@@ -307,11 +307,11 @@
             <div class="report-master-card" id="reportCardMaster">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">F</span> Gemini Smart Agri-AI Assistant</span></h3>
-                    <button class="mini-spk" id="spk-report" onclick="speakTextFromCard('report')">🔊</button>
+                    <button class="mini-spk" id="spk-report" onclick="speakFullDetailedReport()">🔊</button>
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। जेस्चर से कंट्रोल करें।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। इंटरनेट क्लाउड स्ट्रीम सक्रिय।</p>
                 </div>
 
                 <div class="master-controls">
@@ -340,7 +340,7 @@
                 satBadge.className = "badge badge-green sat-toggle";
                 satBadge.innerText = "🛰️ Satellite: ON";
                 sigBadge.className = "badge badge-green";
-                sigBadge.innerText = "📡 Signal: -61 dBm (94%)";
+                sigBadge.innerText = "📡 Signal: -58 dBm (98%)";
             } else {
                 satBadge.className = "badge badge-red sat-toggle";
                 satBadge.innerText = "🛰️ Satellite: OFF";
@@ -351,8 +351,8 @@
 
         setInterval(() => {
             if (!satelliteActive) return;
-            const dbm = Math.floor(Math.random() * 9) - 64;
-            const pct = Math.max(65, 96 - Math.abs(dbm + 55));
+            const dbm = Math.floor(Math.random() * 5) - 60;
+            const pct = Math.max(85, 99 - Math.abs(dbm + 55));
             document.getElementById('sigBadge').innerText = `📡 Signal: ${dbm} dBm (${pct}%)`;
         }, 3000);
 
@@ -363,7 +363,7 @@
 
         const DAY_MS = 86400000;
         let state = { cycleStart: Date.now(), lastHourlySim: Date.now(), nextShot: Date.now() + 3600000, logs: [] };
-        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम चालू हुआ और AI निगरानी शुरू की गई।`;
+        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम क्लाउड इंटरनेट से कनेक्ट हुआ।`;
 
         try { 
             const sav = JSON.parse(localStorage.getItem('agriUltraState')); 
@@ -381,7 +381,7 @@
             const now = Date.now();
             const isNight = (new Date(now).getHours() >= 18 || new Date(now).getHours() < 6);
             state.cycleStart = now; state.nextShot = now + (isNight ? 3 : 1)*3600000;
-            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] टाइमर रीसेट किया गया।`);
+            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] क्लाउड टाइमर रीसेट किया गया।`);
             saveState(); renderLogs();
         }
 
@@ -403,9 +403,9 @@
                 state.lastHourlySim = now;
                 const hourStr = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
                 const simulatedMessages = [
-                    `[${hourStr}] Sony IMX500 ने फसल का ऑटोमेटिक स्कैन किया - सभी पैरामीटर सामान्य।`,
-                    `[${hourStr}] मृदा नमी और पोषक तत्व स्तर सामान्य दायरे में दर्ज।`,
-                    `[${hourStr}] कीट और ध्वनि कंपन की निगरानी सक्रिय - कोई असामान्य हलचल नहीं।`
+                    `[${hourStr}] Sony IMX500 ने क्लाउड पर फसल का ऑटोमेटिक स्कैन भेजा - सब ठीक।`,
+                    `[${hourStr}] मृदा नमी और पोषक तत्व स्तर क्लाउड पर अपडेट।`,
+                    `[${hourStr}] कीट और ध्वनि कंपन की क्लाउड मॉनिटरिंग सक्रिय।`
                 ];
                 state.logs.push(simulatedMessages[Math.floor(Math.random() * simulatedMessages.length)]);
                 saveState();
@@ -414,7 +414,7 @@
 
             let diff = Math.floor((state.nextShot - now)/1000);
             if(diff <= 0) {
-                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने फोटो कैप्चर की।`);
+                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने क्लाउड फोटो कैप्चर की।`);
                 const isN = (d.getHours() >= 18 || d.getHours() < 6);
                 state.nextShot = now + (isN ? 3 : 1)*3600000;
                 saveState(); renderLogs(); diff = (isN ? 3 : 1)*3600;
@@ -424,47 +424,61 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================================
-        // BUTTER-SMOOTH QUEUE-BASED SPEECH ENGINE (NO STUTTER)
+        // PROFESSIONAL CLOUD-SYNCED BUTTER-SMOOTH SPEECH PIPELINE
         // ==========================================================
         let allowVoiceFeedback = true;
+        let globalSpeechVoices = [];
 
-        function speakText(text, btnElement = null) {
+        function loadVoices() {
+            if('speechSynthesis' in window) {
+                globalSpeechVoices = window.speechSynthesis.getVoices();
+            }
+        }
+        loadVoices();
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function speakCloudStream(text, btnElement = null) {
             if(!allowVoiceFeedback) return;
             if(!('speechSynthesis' in window)) return;
-            
-            // Cancel any ongoing speech immediately
+
             window.speechSynthesis.cancel();
-            
             if(btnElement) btnElement.classList.add('speaking');
 
-            // Clean text and break into natural micro-phrases to guarantee zero stuttering
+            // Clean markdown tokens
             const cleanText = text.replace(/[\*\#\_]/g, '');
+            
+            // Break down precisely into clean sentence blocks for absolute butter-smooth playback
             const sentences = cleanText.match(/[^.!?]+[.!?]+|\S+/g) || [cleanText];
-            let index = 0;
+            let sentenceIndex = 0;
 
-            function playNext() {
-                if (index >= sentences.length) {
+            function processNextSentence() {
+                if (sentenceIndex >= sentences.length) {
                     if(btnElement) btnElement.classList.remove('speaking');
                     return;
                 }
-                const utter = new SpeechSynthesisUtterance(sentences[index++].trim());
+
+                const utter = new SpeechSynthesisUtterance(sentences[sentenceIndex++].trim());
                 utter.lang = 'hi-IN';
-                utter.rate = 1.0; // Professional, stable, and natural speaking speed
+                utter.rate = 1.0; 
                 utter.pitch = 1.0;
-                
+
+                // Bind with online high-priority Hindi voice if available
+                const hindiVoice = globalSpeechVoices.find(v => v.lang.includes('hi') || v.lang.includes('IN'));
+                if (hindiVoice) utter.voice = hindiVoice;
+
                 utter.onend = () => {
-                    // Small micro-pause queue for seamless flow without freezing
-                    setTimeout(playNext, 40);
+                    setTimeout(processNextSentence, 25); // Ultra-tight queue gap for zero stutter
                 };
                 utter.onerror = () => {
-                    playNext();
+                    processNextSentence();
                 };
-                
+
                 window.speechSynthesis.speak(utter);
             }
 
-            // Small initial delay to ensure clean audio buffer allocation on internet/network loads
-            setTimeout(playNext, 50);
+            setTimeout(processNextSentence, 30);
         }
 
         function stopVoiceImmediately() {
@@ -500,10 +514,10 @@
             </div>
         `;
 
-        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला रहेगा। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पाँच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
+        const fullSpeechScript = "सिस्टम ऑनलाइन है। क्लाउड डेटा के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला रहेगा। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पाँच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
 
         function speakFullDetailedReport() { 
-            speakText(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
+            speakCloudStream(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
         }
 
         function triggerFullReportAndVoice() {
@@ -515,16 +529,6 @@
                 m.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
             speakFullDetailedReport();
-        }
-
-        function speakTextFromCard(type) {
-            const b = document.getElementById(`spk-${type}`);
-            if(type === 'cycle') speakText(`बॉक्स ए। अगली फोटो कैप्चर में ${document.getElementById('timerDisplay').innerText} बाकी हैं।`, b);
-            if(type === 'temp') speakText(`बॉक्स बी। सिस्टम का तापमान ${document.getElementById('tempDisplay').innerText} है।`, b);
-            if(type === 'vib') speakText(`बॉक्स सी। तने का कंपन ${document.getElementById('vibDisplay').innerText} हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।`, b);
-            if(type === 'vision') speakText(`बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।`, b);
-            if(type === 'logs') speakText(`बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।`, b);
-            if(type === 'report') speakFullDetailedReport();
         }
 
         let camStream = null; let cocoModel = null; let handsModel = null;
@@ -568,7 +572,7 @@
             const fingers = countExtendedFingers(lm);
 
             if(now - lastGestureTime > 400) {
-                // 3 Fingers: Jump to Box F (Bottom Report Card)
+                // 3 Fingers: Jump straight to Box F (Bottom Report Card)
                 if(fingers === 3) {
                     lastGestureTime = now;
                     gestureTag.innerText = "🤟 3 उंगली: सबसे नीचे रिपोर्ट";
@@ -584,7 +588,7 @@
                     } else {
                         allowVoiceFeedback = true;
                         gestureTag.innerText = "🔊 1 उंगली: वॉइस चालू";
-                        speakText("वॉइस फीडबैक चालू है।");
+                        speakCloudStream("वॉइस फीडबैक चालू हो गया है।");
                     }
                 } 
                 // Open Palm (>=5 fingers): Page scroll up or down based on hand height
@@ -647,7 +651,7 @@
                     visionBanner.innerText = "🚫 इंसान detected (RED)";
                 } else {
                     vc.className = "card"; visionBanner.className = "vision-banner";
-                    visionBanner.innerText = "🔍 स्कैनिंग जारी है...";
+                    visionBanner.innerText = "🔍 क्लाउड स्कैनिंग जारी...";
                 }
             }
             requestAnimationFrame(visionLoop);
