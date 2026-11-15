@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Ultra-Fast 3D Neural Control Room</title>
-    <!-- High-Speed AI Vision & Gesture Libraries -->
+    <title>Smart Agri-AI OS | Real-Time Neural Command Center</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -24,356 +23,159 @@
             --focus-border: #ffd700;
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-            background: #03060c;
-            color: var(--text-main);
+            margin: 0; padding: 0; width: 100%; min-height: 100vh;
+            background: #03060c; color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             overflow-x: hidden;
         }
 
-        /* Instant Boot Screen */
         #bootScreen {
-            position: fixed;
-            inset: 0;
-            background: #03060c;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.3s ease;
+            position: fixed; inset: 0; background: #03060c; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.2s ease;
         }
         #bootScreen.hidden { opacity: 0; pointer-events: none; }
         .boot-title {
-            font-size: 1.8rem;
-            letter-spacing: 4px;
+            font-size: 1.8rem; letter-spacing: 4px;
             background: linear-gradient(90deg, #00d2ff, #e6c687, #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900;
         }
         .boot-bar-container {
-            width: 260px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin-top: 20px;
-            overflow: hidden;
+            width: 260px; height: 6px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px; margin-top: 20px; overflow: hidden;
         }
-        .boot-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #00d2ff, #00ff88);
-            animation: loadInstant 0.5s ease-out forwards;
-        }
+        .boot-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #00d2ff, #00ff88); animation: loadInstant 0.2s ease-out forwards; }
         @keyframes loadInstant { to { width: 100%; } }
 
-        /* Main Container */
-        .app-wrapper {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .app-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
+
+        header {
+            background: var(--card-glass); border: 2px solid var(--gold-prime); border-radius: 20px;
+            padding: 20px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 25px var(--gold-glow);
+            position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px;
         }
 
-        /* Premium Header */
-        header {
-            background: var(--card-glass);
-            border: 2px solid var(--gold-prime);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 25px var(--gold-glow);
-            position: relative;
+        .app-logo {
+            width: 50px; height: 50px; background: linear-gradient(135deg, #00d2ff, #00ff88);
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            font-size: 26px; box-shadow: 0 0 20px rgba(0, 210, 255, 0.5); border: 2px solid #fff; margin-bottom: 4px;
         }
 
         header h1 {
-            margin: 0 0 8px 0;
-            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            margin: 0; font-size: clamp(1.4rem, 3vw, 2.2rem);
             background: linear-gradient(90deg, #00d2ff, #f3e5ab, #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-            letter-spacing: 1.5px;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; letter-spacing: 1.5px;
         }
-
-        header p {
-            margin: 0 0 16px 0;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
+        header p { margin: 0 0 10px 0; font-size: 0.95rem; color: var(--text-muted); }
 
         .sync-btn-top {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: rgba(0, 210, 255, 0.2);
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
+            position: absolute; top: 16px; right: 20px; background: rgba(0, 210, 255, 0.2);
+            border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px 16px;
+            border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.2s;
         }
         .sync-btn-top:hover { background: var(--neon-blue); color: #03060c; }
 
-        .top-badges {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
+        .top-badges { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; }
         .badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            background: rgba(6, 12, 24, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; font-weight: 700;
+            background: rgba(6, 12, 24, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);
         }
         .badge-green { color: var(--neon-green); border-color: var(--neon-green); }
         .badge-blue { color: var(--neon-blue); border-color: var(--neon-blue); }
         .badge-red { color: var(--alert-red); border-color: var(--alert-red); }
+        .sat-toggle { cursor: pointer; user-select: none; }
 
-        /* Responsive Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%; }
 
         .card {
-            background: var(--card-glass);
-            border: 2px solid rgba(0, 210, 255, 0.3);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.2s ease;
-            position: relative;
+            background: var(--card-glass); border: 2px solid rgba(0, 210, 255, 0.3); border-radius: 20px;
+            padding: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column;
+            justify-content: space-between; transition: border-color 0.2s ease, box-shadow 0.2s ease; position: relative;
         }
 
         .card.focused {
             border-color: var(--focus-border) !important;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6) !important;
-            transform: scale(1.02);
-            z-index: 10;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8) !important;
+            transform: scale(1.03); z-index: 10;
         }
 
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .card-top h3 {
-            margin: 0;
-            font-size: 1.15rem;
-            color: #ffffff;
-            font-weight: 800;
-        }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .card-top h3 { margin: 0; font-size: 1.15rem; color: #ffffff; font-weight: 800; }
 
         .mini-spk {
-            background: rgba(0, 210, 255, 0.2);
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: all 0.2s;
+            background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.2s;
         }
-        .mini-spk.speaking {
-            background: var(--neon-green);
-            color: #03060c;
-            border-color: var(--neon-green);
-            box-shadow: 0 0 15px var(--neon-green);
-        }
+        .mini-spk.speaking { background: var(--neon-green); color: #03060c; border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
 
-        .big-metric {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin: 12px 0;
-            color: #ffffff;
-        }
+        .big-metric { font-size: 2.5rem; font-weight: 900; margin: 12px 0; color: #ffffff; }
 
         .info-note {
-            font-size: 0.88rem;
-            color: #e2e8f0;
-            background: rgba(3, 6, 12, 0.9);
-            padding: 12px;
-            border-radius: 12px;
-            border-left: 4px solid var(--neon-blue);
-            line-height: 1.5;
-            margin-top: 12px;
+            font-size: 0.88rem; color: #e2e8f0; background: rgba(3, 6, 12, 0.9); padding: 12px;
+            border-radius: 12px; border-left: 4px solid var(--neon-blue); line-height: 1.5; margin-top: 12px;
         }
 
-        .card.human-alert { border-color: var(--alert-red) !important; box-shadow: 0 0 35px rgba(255, 59, 92, 0.5) !important; }
-        .card.plant-active { border-color: var(--neon-green) !important; box-shadow: 0 0 35px rgba(0, 255, 136, 0.5) !important; }
+        /* Real-time Human (Red) vs Plant (Green) Card Styling */
+        .card.human-alert { border-color: var(--alert-red) !important; box-shadow: 0 0 40px rgba(255, 59, 92, 0.6) !important; }
+        .card.plant-active { border-color: var(--neon-green) !important; box-shadow: 0 0 40px rgba(0, 255, 136, 0.7) !important; }
 
-        .cam-box {
-            position: relative;
-            width: 100%;
-            height: 240px;
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 2px solid #334155;
-        }
+        .cam-box { position: relative; width: 100%; height: 240px; background: #000; border-radius: 16px; overflow: hidden; border: 2px solid #334155; }
+        video#webcam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
+        canvas#overlayCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4; }
 
-        video#webcam {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scaleX(-1);
-            display: block;
-        }
-
-        canvas#overlayCanvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 4;
-        }
-
-        .hud-pill-top {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 6;
-            pointer-events: none;
-        }
-
+        .hud-pill-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; z-index: 6; pointer-events: none; }
         .hud-tag {
-            background: rgba(3, 6, 12, 0.9);
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.78rem;
-            font-weight: 800;
+            background: rgba(3, 6, 12, 0.9); border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            padding: 4px 10px; border-radius: 15px; font-size: 0.78rem; font-weight: 800;
         }
 
         .vision-banner {
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 800;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
+            margin-top: 12px; padding: 10px; border-radius: 10px; text-align: center;
+            font-size: 0.9rem; font-weight: 800; background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2); color: #fff;
         }
         .vision-banner.is-human { background: rgba(255, 59, 92, 0.3); border-color: var(--alert-red); color: #ff99ac; }
         .vision-banner.is-plant { background: rgba(0, 255, 136, 0.3); border-color: var(--neon-green); color: var(--neon-green); }
 
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
+        .btn-row { display: flex; gap: 10px; margin-top: 12px; }
         .action-btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 0.95rem;
-            cursor: pointer;
-            color: #fff;
-            background: linear-gradient(135deg, #00c853, #008e3a);
-            transition: all 0.2s;
+            flex: 1; padding: 14px; border: none; border-radius: 12px; font-weight: 900;
+            font-size: 0.95rem; cursor: pointer; color: #fff;
+            background: linear-gradient(135deg, #00c853, #008e3a); transition: all 0.2s;
         }
         .action-btn.stop-cam { background: linear-gradient(135deg, #ef4444, #b91c1c); }
         
-        .gesture-mode-btn {
-            background: linear-gradient(135deg, #6200ea, #3700b3);
-            border: 1px solid #bb86fc;
-        }
+        .gesture-mode-btn { background: linear-gradient(135deg, #6200ea, #3700b3); border: 1px solid #bb86fc; }
         .gesture-mode-btn.active {
-            background: linear-gradient(135deg, #ffd700, #ff8a00);
-            color: #03060c;
-            border-color: #ffffff;
-            box-shadow: 0 0 20px #ffd700;
+            background: linear-gradient(135deg, #ffd700, #ff8a00); color: #03060c;
+            border-color: #ffffff; box-shadow: 0 0 20px #ffd700;
         }
 
-        /* Log Box */
         .log-list {
-            height: 180px;
-            overflow-y: auto;
-            background: rgba(4, 8, 15, 0.95);
-            border: 1px solid var(--neon-blue);
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 0.88rem;
-            font-family: monospace;
+            height: 180px; overflow-y: auto; background: rgba(4, 8, 15, 0.95);
+            border: 1px solid var(--neon-blue); border-radius: 12px; padding: 12px;
+            font-size: 0.88rem; font-family: monospace;
         }
-        .log-entry {
-            padding: 6px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-            color: var(--neon-green);
-        }
+        .log-entry { padding: 6px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); color: var(--neon-green); }
 
-        /* Master Report Card */
         .report-master-card {
             grid-column: 1 / -1;
             background: linear-gradient(145deg, rgba(12, 18, 30, 0.95), rgba(5, 9, 18, 0.98));
-            border: 3px solid var(--gold-prime);
-            border-radius: 24px;
-            padding: 28px;
+            border: 3px solid var(--gold-prime); border-radius: 24px; padding: 28px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
         }
 
         .report-scroll-area {
-            width: 100%;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 20px;
-            background: rgba(3, 6, 12, 0.95);
-            border: 2px solid var(--gold-prime);
-            border-radius: 16px;
-            margin: 16px 0;
-            line-height: 1.7;
-            font-size: 1.05rem;
+            width: 100%; max-height: 500px; overflow-y: auto; padding: 20px;
+            background: rgba(3, 6, 12, 0.95); border: 2px solid var(--gold-prime);
+            border-radius: 16px; margin: 16px 0; line-height: 1.7; font-size: 1.05rem;
         }
 
-        .report-section-box {
-            padding: 18px;
-            border-radius: 14px;
-            margin-bottom: 18px;
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 6px solid var(--neon-blue);
-        }
+        .report-section-box { padding: 18px; border-radius: 14px; margin-bottom: 18px; background: rgba(255, 255, 255, 0.04); border-left: 6px solid var(--neon-blue); }
         .report-section-box.chilli-alert { border-left-color: var(--alert-red); background: rgba(255, 59, 92, 0.08); }
         .report-section-box.cabbage-safe { border-left-color: var(--neon-green); background: rgba(0, 255, 136, 0.08); }
 
@@ -383,38 +185,46 @@
 
         .master-controls { display: flex; flex-wrap: wrap; gap: 12px; }
         .btn-gold {
-            flex: 2; min-width: 260px;
-            background: linear-gradient(135deg, #e6c687, #c59b45);
-            color: #03060c; font-weight: 900; padding: 16px; border: none; border-radius: 14px; cursor: pointer; font-size: 1.05rem;
+            flex: 2; min-width: 260px; background: linear-gradient(135deg, #e6c687, #c59b45);
+            color: #03060c; font-weight: 900; padding: 16px; border: none; border-radius: 14px;
+            cursor: pointer; font-size: 1.05rem;
         }
-        .btn-voice { flex: 1; min-width: 150px; background: rgba(0, 210, 255, 0.2); border: 2px solid var(--neon-blue); color: var(--neon-blue); font-weight: 800; padding: 16px; border-radius: 14px; cursor: pointer; font-size: 1.05rem; }
+        .btn-voice {
+            flex: 1; min-width: 150px; background: rgba(0, 210, 255, 0.2); border: 2px solid var(--neon-blue);
+            color: var(--neon-blue); font-weight: 800; padding: 16px; border-radius: 14px;
+            cursor: pointer; font-size: 1.05rem;
+        }
         .btn-voice.active-spk { background: var(--neon-blue); color: #03060c; box-shadow: 0 0 20px var(--neon-blue); }
-        .btn-mute { flex: 1; min-width: 140px; background: rgba(255, 59, 92, 0.2); border: 2px solid var(--alert-red); color: var(--alert-red); font-weight: 800; padding: 16px; border-radius: 14px; cursor: pointer; font-size: 1.05rem; }
+        .btn-mute {
+            flex: 1; min-width: 140px; background: rgba(255, 59, 92, 0.2); border: 2px solid var(--alert-red);
+            color: var(--alert-red); font-weight: 800; padding: 16px; border-radius: 14px;
+            cursor: pointer; font-size: 1.05rem;
+        }
     </style>
 </head>
 <body>
 
     <div id="bootScreen">
         <div class="boot-title">HYPER-AGRI AI OS</div>
-        <div style="color: #94a3b8; font-size: 0.9rem; margin-top: 8px; letter-spacing: 3px;">INSTANT NEURAL CORE LOADED</div>
+        <div style="color: #94a3b8; font-size: 0.9rem; margin-top: 8px; letter-spacing: 3px;">INSTANT CORE LOADED</div>
         <div class="boot-bar-container"><div class="boot-bar"></div></div>
     </div>
 
     <div class="app-wrapper">
         <header>
+            <div class="app-logo">🌱</div>
             <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             <h1>Smart Agri-AI Control Room</h1>
             <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Ultra-Fast 3D Neural Architecture</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
-                <span class="badge badge-green" id="satBadge">🛰️ Satellite: ON</span>
-                <span class="badge badge-green">📡 Signal: -61 dBm (94%)</span>
+                <span class="badge badge-green sat-toggle" id="satBadge" onclick="toggleSatellite()">🛰️ Satellite: ON</span>
+                <span class="badge badge-green" id="sigBadge">📡 Signal: -61 dBm (94%)</span>
             </div>
         </header>
 
         <div class="dashboard-grid">
-            <!-- Card 1 -->
             <div class="card" id="card-cycle">
                 <div class="card-top">
                     <h3>🖥️ RPi 5 + Sony AI Cycle</h3>
@@ -426,7 +236,6 @@
                 <div class="info-note">☀️ दिन: 1 घंटा | 🌙 रात: 3 घंटे</div>
             </div>
 
-            <!-- Card 2 -->
             <div class="card" id="card-temp">
                 <div class="card-top">
                     <h3>🌡️ RPi 5 Enclosure Temp</h3>
@@ -438,7 +247,6 @@
                 <div class="info-note">💤 Deep Sleep Mode Active</div>
             </div>
 
-            <!-- Card 3 -->
             <div class="card" id="card-vib">
                 <div class="card-top">
                     <h3>🦗 Acoustic Insect Scan</h3>
@@ -450,7 +258,6 @@
                 <div class="info-note">🌱 4 गोभी + 1 मिर्च मॉनिटरिंग</div>
             </div>
 
-            <!-- Card 4: Live Vision -->
             <div class="card" id="visionCard">
                 <div class="card-top">
                     <h3>📷 Live AI Vision & Gesture</h3>
@@ -471,7 +278,6 @@
                 </div>
             </div>
 
-            <!-- Card 5 -->
             <div class="card" id="card-logs">
                 <div class="card-top">
                     <h3>📸 24-Hour Capture History</h3>
@@ -479,11 +285,10 @@
                 </div>
                 <div class="log-list" id="logContainer"></div>
                 <div style="margin-top: 10px;">
-                    <span class="badge badge-blue" id="reset24Tag">24h Reset: 23h 59m</span>
+                    <span class="badge badge-blue" id="reset24Tag">24h Reset: 23h 56m</span>
                 </div>
             </div>
 
-            <!-- Master Report Card -->
             <div class="report-master-card" id="reportCardMaster">
                 <div class="card-top">
                     <h3>🤖 Gemini Smart Agri-AI Assistant</h3>
@@ -504,25 +309,72 @@
     </div>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => { setTimeout(() => document.getElementById('bootScreen').classList.add('hidden'), 500); });
+        window.addEventListener('DOMContentLoaded', () => { setTimeout(() => document.getElementById('bootScreen').classList.add('hidden'), 200); });
 
-        // State & Timing
+        // ==========================================
+        // SATELLITE & REAL-TIME FLUCTUATION LOGIC
+        // ==========================================
+        let satelliteActive = true;
+        function toggleSatellite() {
+            satelliteActive = !satelliteActive;
+            const satBadge = document.getElementById('satBadge');
+            const sigBadge = document.getElementById('sigBadge');
+            if (satelliteActive) {
+                satBadge.className = "badge badge-green sat-toggle";
+                satBadge.innerText = "🛰️ Satellite: ON";
+                sigBadge.className = "badge badge-green";
+                sigBadge.innerText = "📡 Signal: -61 dBm (94%)";
+            } else {
+                satBadge.className = "badge badge-red sat-toggle";
+                satBadge.innerText = "🛰️ Satellite: OFF";
+                sigBadge.className = "badge badge-red";
+                sigBadge.innerText = "📡 Signal: Disconnected (0%)";
+            }
+        }
+
+        // Real-Time Signal Fluctuating (Realistic IoT behavior)
+        setInterval(() => {
+            if (!satelliteActive) return;
+            const dbm = Math.floor(Math.random() * 9) - 64; // -64 to -72
+            const pct = Math.max(65, 96 - Math.abs(dbm + 55));
+            document.getElementById('sigBadge').innerText = `📡 Signal: ${dbm} dBm (${pct}%)`;
+        }, 3000);
+
+        // Real-Time Celsius Fluctuation (Flicking smoothly)
+        setInterval(() => {
+            const tempVal = (26.1 + Math.random() * 0.8).toFixed(1);
+            document.getElementById('tempDisplay').innerText = `${tempVal} °C`;
+        }, 2000);
+
+        // State & 24-Hour Timer & Hourly Log Simulation
         const DAY_MS = 86400000;
-        let state = { cycleStart: Date.now(), nextShot: Date.now() + 3600000, logs: [`[${new Date().toLocaleTimeString('en-IN')}] सिस्टम चालू हुआ।`] };
-        try { const sav = JSON.parse(localStorage.getItem('agriUltraState')); if(sav) state = sav; } catch(e){}
+        let state = { cycleStart: Date.now(), lastHourlySim: Date.now(), nextShot: Date.now() + 3600000, logs: [] };
+        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम चालू हुआ और 3D AI निगरानी शुरू की गई।`;
+
+        try { 
+            const sav = JSON.parse(localStorage.getItem('agriUltraState')); 
+            if(sav && sav.logs) state = sav; 
+        } catch(e){}
+
+        if (state.logs.length === 0) {
+            state.logs.push(initialStartupText);
+            saveState();
+        }
+
         function saveState() { try { localStorage.setItem('agriUltraState', JSON.stringify(state)); } catch(e){} }
 
         function resetTimerSync() {
             const now = Date.now();
             const isNight = (new Date(now).getHours() >= 18 || new Date(now).getHours() < 6);
             state.cycleStart = now; state.nextShot = now + (isNight ? 3 : 1)*3600000;
-            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] टाइमर रीसेट`);
+            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] टाइमर रीसेट किया गया।`);
             saveState(); renderLogs();
         }
 
         function renderLogs() {
             const box = document.getElementById('logContainer');
-            if(box) box.innerHTML = state.logs.slice(-10).map(l => `<div class="log-entry">${l}</div>`).join('');
+            if(box) box.innerHTML = state.logs.slice(-15).map(l => `<div class="log-entry">${l}</div>`).join('');
+            if(box) box.scrollTop = box.scrollHeight;
         }
 
         function tickClock() {
@@ -532,9 +384,23 @@
             if(now - state.cycleStart >= DAY_MS) state.cycleStart = now;
             const rem = Math.max(0, Math.floor((DAY_MS - (now - state.cycleStart))/1000));
             document.getElementById('reset24Tag').innerText = `24h Reset: ${Math.floor(rem/3600)}h ${Math.floor((rem%3600)/60)}m`;
+            
+            if (now - state.lastHourlySim >= 3600000) {
+                state.lastHourlySim = now;
+                const hourStr = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+                const simulatedMessages = [
+                    `[${hourStr}] Sony IMX500 ने फसल का ऑटोमेटिक स्कैन किया - सभी पैरामीटर सामान्य।`,
+                    `[${hourStr}] मृदा नमी और पोषक तत्व स्तर सामान्य दायरे में दर्ज।`,
+                    `[${hourStr}] कीट और ध्वनि कंपन की निगरानी सक्रिय - कोई असामान्य हलचल नहीं।`
+                ];
+                state.logs.push(simulatedMessages[Math.floor(Math.random() * simulatedMessages.length)]);
+                saveState();
+                renderLogs();
+            }
+
             let diff = Math.floor((state.nextShot - now)/1000);
             if(diff <= 0) {
-                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] फोटो कैप्चर`);
+                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने हाई-रेज़ोल्यूशन फोटो कैप्चर की।`);
                 const isN = (d.getHours() >= 18 || d.getHours() < 6);
                 state.nextShot = now + (isN ? 3 : 1)*3600000;
                 saveState(); renderLogs(); diff = (isN ? 3 : 1)*3600;
@@ -599,7 +465,7 @@
         }
 
         // ==========================================
-        // HYPER-FAST AI VISION & GESTURE SYSTEM
+        // HYPER-FAST AI VISION (PLANT = GREEN, HUMAN = RED) & GESTURES
         // ==========================================
         let camStream = null; let cocoModel = null; let handsModel = null;
         let isProcessing = false; let fullGestureMode = false;
@@ -616,7 +482,7 @@
             if(!cocoModel) cocoModel = await cocoSsd.load({ base: 'lite_mobilenet_v2' });
             if(!handsModel) {
                 handsModel = new Hands({ locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
-                handsModel.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.6, minTrackingConfidence: 0.6 });
+                handsModel.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.65, minTrackingConfidence: 0.65 });
                 handsModel.onResults(handleHands);
             }
         }
@@ -638,7 +504,7 @@
 
                 if(openCount === 3) detectedGesture = "3_FINGERS";
                 else if(openCount === 1) detectedGesture = "1_FINGER";
-                else if(openCount === 2) detectedGesture = "2_FINGERS_DOWN";
+                else if(openCount === 2) detectedGesture = "2_FINGERS";
             }
 
             if(detectedGesture === lastGestureName && detectedGesture !== "NONE") {
@@ -648,23 +514,28 @@
                 gestureFrameCount = 1;
             }
 
-            if(gestureFrameCount >= 2 && (now - lastActionTime > 600)) {
+            if(gestureFrameCount >= 2 && (now - lastActionTime > 500)) {
                 lastActionTime = now;
                 if(!fullGestureMode) {
                     if(detectedGesture === "3_FINGERS") {
                         gestureTag.innerText = "🤟 3 उंगली: रिपोर्ट";
                         triggerFullReportAndVoice();
                     } else if(detectedGesture === "1_FINGER") {
-                        gestureTag.innerText = "☝️ 1 उंगली: ऑडियो टॉगल";
-                        if('speechSynthesis' in window && window.speechSynthesis.speaking) stopVoiceImmediately();
-                        else speakFullDetailedReport();
+                        if('speechSynthesis' in window && window.speechSynthesis.speaking) {
+                            gestureTag.innerText = "🔇 ऑडियो म्यूट";
+                            stopVoiceImmediately();
+                        } else {
+                            gestureTag.innerText = "🔊 रिपोर्ट सुनें";
+                            speakFullDetailedReport();
+                        }
                     }
                 } else {
-                    if(detectedGesture === "2_FINGERS_DOWN") {
+                    if(detectedGesture === "2_FINGERS") {
                         currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
                         updateFocusRing();
                         gestureTag.innerText = `👇 नेविगेट: ${currentBoxIndex+1}`;
                     } else if(detectedGesture === "1_FINGER") {
+                        gestureTag.innerText = `📢 बॉक्स ${currentBoxIndex+1} ऑडियो`;
                         triggerCardSpeaker(focusableCards[currentBoxIndex]);
                     }
                 }
@@ -737,7 +608,7 @@
                     visionBanner.innerText = "🚫 इंसान detected (RED) | रिकॉर्डिंग जारी";
                 } else if(hasPlant) {
                     vc.className = "card plant-active"; visionBanner.className = "vision-banner is-plant";
-                    visionBanner.innerText = "🌱 पौधा detected (GREEN) | निगरानी सक्रिय";
+                    visionBanner.innerText = "🌱 पौधा पहचाना गया (GREEN) | निगरानी सक्रिय";
                 } else {
                     vc.className = "card"; visionBanner.className = "vision-banner";
                     visionBanner.innerText = "🔍 स्कैनिंग... सामने पौधा या हाथ लाएं";
