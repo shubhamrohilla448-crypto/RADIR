@@ -295,7 +295,7 @@
                     <button class="action-btn gesture-mode-btn" id="gestureModeBtn" onclick="toggleGestureMode()">🎛️ फुल जेस्चर कंट्रोल: OFF</button>
                 </div>
                 <div class="gesture-guide-strip" id="gestureGuideText">
-                    <strong>OFF मोड:</strong> 🤟 3 उंगली = लिस्ट खोलें | ☝️ 1 उंगली = वॉइस ON/OFF
+                    <strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस टॉगल | 🤟 3 उंगली = पूरी लिस्ट खोलें
                 </div>
             </div>
 
@@ -317,7 +317,7 @@
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। कैमरे के सामने 3 उंगलियां दिखाएं या नीचे बटन दबाएं।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। कैमरे के सामने जेस्चर दिखाएं या नीचे बटन दबाएं।</p>
                 </div>
 
                 <div class="master-controls">
@@ -495,7 +495,7 @@
             </div>
         `;
 
-        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पांच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
+        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पाँच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
 
         function speakFullDetailedReport() { 
             speakText(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
@@ -542,7 +542,8 @@
         let prevHandX = null;
         let prevHandY = null;
         let lastActionTime = 0;
-        let scrollToggleDown = true;
+        let lastFingerState = 0;
+        let voiceActiveByGesture = false;
 
         function countExtendedFingers(lm) {
             let count = 0;
@@ -569,77 +570,88 @@
             const handY = lm[9].y;
             const fingers = countExtendedFingers(lm);
 
+            // ==========================================================
+            // 1. OFF MODE (fullGestureMode === false)
+            // 1 Finger: Toggle voice on/off depending on lift/down sequence
+            // 3 Fingers: Open bottom report list & auto voice on
+            // ==========================================================
             if(!fullGestureMode) {
-                if(now - lastActionTime > 600) {
+                if(now - lastActionTime > 500) {
                     if(fingers === 3) {
                         lastActionTime = now;
-                        gestureTag.innerText = "🤟 3 उंगली: लिस्ट खुली";
+                        gestureTag.innerText = "🤟 3 उंगली: लिस्ट खुली और वॉइस ऑन";
                         triggerFullReportAndVoice();
-                    } else if(fingers === 1) {
+                    } else if(fingers === 1 && lastFingerState !== 1) {
                         lastActionTime = now;
-                        if(isSpeakingState || window.speechSynthesis.speaking) {
-                            gestureTag.innerText = "🔇 1 उंगली: वॉइस बंद";
-                            stopVoiceImmediately();
-                        } else {
-                            gestureTag.innerText = "🔊 1 उंगली: वॉइस चालू";
+                        if(!voiceActiveByGesture) {
+                            voiceActiveByGesture = true;
+                            gestureTag.innerText = "🔊 1 उंगली: वॉइस फीडबैक चालू";
                             speakFullDetailedReport();
+                        } else {
+                            voiceActiveByGesture = false;
+                            gestureTag.innerText = "🔇 1 उंगली नीचे से उठाने पर: वॉइस बंद";
+                            stopVoiceImmediately();
                         }
                     }
                 }
             } 
+            // ==========================================================
+            // 2. ON MODE (fullGestureMode === true)
+            // 5 Fingers (Open Palm): Smooth page scroll Up/Down
+            // 2 Fingers + Movement (Up/Down/Left/Right): Select boxes slowly
+            // Closed Fist (0 fingers): Trigger voice feedback on focused box
+            // ==========================================================
             else {
-                if(fingers >= 5 && (now - lastActionTime > 700)) {
+                if(fingers >= 5 && (now - lastActionTime > 600)) {
                     lastActionTime = now;
-                    if(scrollToggleDown) {
-                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                        gestureTag.innerText = "🖐️ 5 उंगली: नीचे स्क्रॉल";
-                    } else {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        gestureTag.innerText = "🖐️ 5 उंगली: ऊपर स्क्रॉल";
+                    if(handY < 0.4) {
+                        window.scrollBy({ top: -300, behavior: 'smooth' });
+                        gestureTag.innerText = "🖐️ पंजा ऊपर: पेज ऊपर स्क्रॉल";
+                    } else if(handY > 0.6) {
+                        window.scrollBy({ top: 300, behavior: 'smooth' });
+                        gestureTag.innerText = "🖐️ पंजा नीचे: पेज नीचे स्क्रॉल";
                     }
-                    scrollToggleDown = !scrollToggleDown;
                 } 
                 else if(fingers === 2 && prevHandX !== null && prevHandY !== null) {
                     const dx = handX - prevHandX;
                     const dy = handY - prevHandY;
-                    const threshold = 0.07;
+                    const threshold = 0.08;
 
-                    // Exactly 1 second (1000ms) delay between box ticks as requested
+                    // 1 second interval between box selection as requested
                     if((Math.abs(dx) > threshold || Math.abs(dy) > threshold) && (now - lastActionTime > 1000)) {
                         lastActionTime = now;
                         if(Math.abs(dx) > Math.abs(dy)) {
                             if(dx < 0) {
+                                // Right side box selection (Mirrored camera)
                                 currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
-                                gestureTag.innerText = `👉 दाएं: बॉक्स ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👉 दाईं ओर बॉक्स: ${currentBoxIndex + 1}`;
                             } else {
+                                // Left side box selection
                                 currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
-                                gestureTag.innerText = `👈 बाएं: बॉक्स ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👈 बाईं ओर बॉक्स: ${currentBoxIndex + 1}`;
                             }
                         } else {
                             if(dy > 0) {
                                 currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
-                                gestureTag.innerText = `👇 नीचे: बॉक्स ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👇 नीचे बॉक्स: ${currentBoxIndex + 1}`;
                             } else {
                                 currentBoxIndex = (currentBoxIndex - 1 + focusableCards.length) % focusableCards.length;
-                                gestureTag.innerText = `👆 ऊपर: बॉक्स ${currentBoxIndex + 1}`;
+                                gestureTag.innerText = `👆 ऊपर बॉक्स: ${currentBoxIndex + 1}`;
                             }
                         }
                         updateFocusRing();
                     }
                 } 
-                else if(fingers === 1 && (now - lastActionTime > 600)) {
+                else if(fingers === 0 && lastFingerState !== 0 && (now - lastActionTime > 800)) {
+                    // Closed Fist -> Trigger Voice Feedback on focused box
                     lastActionTime = now;
                     const activeCardId = focusableCards[currentBoxIndex];
-                    if(isSpeakingState || window.speechSynthesis.speaking) {
-                        gestureTag.innerText = `🔇 बॉक्स ${currentBoxIndex + 1}: बंद`;
-                        stopVoiceImmediately();
-                    } else {
-                        gestureTag.innerText = `🔊 बॉक्स ${currentBoxIndex + 1}: चालू`;
-                        triggerCardAction(activeCardId);
-                    }
+                    gestureTag.innerText = `✊ मुट्ठी बंद: बॉक्स ${currentBoxIndex + 1} फीडबैक ऑन`;
+                    triggerCardAction(activeCardId);
                 }
             }
 
+            lastFingerState = fingers;
             prevHandX = handX;
             prevHandY = handY;
         }
@@ -675,13 +687,13 @@
             if(fullGestureMode) {
                 btn.className = "action-btn gesture-mode-btn active";
                 btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: ON";
-                guide.innerHTML = "<strong>ON मोड:</strong> 🖐️ 5 उंगली = स्क्रॉल | ✌️ 2 उंगली हिलाएं = बॉक्स चुनें (1s टिक) | ☝️ 1 उंगली = वॉइस";
+                guide.innerHTML = "<strong>ON मोड:</strong> 🖐️ पंजा ऊपर-नीचे = स्क्रॉल | ✌️ हाथ बाएं-दाएं = बॉक्स टिक (1s) | ✊ मुट्ठी बंद = वॉइस फीडबैक";
                 currentBoxIndex = 0; 
                 updateFocusRing();
             } else {
                 btn.className = "action-btn gesture-mode-btn";
                 btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: OFF";
-                guide.innerHTML = "<strong>OFF मोड:</strong> 🤟 3 उंगली = लिस्ट खोलें | ☝️ 1 उंगली = वॉइस ON/OFF";
+                guide.innerHTML = "<strong>OFF मोड:</strong> ☝️ 1 उंगली = वॉइस ON/OFF | 🤟 3 उंगली = पूरी लिस्ट खोलें";
                 focusableCards.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('focused'); });
             }
         }
