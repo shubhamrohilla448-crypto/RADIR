@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Agri-AI OS | Ultra-Quad 3D Control Room</title>
-    <!-- MediaPipe AI Libraries for Real-Time Face & Mirror Hand Gesture Tracking -->
+    <!-- MediaPipe AI Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js" crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@
             perspective: 1600px;
         }
 
-        /* Ambient 3D Floating Orbs in Background */
+        /* Ambient 3D Floating Orbs */
         .bg-orb {
             position: fixed;
             border-radius: 50%;
@@ -266,7 +266,7 @@
             font-weight: 700;
         }
 
-        /* Mini Speaker Button on Every Card */
+        /* Mini Speaker Button */
         .mini-speaker {
             background: rgba(0, 210, 255, 0.14);
             border: 1px solid rgba(0, 210, 255, 0.4);
@@ -369,16 +369,8 @@
             clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
             animation: beamPulse 3s infinite ease-in-out;
         }
-        @keyframes camHoverScan {
-            0%, 100% { transform: translate(0, 0) rotate(-8deg); }
-            50% { transform: translate(-20px, 4px) rotate(8deg); }
-        }
-        @keyframes beamPulse {
-            0%, 100% { opacity: 0.35; transform: translateX(0); }
-            50% { opacity: 0.9; transform: translateX(-14px); }
-        }
 
-        /* Crystal-Clear Mirrored Camera + Dynamic Face/Plant & Gesture HUD */
+        /* Camera & HUD */
         .camera-container {
             position: relative;
             width: 100%;
@@ -395,7 +387,6 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            /* Mirrored so left/right movements match naturally */
             transform: scaleX(-1);
             filter: contrast(1.08) saturate(1.12) brightness(1.04);
         }
@@ -408,15 +399,11 @@
             z-index: 4;
         }
         .scanner-laser {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 2px;
+            position: absolute; left: 0; width: 100%; height: 2px;
             background: var(--neon-blue);
             box-shadow: 0 0 14px var(--neon-blue), 0 0 25px var(--neon-green);
             animation: scanMove 3s infinite linear;
-            pointer-events: none;
-            z-index: 3;
+            pointer-events: none; z-index: 3;
         }
         @keyframes scanMove {
             0% { top: 4%; opacity: 0.25; }
@@ -424,20 +411,14 @@
             100% { top: 4%; opacity: 0.25; }
         }
 
-        /* Dynamic Tracking Box (Red for Human, Green for Plant) */
         #dynamicTrackerBox {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 130px;
-            height: 130px;
+            position: absolute; top: 50%; left: 50%; width: 130px; height: 130px;
             transform: translate(-50%, -50%);
             border: 2.5px solid var(--alert-red);
             border-radius: 14px;
             box-shadow: 0 0 18px rgba(255, 59, 92, 0.55), inset 0 0 12px rgba(255, 59, 92, 0.25);
-            pointer-events: none;
-            z-index: 5;
-            transition: top 0.12s ease-out, left 0.12s ease-out, width 0.15s, height 0.15s, border-color 0.25s, box-shadow 0.25s;
+            pointer-events: none; z-index: 5;
+            transition: top 0.08s linear, left 0.08s linear, width 0.15s, height 0.15s, border-color 0.25s, box-shadow 0.25s;
         }
         #dynamicTrackerBox.plant-mode {
             border-color: var(--neon-green);
@@ -445,123 +426,66 @@
         }
 
         .vision-status-bar {
-            margin-top: 8px;
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: 0.88em;
-            font-weight: 700;
-            text-align: center;
-            background: rgba(255, 59, 92, 0.16);
-            border: 1px solid var(--alert-red);
-            color: #ff8fa3;
-            transition: all 0.3s ease;
+            margin-top: 8px; padding: 8px 12px; border-radius: 10px; font-size: 0.88em; font-weight: 700; text-align: center;
+            background: rgba(255, 59, 92, 0.16); border: 1px solid var(--alert-red); color: #ff8fa3; transition: all 0.3s ease;
         }
         .vision-status-bar.plant-detected {
-            background: rgba(0, 255, 136, 0.16);
-            border-color: var(--neon-green);
-            color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.16); border-color: var(--neon-green); color: var(--neon-green);
         }
 
         .gesture-hud-pill {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(3, 7, 18, 0.82);
-            border: 1px solid rgba(0, 210, 255, 0.45);
-            color: var(--neon-blue);
-            font-size: 0.74em;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 20px;
-            z-index: 6;
-            backdrop-filter: blur(6px);
+            position: absolute; top: 8px; left: 8px;
+            background: rgba(3, 7, 18, 0.82); border: 1px solid rgba(0, 210, 255, 0.45);
+            color: var(--neon-blue); font-size: 0.74em; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+            z-index: 6; backdrop-filter: blur(6px);
         }
 
-        /* Floating Virtual Hand Cursor on Screen */
         #virtualHandCursor {
-            position: fixed;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+            position: fixed; width: 24px; height: 24px; border-radius: 50%;
             background: radial-gradient(circle, #00ff88 20%, rgba(0, 210, 255, 0.4) 70%);
-            border: 2px solid #ffffff;
-            box-shadow: 0 0 18px #00ff88, 0 0 30px #00d2ff;
-            pointer-events: none;
-            z-index: 10000;
-            display: none;
-            transform: translate(-50%, -50%);
-            transition: top 0.08s linear, left 0.08s linear;
+            border: 2px solid #ffffff; box-shadow: 0 0 18px #00ff88, 0 0 30px #00d2ff;
+            pointer-events: none; z-index: 10000; display: none; transform: translate(-50%, -50%);
+            transition: top 0.05s linear, left 0.05s linear;
         }
 
         .log-box, .chat-box {
-            height: 185px;
-            overflow-y: auto;
-            border: 1px solid rgba(0, 210, 255, 0.25);
-            padding: 14px;
-            border-radius: 12px;
-            background: rgba(5, 9, 16, 0.92);
-            margin-bottom: 12px;
-            font-size: 0.94em;
-            line-height: 1.55;
+            height: 185px; overflow-y: auto; border: 1px solid rgba(0, 210, 255, 0.25); padying: 14px; border-radius: 12px;
+            background: rgba(5, 9, 16, 0.92); margin-bottom: 12px; font-size: 0.94em; line-height: 1.55;
         }
-        .log-item {
-            padding: 6px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-            color: var(--neon-green);
-        }
+        .log-item { padding: 6px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); color: var(--neon-green); }
 
-        .gemini-action-bar {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+        .gemini-action-bar { display: flex; gap: 12px; align-items: center; }
         .report-btn {
-            flex: 1;
-            background: linear-gradient(135deg, #0284c7, #2563eb, #7c3aed);
+            flex: 1; background: linear-gradient(135deg, #0284c7, #2563eb, #7c3aed);
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
         }
         .speaker-btn {
-            background: rgba(0, 210, 255, 0.16);
-            color: var(--neon-blue);
-            border: 1px solid var(--neon-blue);
-            padding: 11px 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s;
+            background: rgba(0, 210, 255, 0.16); color: var(--neon-blue); border: 1px solid var(--neon-blue);
+            padding: 11px 18px; border-radius: 12px; cursor: pointer; font-size: 1.2em; display: flex;
+            align-items: center; justify-content: center; transition: all 0.25s;
         }
         .speaker-btn:hover, .speaker-btn.speaking {
-            background: var(--neon-blue);
-            color: #030508;
-            box-shadow: 0 0 20px var(--neon-blue);
+            background: var(--neon-blue); color: #030508; box-shadow: 0 0 20px var(--neon-blue);
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient 3D Glowing Orbs -->
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
     <div class="bg-orb orb-3"></div>
 
-    <!-- Virtual Finger Pointer -->
     <div id="virtualHandCursor"></div>
 
-    <!-- Ultra-Premium Apple-Style 3D SVG Boot Screen -->
+    <!-- Apple-Style Boot Screen -->
     <div id="bootScreen">
         <svg class="premium-3d-logo" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="cyberLeaf" x1="15" y1="15" x2="105" y2="105" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#00D2FF"/>
-                    <stop offset="50%" stop-color="#B537F2"/>
-                    <stop offset="100%" stop-color="#00FF88"/>
+                    <stop offset="0%" stop-color="#00D2FF"/><stop offset="50%" stop-color="#B537F2"/><stop offset="100%" stop-color="#00FF88"/>
                 </linearGradient>
                 <linearGradient id="glassRing" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="rgba(255,255,255,0.8)"/>
-                    <stop offset="100%" stop-color="rgba(0,210,255,0.1)"/>
+                    <stop offset="0%" stop-color="rgba(255,255,255,0.8)"/><stop offset="100%" stop-color="rgba(0,210,255,0.1)"/>
                 </linearGradient>
             </defs>
             <circle cx="60" cy="60" r="54" stroke="url(#glassRing)" stroke-width="2.5" fill="rgba(10,18,32,0.6)"/>
@@ -579,7 +503,6 @@
     <div class="dashboard-wrapper" id="mainDashboard">
         <div class="header">
             <button class="hidden-reset-trigger" onclick="resetCaptureTimerOnly()" title="Sync Timer">↻</button>
-
             <h1>Smart Agri-AI Control Room</h1>
             <p>Raspberry Pi 5 + Sony IMX500 AI Camera | 7-Year Long Life 3D Neural Architecture</p>
             <div class="top-controls">
@@ -591,7 +514,6 @@
         </div>
 
         <div class="grid">
-            <!-- Card 1: Raspberry Pi 5 Cycle -->
             <div class="card" data-card-index="0">
                 <div class="card-header-row">
                     <h3>🖥️ Raspberry Pi 5 + Sony AI Cycle</h3>
@@ -601,12 +523,11 @@
                 <div class="val-display" id="timer">--:--</div>
                 <span class="status-badge status-ok" id="piStatus">RPi 5 + Sony IMX500: Standby</span>
                 <div class="schedule-note">
-                    ☀️ <strong>दिन (Day 12h):</strong> 1 घंटे में सिर्फ 1 बार चालू होगा (Active once every 1 hour).<br>
-                    🌙 <strong>रात (Night 12h):</strong> 3 घंटे में सिर्फ 1 बार चालू होगा (Active once every 3 hours).
+                    ☀️ <strong>दिन (Day 12h):</strong> 1 घंटे में सिर्फ 1 बार चालू होगा.<br>
+                    🌙 <strong>रात (Night 12h):</strong> 3 घंटे में सिर्फ 1 बार चालू होगा.
                 </div>
             </div>
 
-            <!-- Card 2: Deep Sleep Mode -->
             <div class="card" data-card-index="1">
                 <div class="card-header-row">
                     <h3>💤 AI Vision Deep Sleep Engine</h3>
@@ -623,7 +544,6 @@
                 <span class="status-badge status-purple">Deep Sleep: Active (Power Saving)</span>
             </div>
 
-            <!-- Card 3: Internal Enclosure Temperature -->
             <div class="card" data-card-index="2">
                 <div class="card-header-row">
                     <h3>🌡️ Raspberry Pi 5 Enclosure Temp</h3>
@@ -634,7 +554,6 @@
                 <span class="status-badge status-ok">Optimal Zone (26°C - 27°C)</span>
             </div>
 
-            <!-- Card 4: Vibration Insect AI Sensor -->
             <div class="card" data-card-index="3">
                 <div class="card-header-row">
                     <h3>🦗 Acoustic Vibration Insect Scan</h3>
@@ -645,50 +564,47 @@
                 <span class="status-badge status-ok" id="bugStatus">Normal Stem Frequency</span>
             </div>
 
-            <!-- Card 5: 24-Hour Capture History -->
             <div class="card" data-card-index="4">
                 <div class="card-header-row">
                     <h3>📸 24-Hour Capture History</h3>
                     <button class="mini-speaker" onclick="speakCard('history', this)" title="सुनें">🔊</button>
                 </div>
-                <p style="color: var(--text-muted); margin: 4px 0;">Sony IMX500 & System Log (Auto-resets in 24h)</p>
+                <p style="color: var(--text-muted); margin: 4px 0;">Sony IMX500 & System Log</p>
                 <div class="log-box" id="historyLog"></div>
                 <span class="status-badge status-blue" id="resetCountdown">24h Cycle Active</span>
             </div>
 
-            <!-- Card 6: Crystal-Clear AI Vision + Dynamic Face/Plant Tracker + Mirror Hand Gestures -->
             <div class="card" data-card-index="5">
                 <div class="card-header-row">
                     <h3>📷 Live AI Vision & Gesture HUD</h3>
                     <button class="mini-speaker" onclick="speakCard('vision', this)" title="सुनें">🔊</button>
                 </div>
-                <p style="color: var(--text-muted); margin: 4px 0;">Crystal-Clear HD | Human vs Plant & Finger Control</p>
+                <p style="color: var(--text-muted); margin: 4px 0;">Crystal-Clear HD | Hand Gesture Control</p>
                 <div class="camera-container" id="camContainer">
-                    <div class="gesture-hud-pill" id="gestureStatus">🖐️ जेस्चर: तैयार</div>
+                    <div class="gesture-hud-pill" id="gestureStatus">🖐️ जेस्चर इंजन: सक्रिय</div>
                     <video id="webcamFeed" autoplay playsinline muted></video>
                     <canvas id="visionCanvas"></canvas>
                     <div class="scanner-laser"></div>
                     <div id="dynamicTrackerBox"></div>
                 </div>
                 <div class="vision-status-bar" id="visionStatusText">
-                    🚫 इंसान (Human) | यह पौधा नहीं है
+                    🔍 स्कैनिंग... हाथ दिखाएं
                 </div>
                 <button class="btn" onclick="startCrystalClearCamera()" style="margin-top: 10px; width: 100%;">
-                    कैमरा और AI जेस्चर चालू करें (Start AI Vision)
+                    कैमरा और AI जेस्चर चालू करें
                 </button>
             </div>
 
-            <!-- Card 7: Gemini Agri-AI Assistant -->
             <div class="card" data-card-index="6" style="grid-column: 1 / -1;">
                 <div class="card-header-row">
                     <h3>🤖 Gemini Smart Agri-AI Assistant (विस्तृत फसल एवं मेन्यू विश्लेषण)</h3>
                     <button class="mini-speaker" onclick="speakReport()" title="पूरी रिपोर्ट सुनें">🔊</button>
                 </div>
                 <div class="chat-box" id="chat" style="height: 240px;">
-                    <p id="geminiReportText"><strong>Gemini AI:</strong> Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन है। नीचे बटन दबाकर अपनी फसलों की पूरी जाँच और मेन्यू रिपोर्ट देखें।</p>
+                    <p id="geminiReportText"><strong>Gemini AI:</strong> सिस्टम ऑनलाइन है। फसल जांच के लिए नीचे बटन दबाएं या 3 उंगलियां दिखाएं।</p>
                 </div>
                 <div class="gemini-action-bar">
-                    <button class="btn report-btn" onclick="showDetailedCropReport()">📋 पौधों की पूरी जाँच, मेन्यू स्थिति और ऑर्गेनिक इलाज देखें</button>
+                    <button id="reportTriggerBtn" class="btn report-btn" onclick="showDetailedCropReport()">📋 पौधों की पूरी जाँच, मेन्यू स्थिति और ऑर्गेनिक इलाज देखें</button>
                     <button class="speaker-btn" id="speakerBtn" onclick="speakReport()" title="हिंदी में सुनें">🔊 सुनें</button>
                 </div>
             </div>
@@ -696,7 +612,6 @@
     </div>
 
     <script>
-        // 1. Apple-Style Boot Loader
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 document.getElementById('bootScreen').classList.add('hidden');
@@ -706,120 +621,137 @@
 
         const DAY_MS = 24 * 60 * 60 * 1000;
 
+        function persistState(state) {
+            try {
+                localStorage.setItem('agriAiState', JSON.stringify(state));
+            } catch (e) {}
+        }
+
         function loadSystemState() {
-            let saved = JSON.parse(localStorage.getItem('agriAiState'));
+            let saved = null;
+            try {
+                saved = JSON.parse(localStorage.getItem('agriAiState'));
+            } catch (e) {}
+            
             const now = Date.now();
-            if (!saved || (now - saved.cycleStartTime) >= DAY_MS) {
+            if (!saved || !saved.cycleStartTime || (now - saved.cycleStartTime) >= DAY_MS || !saved.nextCaptureTimestamp) {
                 const isNight = (new Date().getHours() >= 18 || new Date().getHours() < 6);
                 const initialDuration = isNight ? 3 * 3600 : 1 * 3600;
                 saved = {
                     cycleStartTime: now,
                     nextCaptureTimestamp: now + (initialDuration * 1000),
                     logs: [
-                        `[${formatTime(new Date(now))}] सिस्टम चालू हुआ और 3D AI निगरानी शुरू की गई।`
+                        `[${formatTime(new Date(now))}] सिस्टम रीसेट। 3D AI निगरानी शुरू।`
                     ],
                     temp: "26.4",
                     freq: 6
                 };
-                localStorage.setItem('agriAiState', JSON.stringify(saved));
+                persistState(saved);
             }
             return saved;
         }
 
-        function saveSystemState(state) {
-            localStorage.setItem('agriAiState', JSON.stringify(state));
-        }
+        let appState = loadSystemState();
 
         function formatTime(dateObj) {
             return dateObj.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
         }
 
-        let appState = loadSystemState();
-
         function resetCaptureTimerOnly() {
             const now = Date.now();
             const isNight = (new Date(now).getHours() >= 18 || new Date(now).getHours() < 6);
             const durationSec = isNight ? (3 * 3600) : (1 * 3600);
+            appState.cycleStartTime = now;
             appState.nextCaptureTimestamp = now + (durationSec * 1000);
-            saveSystemState(appState);
+            persistState(appState);
             updateClockAndTimers();
         }
 
         function renderLogs() {
             const logContainer = document.getElementById('historyLog');
+            if(!logContainer) return;
             logContainer.innerHTML = appState.logs.map(item => `<div class="log-item">${item}</div>`).join('');
             logContainer.scrollTop = logContainer.scrollHeight;
         }
-        renderLogs();
 
         function updateClockAndTimers() {
             const now = Date.now();
             const currentDate = new Date(now);
-            document.getElementById('liveClock').innerText = `🕒 ${formatTime(currentDate)}`;
+            const clockEl = document.getElementById('liveClock');
+            if(clockEl) clockEl.innerText = `🕒 ${formatTime(currentDate)}`;
 
+            // Robust 24h cycle check
             if ((now - appState.cycleStartTime) >= DAY_MS) {
-                localStorage.removeItem('agriAiState');
-                appState = loadSystemState();
-                renderLogs();
+                appState.cycleStartTime = now;
+                const isNight = (currentDate.getHours() >= 18 || currentDate.getHours() < 6);
+                appState.nextCaptureTimestamp = now + ((isNight ? 3 : 1) * 3600 * 1000);
+                persistState(appState);
             }
 
-            let remDaySec = Math.max(0, Math.floor((DAY_MS - (now - appState.cycleStartTime)) / 1000));
-            let rh = Math.floor(remDaySec / 3600);
-            let rm = Math.floor((remDaySec % 3600) / 60);
-            document.getElementById('resetCountdown').innerText = `24h Reset in: ${rh}h ${rm}m`;
+            const remDaySec = Math.max(0, Math.floor((DAY_MS - (now - appState.cycleStartTime)) / 1000));
+            const rh = Math.floor(remDaySec / 3600);
+            const rm = Math.floor((remDaySec % 3600) / 60);
+            const countdownEl = document.getElementById('resetCountdown');
+            if(countdownEl) countdownEl.innerText = `24h Reset in: ${rh}h ${rm}m`;
 
             const hour = currentDate.getHours();
             const isNight = (hour >= 18 || hour < 6);
-            document.getElementById('modeLabel').innerText = isNight
-                ? "🌙 Night Mode (3-Hour Interval):"
-                : "☀️ Day Mode (1-Hour Interval):";
+            const modeLabel = document.getElementById('modeLabel');
+            if(modeLabel) {
+                modeLabel.innerText = isNight
+                    ? "🌙 Night Mode (3-Hour Interval):"
+                    : "☀️ Day Mode (1-Hour Interval):";
+            }
 
             let diffSec = Math.floor((appState.nextCaptureTimestamp - now) / 1000);
             if (diffSec <= 0) {
                 const timeStr = formatTime(currentDate);
-                appState.logs.push(`📸 [${timeStr}] Sony AI Camera ने फोटो खींची और डेटा लॉग किया।`);
+                appState.logs.push(`📸 [${timeStr}] Sony AI Camera ने फोटो खींची।`);
+                if(appState.logs.length > 15) appState.logs.shift();
                 const nextIntervalSec = isNight ? (3 * 3600) : (1 * 3600);
-                appState.nextCaptureTimestamp = now + (nextIntervalSec * 1000);
-                saveSystemState(appState);
+                appState.nextCaptureTimestamp = Date.now() + (nextIntervalSec * 1000);
+                persistState(appState);
                 renderLogs();
                 diffSec = nextIntervalSec;
             }
 
-            let h = Math.floor(diffSec / 3600);
-            let m = Math.floor((diffSec % 3600) / 60);
-            let s = diffSec % 60;
-            document.getElementById('timer').innerText = h > 0
-                ? `${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`
-                : `${m}:${s < 10 ? '0' : ''}${s}`;
+            const h = Math.floor(diffSec / 3600);
+            const m = Math.floor((diffSec % 3600) / 60);
+            const s = diffSec % 60;
+            const timerEl = document.getElementById('timer');
+            if(timerEl) {
+                timerEl.innerText = h > 0
+                    ? `${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`
+                    : `${m}:${s < 10 ? '0' : ''}${s}`;
+            }
         }
 
+        renderLogs();
         updateClockAndTimers();
         setInterval(updateClockAndTimers, 1000);
 
-        // Vibration Sensor (1 to 10 Hz)
-        document.getElementById('bugVal').innerText = `${appState.freq || 6} Hz`;
         setInterval(() => {
             let freq = Math.floor(Math.random() * 10) + 1;
             appState.freq = freq;
-            saveSystemState(appState);
-            document.getElementById('bugVal').innerText = `${freq} Hz`;
-        }, 2200);
+            persistState(appState);
+            const bugEl = document.getElementById('bugVal');
+            if(bugEl) bugEl.innerText = `${freq} Hz`;
+        }, 3000);
 
-        // Temperature (26.0°C to 27.0°C)
-        document.getElementById('tempVal').innerText = `${appState.temp} °C`;
         setInterval(() => {
             let temp = (26 + Math.random()).toFixed(1);
             appState.temp = temp;
-            saveSystemState(appState);
-            document.getElementById('tempVal').innerText = `${temp} °C`;
-        }, 3000);
+            persistState(appState);
+            const tempEl = document.getElementById('tempVal');
+            if(tempEl) tempEl.innerText = `${temp} °C`;
+        }, 4000);
 
-        // Satellite Toggle
         let satOn = true;
         function toggleSatellite() {
             satOn = !satOn;
             const btn = document.getElementById('satBtn');
             const sigBadge = document.getElementById('satSignal');
+            if(!btn || !sigBadge) return;
             if (satOn) {
                 btn.classList.add('active');
                 btn.innerText = "🛰️ Satellite: ON";
@@ -833,23 +765,13 @@
             }
         }
 
-        setInterval(() => {
-            if (satOn) {
-                let dbm = -(Math.floor(Math.random() * 8) + 58);
-                let pct = 100 - (Math.abs(dbm) - 56);
-                document.getElementById('satSignal').innerText = `📡 Strong Signal: ${dbm} dBm (${pct}%)`;
-            }
-        }, 2000);
-
         // =========================================================================
-        // 2. CRYSTAL-CLEAR CAMERA + DYNAMIC FACE/PLANT TRACKER + MIRROR HAND GESTURE
+        // HIGH-PERFORMANCE CRYSTAL-CLEAR VISION & GESTURE ENGINE (REQUESTANIMATIONFRAME)
         // =========================================================================
         let cameraRunning = false;
-        let faceDetectedNow = false;
-        let selectedCardIdx = -1;
-        let lastGestureTime = 0;
+        let lastGestureActionTime = 0;
+        let speakerActive = false;
 
-        // Helper canvas to analyze green plant pixels in center when no face is present
         const offscreenCanvas = document.createElement('canvas');
         const offscreenCtx = offscreenCanvas.getContext('2d');
         offscreenCanvas.width = 64;
@@ -862,16 +784,14 @@
             let greenPixels = 0;
             const totalPixels = 40 * 32;
             for (let i = 0; i < imgData.length; i += 4) {
-                const r = imgData[i];
-                const g = imgData[i + 1];
-                const b = imgData[i + 2];
-                // Detect natural leaf green tones
-                if (g > 65 && g > r * 1.15 && g > b * 1.15) {
-                    greenPixels++;
-                }
+                const r = imgData[i], g = imgData[i + 1], b = imgData[i + 2];
+                if (g > 65 && g > r * 1.15 && g > b * 1.15) greenPixels++;
             }
-            return (greenPixels / totalPixels) > 0.16; // >16% green foliage in center
+            return (greenPixels / totalPixels) > 0.16;
         }
+
+        // Gesture state tracker
+        let handPositionHistory = [];
 
         async function startCrystalClearCamera() {
             if (cameraRunning) return;
@@ -882,118 +802,153 @@
             const virtualCursor = document.getElementById('virtualHandCursor');
 
             try {
-                // Request Full HD (1080p) Crystal-Clear Stream
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: { ideal: 1920 }, height: { ideal: 1080 }, facingMode: "user" }
+                    video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" }
                 });
                 video.srcObject = stream;
                 cameraRunning = true;
 
-                // Initialize MediaPipe Face Detection (Tracks Face Movement Smoothly)
                 const faceDetection = new FaceDetection({
                     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`
                 });
-                faceDetection.setOptions({ model: 'short', minDetectionConfidence: 0.55 });
+                faceDetection.setOptions({ model: 'short', minDetectionConfidence: 0.6 });
 
-                faceDetection.onResults((results) => {
-                    if (results.detections && results.detections.length > 0) {
-                        faceDetectedNow = true;
-                        const box = results.detections[0].boundingBox;
-                        // Mirror X coordinate so box follows user's real left/right movement!
-                        const mirroredX = (1 - box.xCenter) * 100;
-                        const centerY = box.yCenter * 100;
-                        const boxW = Math.min(200, Math.max(95, box.width * 260));
-                        const boxH = Math.min(200, Math.max(95, box.height * 220));
-
-                        trackerBox.style.left = `${mirroredX}%`;
-                        trackerBox.style.top = `${centerY}%`;
-                        trackerBox.style.width = `${boxW}px`;
-                        trackerBox.style.height = `${boxH}px`;
-                        trackerBox.classList.remove('plant-mode');
-
-                        statusText.classList.remove('plant-detected');
-                        statusText.innerHTML = "🚫 इंसान (Human Face) | यह पौधा नहीं है";
-                    } else {
-                        faceDetectedNow = false;
-                        // Reset tracker box to center and check if a Plant is in front
-                        trackerBox.style.left = "50%";
-                        trackerBox.style.top = "50%";
-                        trackerBox.style.width = "135px";
-                        trackerBox.style.height = "135px";
-
-                        const isPlant = detectGreenPlant(video);
-                        if (isPlant) {
-                            trackerBox.classList.add('plant-mode');
-                            statusText.classList.add('plant-detected');
-                            statusText.innerHTML = "✅ पौधा पहचाना गया (Plant Detected) | स्कैनिंग सक्रिय";
-                        } else {
-                            trackerBox.classList.remove('plant-mode');
-                            statusText.classList.remove('plant-detected');
-                            statusText.innerHTML = "🔍 स्कैनिंग... सामने पौधा या चेहरा लाएं (पौधा नहीं मिला)";
-                        }
-                    }
-                });
-
-                // Initialize MediaPipe Hands (Mirrored Finger Gesture Control)
                 const hands = new Hands({
                     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
                 });
                 hands.setOptions({
                     maxNumHands: 1,
                     modelComplexity: 1,
-                    minDetectionConfidence: 0.65,
-                    minTrackingConfidence: 0.65
+                    minDetectionConfidence: 0.7,
+                    minTrackingConfidence: 0.7
+                });
+
+                faceDetection.onResults((results) => {
+                    requestAnimationFrame(() => {
+                        if (results.detections && results.detections.length > 0) {
+                            const box = results.detections[0].boundingBox;
+                            const mirroredX = (1 - box.xCenter) * 100;
+                            const centerY = box.yCenter * 100;
+                            const boxW = Math.min(220, Math.max(100, box.width * 280));
+                            const boxH = Math.min(220, Math.max(100, box.height * 240));
+
+                            trackerBox.style.left = `${mirroredX}%`;
+                            trackerBox.style.top = `${centerY}%`;
+                            trackerBox.style.width = `${boxW}px`;
+                            trackerBox.style.height = `${boxH}px`;
+                            trackerBox.classList.remove('plant-mode');
+                            statusText.classList.remove('plant-detected');
+                            statusText.innerHTML = "🚫 इंसान (Human Face) | रिकॉर्डिंग";
+                        } else {
+                            trackerBox.style.left = "50%";
+                            trackerBox.style.top = "50%";
+                            trackerBox.style.width = "135px";
+                            trackerBox.style.height = "135px";
+
+                            if (detectGreenPlant(video)) {
+                                trackerBox.classList.add('plant-mode');
+                                statusText.classList.add('plant-detected');
+                                statusText.innerHTML = "✅ पौधा पहचाना गया | AI सक्रिय";
+                            } else {
+                                trackerBox.classList.remove('plant-mode');
+                                statusText.classList.remove('plant-detected');
+                                statusText.innerHTML = "🔍 स्कैनिंग... सामने फसल लाएं";
+                            }
+                        }
+                    });
                 });
 
                 hands.onResults((results) => {
-                    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-                        const landmarks = results.multiHandLandmarks[0];
-                        const indexTip = landmarks[8]; // Index finger tip
-                        const indexBase = landmarks[6];
-
-                        // Mirrored X so pointing left selects left, pointing right selects right!
-                        const screenX = (1 - indexTip.x) * window.innerWidth;
-                        const screenY = indexTip.y * window.innerHeight;
-
-                        virtualCursor.style.display = 'block';
-                        virtualCursor.style.left = `${screenX}px`;
-                        virtualCursor.style.top = `${screenY}px`;
-
+                    requestAnimationFrame(() => {
                         const now = Date.now();
-                        // Vertical Scroll Control via Finger Position
-                        if (indexTip.y < 0.24) {
-                            window.scrollBy({ top: -18, behavior: 'auto' });
-                            gestureStatus.innerText = "☝️ ऊपर स्क्रॉल (Scroll Up)";
-                        } else if (indexTip.y > 0.78) {
-                            window.scrollBy({ top: 18, behavior: 'auto' });
-                            gestureStatus.innerText = "👇 नीचे स्क्रॉल (Scroll Down)";
-                        } else {
-                            gestureStatus.innerText = "🖐️ फिंगर पॉइंटर सक्रिय";
-                        }
+                        if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                            const landmarks = results.multiHandLandmarks[0];
+                            const indexTip = landmarks[8];
+                            const middleTip = landmarks[12];
+                            const ringTip = landmarks[16];
+                            const thumbTip = landmarks[4];
+                            const pinkyTip = landmarks[20];
+                            const wrist = landmarks[0];
 
-                        // Left/Right Card Selection via Finger Swipe/Position
-                        if (now - lastGestureTime > 650) {
-                            const cards = document.querySelectorAll('.card');
-                            if ((1 - indexTip.x) < 0.22) {
-                                selectedCardIdx = (selectedCardIdx - 1 + cards.length) % cards.length;
-                                highlightCard(cards, selectedCardIdx);
-                                gestureStatus.innerText = "👈 बायाँ कार्ड सेलेक्ट";
-                                lastGestureTime = now;
-                            } else if ((1 - indexTip.x) > 0.78) {
-                                selectedCardIdx = (selectedCardIdx + 1) % cards.length;
-                                highlightCard(cards, selectedCardIdx);
-                                gestureStatus.innerText = "👉 दायाँ कार्ड सेलेक्ट";
-                                lastGestureTime = now;
+                            // Track cursor
+                            const screenX = (1 - indexTip.x) * window.innerWidth;
+                            const screenY = indexTip.y * window.innerHeight;
+                            virtualCursor.style.display = 'block';
+                            virtualCursor.style.left = `${screenX}px`;
+                            virtualCursor.style.top = `${screenY}px`;
+
+                            handPositionHistory.push({x: indexTip.x, y: indexTip.y, t: now});
+                            if(handPositionHistory.length > 15) handPositionHistory.shift();
+
+                            // 1. Calculate extended fingers
+                            let extendedCount = 0;
+                            // Index
+                            if(indexTip.y < landmarks[5].y - 0.05) extendedCount++;
+                            // Middle
+                            if(middleTip.y < landmarks[9].y - 0.05) extendedCount++;
+                            // Ring
+                            if(ringTip.y < landmarks[13].y - 0.05) extendedCount++;
+                            // Pinky
+                            if(pinkyTip.y < landmarks[17].y - 0.05) extendedCount++;
+
+                            // Check open palm (5 fingers spread) vs closed/specific signs
+                            const dThumbIndex = Math.hypot(thumbTip.x - indexTip.x, thumbTip.y - indexTip.y);
+                            const isPalmOpen = dThumbIndex > 0.25 && extendedCount >= 2;
+
+                            // LOGIC 1: Five-finger Open Palm = Restart Timer
+                            if (isPalmOpen && (now - lastGestureActionTime > 2500)) {
+                                lastGestureActionTime = now;
+                                gestureStatus.innerText = "🖐️ पंजा: टाइमर रीस्टार्ट";
+                                resetCaptureTimerOnly();
+                                return;
                             }
+
+                            // LOGIC 2: Three Fingers Extended = Trigger Diagnosis Report
+                            if (extendedCount === 2 && (now - lastGestureActionTime > 2500)) { // Thumb usually closed + Index/Middle OR Pinky closed + 3 middle
+                                // More precise check for exactly 3 fingers extended
+                                let fingersUp = 0;
+                                [8, 12, 16, 20].forEach(tipIdx => {
+                                    if(landmarks[tipIdx].y < landmarks[tipIdx - 2].y) fingersUp++;
+                                });
+                                if (fingersUp === 3 && (now - lastGestureActionTime > 2500)) {
+                                    lastGestureActionTime = now;
+                                    gestureStatus.innerText = "✌️+☝️: रिपोर्ट ट्रिगर";
+                                    showDetailedCropReport();
+                                    return;
+                                }
+                            }
+
+                            // LOGIC 3: Lateral Shaking/Waving with 3 fingers = Toggle Speaker
+                            if(handPositionHistory.length >= 10) {
+                                let dx = 0;
+                                for(let i=1; i<handPositionHistory.length; i++) {
+                                    dx += Math.abs(handPositionHistory[i].x - handPositionHistory[i-1].x);
+                                }
+                                if(dx > 1.2 && (now - lastGestureActionTime > 1800)) {
+                                    lastGestureActionTime = now;
+                                    speakerActive = !speakerActive;
+                                    gestureStatus.innerText = speakerActive ? "🔊 स्पीकर: चालू" : "🔕 स्पीकर: बंद";
+                                    if(speakerActive) speakReport();
+                                    else window.speechSynthesis.cancel();
+                                    return;
+                                }
+                            }
+
+                            // LOGIC 4: Vertical movement = Smooth Scroll
+                            gestureStatus.innerText = "🖐️ जेस्चर इंजन: सक्रिय";
+                            const scrollSpeed = (indexTip.y - 0.5) * 15;
+                            if(Math.abs(scrollSpeed) > 2) {
+                                window.scrollBy({ top: scrollSpeed, behavior: 'auto' });
+                            }
+
+                        } else {
+                            virtualCursor.style.display = 'none';
+                            gestureStatus.innerText = "🖐️ हाथ का इंतजार...";
                         }
-                    } else {
-                        virtualCursor.style.display = 'none';
-                        gestureStatus.innerText = "🖐️ जेस्चर: हाथ दिखाएं";
-                    }
+                    });
                 });
 
-                // Continuous Frame Processing Loop
-                const camProcessor = new Camera(video, {
+                const processor = new Camera(video, {
                     onFrame: async () => {
                         await faceDetection.send({ image: video });
                         await hands.send({ image: video });
@@ -1001,98 +956,68 @@
                     width: 1280,
                     height: 720
                 });
-                camProcessor.start();
+                processor.start();
 
             } catch (err) {
-                console.log("Camera access waiting for user click:", err);
+                console.log("Camera initializing...", err);
             }
         }
 
-        function highlightCard(cards, idx) {
-            cards.forEach(c => c.classList.remove('gesture-selected'));
-            if (cards[idx]) {
-                cards[idx].classList.add('gesture-selected');
-                cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        window.addEventListener('load', startCrystalClearCamera);
+        window.addEventListener('load', () => {
+            startCrystalClearCamera();
+        });
 
         // =========================================================================
-        // 3. DETAILED CROP & MENU DIAGNOSIS + INDIVIDUAL CARD VOICE SPEAKERS
+        // REPORT & SPEECH LOGIC
         // =========================================================================
         const detailedDiagnosisHTML = `
-            <p><strong>Gemini AI:</strong> Raspberry Pi 5 और Sony IMX500 AI कैमरा ऑनलाइन है।</p>
+            <p><strong>Gemini AI:</strong> सिस्टम पूरी तरह ऑनलाइन है।</p>
             <div style="background: rgba(0, 210, 255, 0.06); padding: 14px; border-radius: 12px; border-left: 4px solid #00ff88; margin-top: 8px;">
-                <p style="margin: 0 0 10px 0;"><strong>🌱 मिट्टी की जाँच:</strong> आपकी बालू रेत मिट्टी बिल्कुल सही है। इसका pH मान 7 है और इसमें पोषक तत्वों (NPK) की कोई कमी नहीं है।</p>
-                
-                <p style="margin: 0 0 10px 0; color: #ff7b72;"><strong>🌶️ मिर्च का पौधा (1 पौधा - गंभीर स्थिति और मेन्यू अलर्ट):</strong><br>
-                • <strong>बीमारी और समय:</strong> इसमें <em>जड़ सड़न (Phytophthora Root Rot)</em> और <em>पत्ती मरोड़ वायरस</em> का गंभीर हमला है। इन सब्जियों को खराब हुए <strong>7 दिन से ज़्यादा</strong> हो चुके हैं।<br>
-                • <strong>मेन्यू और बचाव की सच्चाई:</strong> आपने यह फसल अब दिखाई है, जो कि पहले हमारे <strong>सिस्टम मेन्यू (Menu) के अंदर शामिल नहीं थी</strong>। यदि यह फसल मेन्यू में होती और पहले दिन पता चल जाता, तो <strong>99% चांस</strong> थे कि यह बच जाती। अब देरी होने के कारण <strong>इसको बचाना बहुत मुश्किल है</strong>। आप चाहें तो <strong>रासायनिक उर्वरकों (Chemical Fertilizers/Pesticides)</strong> द्वारा इसे बचाने की कोशिश कर सकते हैं, लेकिन <strong>अभी इसके बचने के चांस बहुत कम हैं</strong> और केमिकल डालने से आपकी पूरी फसल का 'ऑर्गेनिक दर्जा' भी खत्म हो जाएगा।<br>
-                • <strong>सबसे फायदेमंद सलाह:</strong> आपके लिए सबसे फायदेमंद यही रहेगा कि <strong>इस एक पौधे की लेयर को तुरंत हटा दें (उखाड़कर अलग कर दें)</strong>, ताकि यह संक्रमण बाकी स्वस्थ फसलों में न फैले और आपकी बाकी फसलें खराब न हों।</p>
-
-                <p style="margin: 0 0 10px 0; color: #00ff88;"><strong>🥬 गोभी के पौधे (4 पौधे - शुरुआती कीट असर):</strong><br>
-                • <strong>बीमारी:</strong> चारों पौधों की पत्तियों पर <em>इल्लियों (Caterpillar)</em> और पत्ता खाने वाले कीड़ों का शुरुआती हमला है। इन्हें 100% बचाया जा सकता है।</p>
-
-                <p style="margin: 0;"><strong>🌿 3 सबसे असरदार ऑर्गेनिक दवाइयाँ और बनाने का तरीका (70-80% तक कीट तुरंत खत्म):</strong><br>
-                1. <strong>नीम का तेल (Neem Oil):</strong> 1 लीटर पानी में 5 मिलीलीटर नीम का तेल और 2 बूंद तरल साबुन मिलाकर अच्छे से घोलें और शाम के समय पत्तों के ऊपर-नीचे स्प्रे करें।<br>
-                2. <strong>लकड़ी की राख (Wood Ash):</strong> सुबह ओस के समय गोभी के पत्तों पर हल्की सूखी लकड़ी की राख छिड़क दें, इससे इल्लियां पत्तों को नहीं खा पाएंगी।<br>
-                3. <strong>लहसुन-मिर्च का अर्क (जैविक कीटनाशक):</strong> 50 ग्राम लहसुन और 2 हरी मिर्च पीसकर 1 लीटर पानी में उबालें, छानकर ठंडा करें और स्प्रे करें।<br>
-                <em>फायदा: इन ऑर्गेनिक उपायों से आपकी गोभी की पैदावार शानदार होगी और मंडी में सबसे ऊँचे दाम मिलेंगे।</em></p>
+                <p style="margin: 0 0 10px 0;"><strong>🌱 मिट्टी की जाँच:</strong> बालू रेत मिट्टी का pH मान 7 है। पोषक तत्वों की भरपूर मात्रा है।</p>
+                <p style="margin: 0 0 10px 0; color: #ff7b72;"><strong>🌶️ मिर्च का पौधा (गंभीर स्थिति):</strong><br>
+                • <strong>बीमारी:</strong> जड़ सड़न और पत्ती मरोड़।<br>
+                • <strong>मेन्यू अलर्ट:</strong> यह फसल पहले मेन्यू में नहीं थी। देरी के कारण अब इसे बचाना लगभग असंभव है। रासायनिक खाद से भी परिणाम न के बराबर हैं।<br>
+                • <strong>सलाह:</strong> पूरी फसल को बचाने के लिए इस एक पौधे की लेयर को हटा दें।</p>
+                <p style="margin: 0 0 10px 0; color: #00ff88;"><strong>🥬 गोभी के पौधे:</strong><br>
+                • शुरुआती इल्ली का असर। नीम-तेल और राख के छिड़काव से 100% सुरक्षा संभव है।</p>
             </div>
         `;
 
-        const speechTextHindi = "Raspberry Pi 5 और Sony AI कैमरा ऑनलाइन है। आपकी मिट्टी बिल्कुल सही है, पीएच सात है और एनपीके की कोई कमी नहीं है। मिर्च के पौधे में जड़ सड़न और पत्ती मरोड़ वायरस की गंभीर बीमारी है, और इन सब्जियों को खराब हुए सात दिन से ज़्यादा हो चुके हैं। आपने यह फसल अब दिखाई है, जो कि हमारे मेन्यू के अंदर शामिल नहीं थी। अगर पहले दिन पता चल जाता तो निन्यानबे प्रतिशत चांस थे कि यह बच जाती। अब इसको बचाना मुश्किल है। आप चाहें तो रासायनिक उर्वरकों द्वारा इसे बचा सकते हैं, लेकिन अभी चांस बहुत कम हैं। आपके लिए फायदेमंद यही रहेगा कि इस एक लेयर को हटा दें, ताकि और फसलें भी खराब न हों। वहीं आपके गोभी के चारों पौधों पर इल्लियों का शुरुआती हमला है। इन्हें बचाने के लिए नीम का तेल, लकड़ी की राख और लहसुन मिर्च का ऑर्गेनिक अर्क स्प्रे करें, जिससे सत्तर से अस्सी प्रतिशत कीड़े खत्म हो जाएंगे।";
+        const speechTextHindi = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। मिर्च के पौधे में जड़ सड़न की गंभीर बीमारी है। चूंकि यह मेन्यू में शामिल नहीं था और बहुत देर हो चुकी है, इसलिए इसे बचाना मुश्किल है। बाकी फसल को बचाने के लिए इसे हटा दें। गोभी के पौधों पर शुरुआती कीटों के लिए नीम के तेल का छिड़काव करें।";
 
         function showDetailedCropReport() {
             const chat = document.getElementById('chat');
+            if(!chat) return;
             chat.innerHTML = detailedDiagnosisHTML;
             chat.scrollTop = 0;
-        }
-
-        // Speak Function for Individual Cards
-        function speakCard(type, btnEl) {
-            let text = "";
-            if (type === 'cycle') {
-                text = "रास्पबेरी पाई 5 और सोनी एआई कैमरा स्टैंडबाय मोड में है। दिन के बारह घंटे में यह हर एक घंटे में एक बार फोटो खींचता है, और रात में हर तीन घंटे में एक बार चालू होता है।";
-            } else if (type === 'sleep') {
-                text = "एआई विजन डीप स्लीप इंजन सक्रिय है। यह बैटरी बचाने के लिए कैमरे को अल्ट्रा लो पावर मोड में रखता है।";
-            } else if (type === 'temp') {
-                const t = document.getElementById('tempVal').innerText;
-                text = `रास्पबेरी पाई 5 बॉक्स का अंदरूनी तापमान ${t} है, जो कि बिल्कुल सुरक्षित और सामान्य है।`;
-            } else if (type === 'vib') {
-                const f = document.getElementById('bugVal').innerText;
-                text = `तने का माइक्रो वाइब्रेशन सेंसर ${f} पर काम कर रहा है। पौधे में किसी बड़े कीट की हलचल नहीं है।`;
-            } else if (type === 'history') {
-                text = "चौबीस घंटे की कैप्चर हिस्ट्री सक्रिय है। सोनी कैमरा द्वारा खींची गई सभी फोटो और समय यहाँ सुरक्षित हैं।";
-            } else if (type === 'vision') {
-                const status = document.getElementById('visionStatusText').innerText;
-                text = `लाइव एआई विजन और फिंगर जेस्चर कंट्रोल चालू है। वर्तमान स्थिति है: ${status}`;
+            const triggerBtn = document.getElementById('reportTriggerBtn');
+            if(triggerBtn) {
+                triggerBtn.style.background = "linear-gradient(135deg, #00ff88, #00c853)";
+                setTimeout(() => {
+                    triggerBtn.style.background = "";
+                }, 1000);
             }
-            playHindiVoice(text, btnEl);
         }
 
         function speakReport() {
-            const btn = document.getElementById('speakerBtn');
-            playHindiVoice(speechTextHindi, btn);
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(speechTextHindi);
+                utterance.lang = 'hi-IN';
+                utterance.rate = 0.95;
+                window.speechSynthesis.speak(utterance);
+            }
         }
 
-        function playHindiVoice(text, btnEl) {
+        function speakCard(type, btnEl) {
             if ('speechSynthesis' in window) {
-                if (window.speechSynthesis.speaking) {
-                    window.speechSynthesis.cancel();
-                    document.querySelectorAll('.speaking').forEach(b => b.classList.remove('speaking'));
-                    return;
-                }
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'hi-IN';
-                utterance.rate = 0.96;
-                utterance.onstart = () => btnEl && btnEl.classList.add('speaking');
-                utterance.onend = () => btnEl && btnEl.classList.remove('speaking');
-                utterance.onerror = () => btnEl && btnEl.classList.remove('speaking');
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("आपके ब्राउज़र में वॉइस फीचर उपलब्ध नहीं है।");
+                window.speechSynthesis.cancel();
+                let text = "सिस्टम सामान्य रूप से कार्य कर रहा है।";
+                if(type === 'temp') text = `तापमान ${document.getElementById('tempVal').innerText} है।`;
+                if(type === 'vib') text = `वाइब्रेशन ${document.getElementById('bugVal').innerText} पर है।`;
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'hi-IN';
+                window.speechSynthesis.speak(u);
             }
         }
     </script>
