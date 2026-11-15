@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Ultimate Butter-Smooth Voice Edition</title>
+    <title>Smart Agri-AI OS | Ultimate Butter-Smooth Final Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -74,12 +74,11 @@
         header p { margin: 0 0 8px 0; font-size: 0.95rem; color: var(--text-muted); }
 
         .top-btn-group { position: absolute; top: 16px; right: 20px; display: flex; gap: 10px; }
-        .sync-btn-top, .mic-btn-top {
+        .sync-btn-top {
             background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
             padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.05s;
         }
-        .sync-btn-top:hover, .mic-btn-top:hover { background: var(--neon-blue); color: #03060c; }
-        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); }
+        .sync-btn-top:hover { background: var(--neon-blue); color: #03060c; }
 
         .top-badges { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; }
         .badge {
@@ -220,14 +219,13 @@
         <header>
             <div class="app-logo">🌱</div>
             <div class="top-btn-group">
-                <button class="mic-btn-top" id="micBtnTop" onclick="toggleVoiceCommand()">🎙️ माइक: OFF</button>
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Butter-Smooth Cloud Speech & Gesture Master Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Butter-Smooth Internet Speech & Gesture Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
-                <span class="badge badge-blue">📶 4G Internet (25 Mbps)</span>
+                <span class="badge badge-blue">📶 4G Internet (Connected)</span>
                 <span class="badge badge-green sat-toggle" id="satBadge" onclick="toggleSatellite()">🛰️ Satellite: ON</span>
                 <span class="badge badge-green" id="sigBadge">📡 Signal: -58 dBm (98%)</span>
             </div>
@@ -238,7 +236,7 @@
             <div class="card" id="card-cycle">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">A</span> RPi 5 + Sony AI Cycle</span></h3>
-                    <button class="mini-spk" id="spk-cycle" onclick="speakCloudStream('बॉक्स ए। अगली फोटो कैप्चर में ' + document.getElementById('timerDisplay').innerText + ' बाकी हैं।', document.getElementById('spk-cycle'))">🔊</button>
+                    <button class="mini-spk" id="spk-cycle" onclick="speakButterStream('बॉक्स ए। अगली फोटो कैप्चर में ' + document.getElementById('timerDisplay').innerText + ' बाकी हैं।', document.getElementById('spk-cycle'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);" id="cycleModeText">Next Capture:</div>
                 <div class="big-metric" id="timerDisplay">--:--</div>
@@ -250,7 +248,7 @@
             <div class="card" id="card-temp">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">B</span> RPi 5 Enclosure Temp</span></h3>
-                    <button class="mini-spk" id="spk-temp" onclick="speakCloudStream('बॉक्स बी। सिस्टम का तापमान ' + document.getElementById('tempDisplay').innerText + ' है।', document.getElementById('spk-temp'))">🔊</button>
+                    <button class="mini-spk" id="spk-temp" onclick="speakButterStream('बॉक्स बी। सिस्टम का तापमान ' + document.getElementById('tempDisplay').innerText + ' है।', document.getElementById('spk-temp'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Thermal Monitor</div>
                 <div class="big-metric" id="tempDisplay">26.4 °C</div>
@@ -262,7 +260,7 @@
             <div class="card" id="card-vib">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">C</span> Acoustic Insect Scan</span></h3>
-                    <button class="mini-spk" id="spk-vib" onclick="speakCloudStream('बॉक्स सी। तने का कंपन 5 हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।', document.getElementById('spk-vib'))">🔊</button>
+                    <button class="mini-spk" id="spk-vib" onclick="speakButterStream('बॉक्स सी। तने का कंपन 5 हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।', document.getElementById('spk-vib'))">🔊</button>
                 </div>
                 <div style="font-size: 0.9rem; color: var(--text-muted);">Stem Micro-Vibration</div>
                 <div class="big-metric" id="vibDisplay">5 Hz</div>
@@ -274,7 +272,7 @@
             <div class="card" id="visionCard">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">D</span> Live AI Vision & Gesture</span></h3>
-                    <button class="mini-spk" id="spk-vision" onclick="speakCloudStream('बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।', document.getElementById('spk-vision'))">🔊</button>
+                    <button class="mini-spk" id="spk-vision" onclick="speakButterStream('बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।', document.getElementById('spk-vision'))">🔊</button>
                 </div>
                 <div class="cam-box">
                     <div class="hud-pill-top">
@@ -297,7 +295,7 @@
             <div class="card" id="card-logs">
                 <div class="card-top">
                     <h3><span><span class="box-tag-badge">E</span> 24-Hour Capture History</span></h3>
-                    <button class="mini-spk" id="spk-logs" onclick="speakCloudStream('बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।', document.getElementById('spk-logs'))">🔊</button>
+                    <button class="mini-spk" id="spk-logs" onclick="speakButterStream('बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।', document.getElementById('spk-logs'))">🔊</button>
                 </div>
                 <div class="log-list" id="logContainer"></div>
                 <div style="margin-top: 10px;">
@@ -313,7 +311,7 @@
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक या जेस्चर से कंट्रोल करें।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। जेस्चर से कंट्रोल करें।</p>
                 </div>
 
                 <div class="master-controls">
@@ -365,7 +363,7 @@
 
         const DAY_MS = 86400000;
         let state = { cycleStart: Date.now(), lastHourlySim: Date.now(), nextShot: Date.now() + 3600000, logs: [] };
-        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम 4G इंटरनेट से कनेक्ट हुआ।`;
+        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम इंटरनेट से कनेक्ट हुआ।`;
 
         try { 
             const sav = JSON.parse(localStorage.getItem('agriUltraState')); 
@@ -426,105 +424,50 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================================
-        // BUTTER-SMOOTH CLOUD SPEECH & VOICE RECOGNITION PIPELINE
+        // ULTIMATE BUTTER-SMOOTH MICRO-CHUNK SPEECH PIPELINE
         // ==========================================================
         let allowVoiceFeedback = true;
-        let recognition = null;
-        let isMicListening = false;
 
-        function speakCloudStream(text, btnElement = null) {
+        function speakButterStream(text, btnElement = null) {
             if(!allowVoiceFeedback) return;
             if(!('speechSynthesis' in window)) return;
 
             window.speechSynthesis.cancel();
             if(btnElement) btnElement.classList.add('speaking');
 
-            // Clean markdown tokens
             const cleanText = text.replace(/[\*\#\_]/g, '');
             
-            // Break down precisely into clean sentence blocks for absolute butter-smooth playback
-            const sentences = cleanText.match(/[^.!?]+[.!?]+|\S+/g) || [cleanText];
-            let sentenceIndex = 0;
+            // Ultra-precise splitting into tiny natural phrases so browser engine never stutters
+            const chunks = cleanText.match(/[^,.;!?]+[,.;!?]?|\S+/g) || [cleanText];
+            let chunkIndex = 0;
 
-            function processNextSentence() {
-                if (sentenceIndex >= sentences.length) {
+            function playNextChunk() {
+                if (chunkIndex >= chunks.length) {
                     if(btnElement) btnElement.classList.remove('speaking');
                     return;
                 }
 
-                const utter = new SpeechSynthesisUtterance(sentences[sentenceIndex++].trim());
+                const utter = new SpeechSynthesisUtterance(chunks[chunkIndex++].trim());
                 utter.lang = 'hi-IN';
                 utter.rate = 1.0; 
                 utter.pitch = 1.0;
 
                 utter.onend = () => {
-                    setTimeout(processNextSentence, 25); // Ultra-tight queue gap for zero stutter
+                    setTimeout(playNextChunk, 15); // Zero-lag continuous butter flow
                 };
                 utter.onerror = () => {
-                    processNextSentence();
+                    playNextChunk();
                 };
 
                 window.speechSynthesis.speak(utter);
             }
 
-            setTimeout(processNextSentence, 30);
+            setTimeout(playNextChunk, 20);
         }
 
         function stopVoiceImmediately() {
             if('speechSynthesis' in window) window.speechSynthesis.cancel();
             document.querySelectorAll('.mini-spk, .btn-voice').forEach(b => b.classList.remove('speaking'));
-        }
-
-        // Voice Command / Microphone Recognition Engine
-        function toggleVoiceCommand() {
-            const micBtn = document.getElementById('micBtnTop');
-            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("आपका ब्राउज़र वॉइस रिकग्निशन सपोर्ट नहीं करता।");
-                return;
-            }
-
-            if(isMicListening) {
-                if(recognition) recognition.stop();
-                isMicListening = false;
-                micBtn.className = "mic-btn-top";
-                micBtn.innerText = "🎙️ माइक: OFF";
-            } else {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.lang = 'hi-IN';
-                recognition.continuous = true;
-                recognition.interimResults = false;
-
-                recognition.onstart = () => {
-                    isMicListening = true;
-                    micBtn.className = "mic-btn-top listening";
-                    micBtn.innerText = "🎙️ सुन रहा है (A-F)...";
-                };
-
-                recognition.onresult = (event) => {
-                    const rawText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
-                    console.log("Voice Command:", rawText);
-
-                    if (rawText.includes('a') || rawText.includes('ए')) {
-                        speakCloudStream('बॉक्स ए। अगली फोटो कैप्चर में ' + document.getElementById('timerDisplay').innerText + ' बाकी हैं।', document.getElementById('spk-cycle'));
-                    } else if (rawText.includes('b') || rawText.includes('बी')) {
-                        speakCloudStream('बॉक्स बी। सिस्टम का तापमान ' + document.getElementById('tempDisplay').innerText + ' है।', document.getElementById('spk-temp'));
-                    } else if (rawText.includes('c') || rawText.includes('सी')) {
-                        speakCloudStream('बॉक्स सी। तने का कंपन 5 हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।', document.getElementById('spk-vib'));
-                    } else if (rawText.includes('d') || rawText.includes('डी')) {
-                        speakCloudStream('बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।', document.getElementById('spk-vision'));
-                    } else if (rawText.includes('e') || rawText.includes('ई')) {
-                        speakCloudStream('बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।', document.getElementById('spk-logs'));
-                    } else if (rawText.includes('f') || rawText.includes('एफ') || rawText.includes('रिपोर्ट') || rawText.includes('जांच')) {
-                        triggerFullReportAndVoice();
-                    }
-                };
-
-                recognition.onerror = () => { isMicListening = false; micBtn.className = "mic-btn-top"; micBtn.innerText = "🎙️ माइक: OFF"; };
-                recognition.onend = () => { if(isMicListening) { try { recognition.start(); } catch(e){} } };
-
-                try { recognition.start(); } catch(e){}
-            }
         }
 
         const fullDetailedHTML = `
@@ -558,7 +501,7 @@
         const fullSpeechScript = "सिस्टम ऑनलाइन है। क्लाउड डेटा के अनुसार पीएच मान सात है। यह मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है, जो अपना बड़ा रूप ले चुका है। पौधे की जाइलम नसें पूरी तरह ब्लॉक हो चुकी हैं, इसलिए अब इसके बचने के शून्य प्रतिशत चांस हैं। इसके ऊपर कोई भी ऑर्गेनिक या कीटनाशक दवाई डालना केवल एक पैसे की बर्बादी होगी। यह पौधा गोभी को भी संक्रमित कर देगा, इसलिए इसे तुरंत उखाड़कर फेंकना ही सबसे फायदेमंद फैसला रहेगा। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर शुरुआती इल्ली का असर है। इन्हें बचाने के लिए पाँच असरदार ऑर्गेनिक उपाय हैं। पहला, एक लीटर पानी में पाँच मिलीलीटर नीम का तेल मिलाकर स्प्रे करें। दूसरा, सुबह ओस के समय राख बुरकें। तीसरा, लहसुन और मिर्च का अर्क छिड़कें। चौथा, पुरानी छाछ और तांबे का घोल इस्तेमाल करें। और पाँचवा, गोमूत्र और नीम पत्ती का काढ़ा डालें। इससे गोभी सौ प्रतिशत सुरक्षित रहेगी।";
 
         function speakFullDetailedReport() { 
-            speakCloudStream(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
+            speakButterStream(fullSpeechScript, document.getElementById('mainSpeakBtn')); 
         }
 
         function triggerFullReportAndVoice() {
@@ -629,7 +572,7 @@
                     } else {
                         allowVoiceFeedback = true;
                         gestureTag.innerText = "🔊 1 उंगली: वॉइस चालू";
-                        speakCloudStream("वॉइस फीडबैक चालू हो गया है।");
+                        speakButterStream("वॉइस फीडबैक चालू हो गया है।");
                     }
                 } 
                 // Open Palm (>=5 fingers): Page scroll up or down based on hand height
@@ -692,7 +635,7 @@
                     visionBanner.innerText = "🚫 इंसान detected (RED)";
                 } else {
                     vc.className = "card"; visionBanner.className = "vision-banner";
-                    visionBanner.innerText = "🔍 क्लाउड स्कैनिंग जारी...";
+                    visionBanner.innerText = "🔍 स्कैनिंग जारी...";
                 }
             }
             requestAnimationFrame(visionLoop);
