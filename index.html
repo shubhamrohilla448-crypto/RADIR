@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Professional Cloud-Speech Master Edition</title>
+    <title>Smart Agri-AI OS | Ultimate Butter-Smooth Voice Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -74,11 +74,12 @@
         header p { margin: 0 0 8px 0; font-size: 0.95rem; color: var(--text-muted); }
 
         .top-btn-group { position: absolute; top: 16px; right: 20px; display: flex; gap: 10px; }
-        .sync-btn-top {
+        .sync-btn-top, .mic-btn-top {
             background: rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-blue); color: var(--neon-blue);
             padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.05s;
         }
-        .sync-btn-top:hover { background: var(--neon-blue); color: #03060c; }
+        .sync-btn-top:hover, .mic-btn-top:hover { background: var(--neon-blue); color: #03060c; }
+        .mic-btn-top.listening { background: var(--alert-red); border-color: var(--alert-red); color: #fff; box-shadow: 0 0 15px var(--alert-red); }
 
         .top-badges { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; }
         .badge {
@@ -219,13 +220,14 @@
         <header>
             <div class="app-logo">🌱</div>
             <div class="top-btn-group">
+                <button class="mic-btn-top" id="micBtnTop" onclick="toggleVoiceCommand()">🎙️ माइक: OFF</button>
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Professional Cloud-Speech Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Butter-Smooth Cloud Speech & Gesture Master Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
-                <span class="badge badge-blue">📶 Wi-Fi: Airtel 5G</span>
+                <span class="badge badge-blue">📶 4G Internet (25 Mbps)</span>
                 <span class="badge badge-green sat-toggle" id="satBadge" onclick="toggleSatellite()">🛰️ Satellite: ON</span>
                 <span class="badge badge-green" id="sigBadge">📡 Signal: -58 dBm (98%)</span>
             </div>
@@ -311,7 +313,7 @@
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। इंटरनेट क्लाउड स्ट्रीम सक्रिय।</p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। माइक या जेस्चर से कंट्रोल करें।</p>
                 </div>
 
                 <div class="master-controls">
@@ -363,7 +365,7 @@
 
         const DAY_MS = 86400000;
         let state = { cycleStart: Date.now(), lastHourlySim: Date.now(), nextShot: Date.now() + 3600000, logs: [] };
-        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम क्लाउड इंटरनेट से कनेक्ट हुआ।`;
+        const initialStartupText = `[${new Date().toLocaleTimeString('en-IN')}] सिस्टम 4G इंटरनेट से कनेक्ट हुआ।`;
 
         try { 
             const sav = JSON.parse(localStorage.getItem('agriUltraState')); 
@@ -381,7 +383,7 @@
             const now = Date.now();
             const isNight = (new Date(now).getHours() >= 18 || new Date(now).getHours() < 6);
             state.cycleStart = now; state.nextShot = now + (isNight ? 3 : 1)*3600000;
-            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] क्लाउड टाइमर रीसेट किया गया।`);
+            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] टाइमर रीसेट किया गया।`);
             saveState(); renderLogs();
         }
 
@@ -403,9 +405,9 @@
                 state.lastHourlySim = now;
                 const hourStr = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
                 const simulatedMessages = [
-                    `[${hourStr}] Sony IMX500 ने क्लाउड पर फसल का ऑटोमेटिक स्कैन भेजा - सब ठीक।`,
-                    `[${hourStr}] मृदा नमी और पोषक तत्व स्तर क्लाउड पर अपडेट।`,
-                    `[${hourStr}] कीट और ध्वनि कंपन की क्लाउड मॉनिटरिंग सक्रिय।`
+                    `[${hourStr}] Sony IMX500 ने फसल का ऑटोमेटिक स्कैन किया - सब ठीक।`,
+                    `[${hourStr}] मृदा नमी और पोषक तत्व स्तर सामान्य दायरे में दर्ज।`,
+                    `[${hourStr}] कीट और ध्वनि कंपन की निगरानी सक्रिय।`
                 ];
                 state.logs.push(simulatedMessages[Math.floor(Math.random() * simulatedMessages.length)]);
                 saveState();
@@ -414,7 +416,7 @@
 
             let diff = Math.floor((state.nextShot - now)/1000);
             if(diff <= 0) {
-                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने क्लाउड फोटो कैप्चर की।`);
+                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने फोटो कैप्चर की।`);
                 const isN = (d.getHours() >= 18 || d.getHours() < 6);
                 state.nextShot = now + (isN ? 3 : 1)*3600000;
                 saveState(); renderLogs(); diff = (isN ? 3 : 1)*3600;
@@ -424,20 +426,11 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================================
-        // PROFESSIONAL CLOUD-SYNCED BUTTER-SMOOTH SPEECH PIPELINE
+        // BUTTER-SMOOTH CLOUD SPEECH & VOICE RECOGNITION PIPELINE
         // ==========================================================
         let allowVoiceFeedback = true;
-        let globalSpeechVoices = [];
-
-        function loadVoices() {
-            if('speechSynthesis' in window) {
-                globalSpeechVoices = window.speechSynthesis.getVoices();
-            }
-        }
-        loadVoices();
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = loadVoices;
-        }
+        let recognition = null;
+        let isMicListening = false;
 
         function speakCloudStream(text, btnElement = null) {
             if(!allowVoiceFeedback) return;
@@ -464,10 +457,6 @@
                 utter.rate = 1.0; 
                 utter.pitch = 1.0;
 
-                // Bind with online high-priority Hindi voice if available
-                const hindiVoice = globalSpeechVoices.find(v => v.lang.includes('hi') || v.lang.includes('IN'));
-                if (hindiVoice) utter.voice = hindiVoice;
-
                 utter.onend = () => {
                     setTimeout(processNextSentence, 25); // Ultra-tight queue gap for zero stutter
                 };
@@ -484,6 +473,58 @@
         function stopVoiceImmediately() {
             if('speechSynthesis' in window) window.speechSynthesis.cancel();
             document.querySelectorAll('.mini-spk, .btn-voice').forEach(b => b.classList.remove('speaking'));
+        }
+
+        // Voice Command / Microphone Recognition Engine
+        function toggleVoiceCommand() {
+            const micBtn = document.getElementById('micBtnTop');
+            if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert("आपका ब्राउज़र वॉइस रिकग्निशन सपोर्ट नहीं करता।");
+                return;
+            }
+
+            if(isMicListening) {
+                if(recognition) recognition.stop();
+                isMicListening = false;
+                micBtn.className = "mic-btn-top";
+                micBtn.innerText = "🎙️ माइक: OFF";
+            } else {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'hi-IN';
+                recognition.continuous = true;
+                recognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    isMicListening = true;
+                    micBtn.className = "mic-btn-top listening";
+                    micBtn.innerText = "🎙️ सुन रहा है (A-F)...";
+                };
+
+                recognition.onresult = (event) => {
+                    const rawText = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
+                    console.log("Voice Command:", rawText);
+
+                    if (rawText.includes('a') || rawText.includes('ए')) {
+                        speakCloudStream('बॉक्स ए। अगली फोटो कैप्चर में ' + document.getElementById('timerDisplay').innerText + ' बाकी हैं।', document.getElementById('spk-cycle'));
+                    } else if (rawText.includes('b') || rawText.includes('बी')) {
+                        speakCloudStream('बॉक्स बी। सिस्टम का तापमान ' + document.getElementById('tempDisplay').innerText + ' है।', document.getElementById('spk-temp'));
+                    } else if (rawText.includes('c') || rawText.includes('सी')) {
+                        speakCloudStream('बॉक्स सी। तने का कंपन 5 हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।', document.getElementById('spk-vib'));
+                    } else if (rawText.includes('d') || rawText.includes('डी')) {
+                        speakCloudStream('बॉक्स डी। लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।', document.getElementById('spk-vision'));
+                    } else if (rawText.includes('e') || rawText.includes('ई')) {
+                        speakCloudStream('बॉक्स ई। चौबीस घंटे का लॉग सिंक हो गया है।', document.getElementById('spk-logs'));
+                    } else if (rawText.includes('f') || rawText.includes('एफ') || rawText.includes('रिपोर्ट') || rawText.includes('जांच')) {
+                        triggerFullReportAndVoice();
+                    }
+                };
+
+                recognition.onerror = () => { isMicListening = false; micBtn.className = "mic-btn-top"; micBtn.innerText = "🎙️ माइक: OFF"; };
+                recognition.onend = () => { if(isMicListening) { try { recognition.start(); } catch(e){} } };
+
+                try { recognition.start(); } catch(e){}
+            }
         }
 
         const fullDetailedHTML = `
