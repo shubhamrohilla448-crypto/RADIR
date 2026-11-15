@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Ultra-Fast 3D Neural Control Room</title>
+    <title>Smart Agri-AI OS | Hyper-Responsive Command Center</title>
     <!-- High-Speed AI Vision & Gesture Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
@@ -14,19 +14,19 @@
         :root {
             --bg-deep: #03060c;
             --gold-prime: #e6c687;
-            --gold-glow: rgba(230, 198, 135, 0.25);
-            --card-glass: rgba(14, 21, 36, 0.88);
+            --gold-glow: rgba(230, 198, 135, 0.35);
+            --card-glass: rgba(12, 18, 30, 0.92);
             --neon-blue: #00d2ff;
             --neon-green: #00ff88;
             --alert-red: #ff3b5c;
             --text-main: #f4f8fb;
             --text-muted: #94a3b8;
+            --focus-border: #ffd700;
         }
 
         * {
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         html, body {
@@ -34,14 +34,13 @@
             padding: 0;
             width: 100%;
             min-height: 100vh;
-            background: radial-gradient(circle at 25% 15%, #0c1b33 0%, #050811 55%, #020306 100%);
+            background: #03060c;
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             overflow-x: hidden;
-            touch-action: pan-x pan-y;
         }
 
-        /* Fast Boot Screen (1.2s) */
+        /* Instant Boot Screen (0.6s) */
         #bootScreen {
             position: fixed;
             inset: 0;
@@ -51,215 +50,201 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.4s ease, visibility 0.4s;
+            transition: opacity 0.3s ease;
         }
-        #bootScreen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        #bootScreen.hidden { opacity: 0; pointer-events: none; }
         .boot-title {
-            font-size: 1.5rem;
-            letter-spacing: 3px;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
             background: linear-gradient(90deg, #00d2ff, #e6c687, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            font-weight: 900;
         }
         .boot-bar-container {
-            width: 240px;
-            height: 4px;
+            width: 260px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            margin-top: 16px;
+            margin-top: 20px;
             overflow: hidden;
         }
         .boot-bar {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #00d2ff, #00ff88);
-            animation: loadFast 1.1s ease-out forwards;
+            animation: loadInstant 0.6s ease-out forwards;
         }
-        @keyframes loadFast {
-            to { width: 100%; }
-        }
+        @keyframes loadInstant { to { width: 100%; } }
 
-        /* Main Container - No Overflow or Cut-Off */
+        /* Main Container */
         .app-wrapper {
             width: 100%;
-            max-width: 1380px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 14px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
-        /* Royal Header */
+        /* Premium Header */
         header {
             background: var(--card-glass);
-            border: 1.5px solid rgba(230, 198, 135, 0.45);
-            border-radius: 16px;
-            padding: 16px 20px;
+            border: 2px solid var(--gold-prime);
+            border-radius: 20px;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 18px var(--gold-glow);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 25px var(--gold-glow);
             position: relative;
         }
 
         header h1 {
-            margin: 0 0 6px 0;
-            font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+            margin: 0 0 8px 0;
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
             background: linear-gradient(90deg, #00d2ff, #f3e5ab, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
         }
 
         header p {
-            margin: 0 0 12px 0;
-            font-size: 0.88rem;
+            margin: 0 0 16px 0;
+            font-size: 0.95rem;
             color: var(--text-muted);
         }
 
         .sync-btn-top {
             position: absolute;
-            top: 12px;
-            right: 14px;
-            background: rgba(0, 210, 255, 0.15);
-            border: 1px solid rgba(0, 210, 255, 0.4);
+            top: 16px;
+            right: 20px;
+            background: rgba(0, 210, 255, 0.2);
+            border: 1px solid var(--neon-blue);
             color: var(--neon-blue);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: bold;
+            transition: all 0.2s;
         }
+        .sync-btn-top:hover { background: var(--neon-blue); color: #03060c; }
 
         .top-badges {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
         }
 
         .badge {
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.82rem;
+            font-size: 0.88rem;
             font-weight: 700;
-            background: rgba(6, 12, 24, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(6, 12, 24, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
-        .badge-green { color: var(--neon-green); border-color: rgba(0, 255, 136, 0.4); }
-        .badge-blue { color: var(--neon-blue); border-color: rgba(0, 210, 255, 0.4); }
-        .badge-red { color: var(--alert-red); border-color: rgba(255, 59, 92, 0.4); }
+        .badge-green { color: var(--neon-green); border-color: var(--neon-green); }
+        .badge-blue { color: var(--neon-blue); border-color: var(--neon-blue); }
+        .badge-red { color: var(--alert-red); border-color: var(--alert-red); }
 
-        .sat-toggle {
-            cursor: pointer;
-            transition: transform 0.15s;
-        }
-        .sat-toggle:active { transform: scale(0.96); }
-
-        /* Responsive Grid - Properly Fitted */
+        /* Responsive Grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
             width: 100%;
         }
 
         .card {
             background: var(--card-glass);
-            border: 1px solid rgba(0, 210, 255, 0.28);
-            border-radius: 16px;
-            padding: 18px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(0, 210, 255, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
-            overflow: hidden;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        /* Focus Ring for Full Gesture Control Mode */
+        .card.focused {
+            border-color: var(--focus-border) !important;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6) !important;
+            transform: scale(1.02);
+            z-index: 10;
         }
 
         .card-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .card-top h3 {
             margin: 0;
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             color: #ffffff;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .mini-spk {
-            background: rgba(0, 210, 255, 0.14);
-            border: 1px solid rgba(0, 210, 255, 0.45);
+            background: rgba(0, 210, 255, 0.2);
+            border: 1px solid var(--neon-blue);
             color: var(--neon-blue);
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.95rem;
-            flex-shrink: 0;
+            font-size: 1.1rem;
+            transition: all 0.2s;
         }
-        .mini-spk:hover {
-            background: var(--neon-blue);
+        .mini-spk.speaking {
+            background: var(--neon-green);
             color: #03060c;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
         }
 
         .big-metric {
-            font-size: 2.1rem;
-            font-weight: 800;
-            margin: 8px 0;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 12px 0;
             color: #ffffff;
         }
 
         .info-note {
-            font-size: 0.82rem;
-            color: #cbd5e1;
-            background: rgba(5, 10, 18, 0.85);
-            padding: 10px;
-            border-radius: 10px;
-            border-left: 3px solid var(--neon-blue);
-            line-height: 1.45;
-            margin-top: 8px;
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            background: rgba(3, 6, 12, 0.9);
+            padding: 12px;
+            border-radius: 12px;
+            border-left: 4px solid var(--neon-blue);
+            line-height: 1.5;
+            margin-top: 12px;
         }
 
-        /* Live Vision Card Dynamic Borders (Red = Human, Green = Plant) */
-        .card.human-alert {
-            border: 2.5px solid var(--alert-red) !important;
-            box-shadow: 0 0 25px rgba(255, 59, 92, 0.45) !important;
-        }
-        .card.plant-active {
-            border: 2.5px solid var(--neon-green) !important;
-            box-shadow: 0 0 25px rgba(0, 255, 136, 0.45) !important;
-        }
+        /* Live Vision Card Dynamic Borders */
+        .card.human-alert { border-color: var(--alert-red) !important; box-shadow: 0 0 35px rgba(255, 59, 92, 0.5) !important; }
+        .card.plant-active { border-color: var(--neon-green) !important; box-shadow: 0 0 35px rgba(0, 255, 136, 0.5) !important; }
 
         .cam-box {
             position: relative;
             width: 100%;
-            height: 220px;
+            height: 240px;
             background: #000;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
             border: 2px solid #334155;
-            transition: border-color 0.2s ease;
         }
-        .card.human-alert .cam-box { border-color: var(--alert-red); }
-        .card.plant-active .cam-box { border-color: var(--neon-green); }
 
         video#webcam {
             width: 100%;
@@ -280,9 +265,9 @@
 
         .hud-pill-top {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            right: 8px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
             display: flex;
             justify-content: space-between;
             z-index: 6;
@@ -290,296 +275,229 @@
         }
 
         .hud-tag {
-            background: rgba(3, 6, 12, 0.85);
-            border: 1px solid rgba(0, 210, 255, 0.5);
+            background: rgba(3, 6, 12, 0.9);
+            border: 1px solid var(--neon-blue);
             color: var(--neon-blue);
-            padding: 3px 9px;
-            border-radius: 14px;
-            font-size: 0.72rem;
-            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.78rem;
+            font-weight: 800;
         }
 
         .vision-banner {
-            margin-top: 8px;
-            padding: 7px 10px;
-            border-radius: 8px;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #e2e8f0;
-            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
         }
-        .vision-banner.is-human {
-            background: rgba(255, 59, 92, 0.2);
-            border-color: var(--alert-red);
-            color: #ff8fa3;
-        }
-        .vision-banner.is-plant {
-            background: rgba(0, 255, 136, 0.2);
-            border-color: var(--neon-green);
-            color: var(--neon-green);
-        }
+        .vision-banner.is-human { background: rgba(255, 59, 92, 0.3); border-color: var(--alert-red); color: #ff99ac; }
+        .vision-banner.is-plant { background: rgba(0, 255, 136, 0.3); border-color: var(--neon-green); color: var(--neon-green); }
 
         .btn-row {
             display: flex;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-top: 12px;
         }
 
         .action-btn {
             flex: 1;
-            padding: 10px 14px;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.88rem;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 0.95rem;
             cursor: pointer;
             color: #fff;
             background: linear-gradient(135deg, #00c853, #008e3a);
-            transition: transform 0.15s, opacity 0.15s;
+            transition: all 0.2s;
         }
-        .action-btn:active { transform: scale(0.97); }
         .action-btn.stop-cam { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+        
+        .gesture-mode-btn {
+            background: linear-gradient(135deg, #6200ea, #3700b3);
+            border: 1px solid #bb86fc;
+        }
+        .gesture-mode-btn.active {
+            background: linear-gradient(135deg, #ffd700, #ff8a00);
+            color: #03060c;
+            border-color: #ffffff;
+            box-shadow: 0 0 20px #ffd700;
+        }
 
         /* Log Box */
         .log-list {
-            height: 155px;
+            height: 180px;
             overflow-y: auto;
-            background: rgba(4, 8, 15, 0.9);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 0.84rem;
+            background: rgba(4, 8, 15, 0.95);
+            border: 1px solid var(--neon-blue);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.88rem;
+            font-family: monospace;
         }
         .log-entry {
-            padding: 5px 0;
+            padding: 6px 0;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
             color: var(--neon-green);
         }
 
-        /* Full-Width Detailed Report Card (Zero Cut-off, Two-Finger Pan Ready) */
+        /* Master Report Card */
         .report-master-card {
             grid-column: 1 / -1;
-            background: linear-gradient(145deg, rgba(14, 22, 38, 0.94), rgba(8, 12, 22, 0.98));
-            border: 2px solid var(--gold-prime);
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 22px var(--gold-glow);
-            width: 100%;
+            background: linear-gradient(145deg, rgba(12, 18, 30, 0.95), rgba(5, 9, 18, 0.98));
+            border: 3px solid var(--gold-prime);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
         }
 
         .report-scroll-area {
             width: 100%;
-            max-height: 460px;
+            max-height: 500px;
             overflow-y: auto;
-            overflow-x: auto;
-            padding: 14px;
-            background: rgba(4, 7, 14, 0.92);
-            border: 1px solid rgba(230, 198, 135, 0.3);
-            border-radius: 12px;
-            margin: 12px 0;
-            line-height: 1.65;
-            font-size: 0.95rem;
-            touch-action: pan-x pan-y;
+            padding: 20px;
+            background: rgba(3, 6, 12, 0.95);
+            border: 2px solid var(--gold-prime);
+            border-radius: 16px;
+            margin: 16px 0;
+            line-height: 1.7;
+            font-size: 1.05rem;
         }
 
         .report-section-box {
-            padding: 14px;
-            border-radius: 10px;
-            margin-bottom: 14px;
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 4px solid var(--neon-blue);
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 6px solid var(--neon-blue);
         }
-        .report-section-box.chilli-alert {
-            border-left-color: var(--alert-red);
-            background: rgba(255, 59, 92, 0.07);
-        }
-        .report-section-box.cabbage-safe {
-            border-left-color: var(--neon-green);
-            background: rgba(0, 255, 136, 0.07);
-        }
+        .report-section-box.chilli-alert { border-left-color: var(--alert-red); background: rgba(255, 59, 92, 0.08); }
+        .report-section-box.cabbage-safe { border-left-color: var(--neon-green); background: rgba(0, 255, 136, 0.08); }
 
-        .report-section-box h4 {
-            margin: 0 0 8px 0;
-            font-size: 1.05rem;
-            color: #ffffff;
-        }
+        .report-section-box h4 { margin: 0 0 10px 0; font-size: 1.2rem; color: #ffffff; }
+        .report-section-box ul { margin: 0; padding-left: 20px; color: #e2e8f0; }
+        .report-section-box li { margin-bottom: 8px; }
 
-        .report-section-box ul {
-            margin: 0;
-            padding-left: 18px;
-            color: #e2e8f0;
-        }
-        .report-section-box li {
-            margin-bottom: 6px;
-        }
-
-        .master-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        .master-controls { display: flex; flex-wrap: wrap; gap: 12px; }
         .btn-gold {
-            flex: 2;
-            min-width: 220px;
+            flex: 2; min-width: 260px;
             background: linear-gradient(135deg, #e6c687, #c59b45);
-            color: #050811;
-            font-weight: 800;
-            padding: 12px 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
+            color: #03060c; font-weight: 900; padding: 16px; border: none; border-radius: 14px; cursor: pointer; font-size: 1.05rem;
         }
-        .btn-voice {
-            flex: 1;
-            min-width: 130px;
-            background: rgba(0, 210, 255, 0.16);
-            border: 1.5px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-weight: 700;
-            padding: 12px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-        .btn-voice.active-spk {
-            background: var(--neon-blue);
-            color: #03060c;
-        }
-        .btn-mute {
-            flex: 1;
-            min-width: 120px;
-            background: rgba(255, 59, 92, 0.16);
-            border: 1.5px solid var(--alert-red);
-            color: #ff8fa3;
-            font-weight: 700;
-            padding: 12px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
+        .btn-voice { flex: 1; min-width: 150px; background: rgba(0, 210, 255, 0.2); border: 2px solid var(--neon-blue); color: var(--neon-blue); font-weight: 800; padding: 16px; border-radius: 14px; cursor: pointer; font-size: 1.05rem; }
+        .btn-voice.active-spk { background: var(--neon-blue); color: #03060c; box-shadow: 0 0 20px var(--neon-blue); }
+        .btn-mute { flex: 1; min-width: 140px; background: rgba(255, 59, 92, 0.2); border: 2px solid var(--alert-red); color: var(--alert-red); font-weight: 800; padding: 16px; border-radius: 14px; cursor: pointer; font-size: 1.05rem; }
     </style>
 </head>
 <body>
 
-    <!-- Fast Boot Screen -->
     <div id="bootScreen">
-        <div class="boot-title">SMART AGRI-AI OS</div>
-        <div style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px; letter-spacing: 2px;">ULTRA-FAST NEURAL ENGINE</div>
+        <div class="boot-title">HYPER-AGRI AI OS</div>
+        <div style="color: #94a3b8; font-size: 0.9rem; margin-top: 8px; letter-spacing: 3px;">INSTANT NEURAL CORE LOADED</div>
         <div class="boot-bar-container"><div class="boot-bar"></div></div>
     </div>
 
     <div class="app-wrapper">
         <header>
-            <button class="sync-btn-top" onclick="resetTimerSync()" title="टाइमर रीसेट करें">↻</button>
+            <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | 7-Year Long Life 3D Neural Architecture</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Ultra-Fast 3D Neural Architecture</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
-                <button class="badge badge-green sat-toggle" id="satBtn" onclick="toggleSat()">🛰️ Satellite: ON</button>
-                <span class="badge badge-green" id="sigBadge">📡 Signal: -61 dBm (94%)</span>
+                <span class="badge badge-green" id="satBadge">🛰️ Satellite: ON</span>
+                <span class="badge badge-green">📡 Signal: -61 dBm (94%)</span>
             </div>
         </header>
 
         <div class="dashboard-grid">
-            <!-- Card 1: Timer Cycle -->
-            <div class="card">
+            <!-- Card 1 -->
+            <div class="card" id="card-cycle">
                 <div class="card-top">
-                    <h3>🖥️ Raspberry Pi 5 + Sony AI Cycle</h3>
-                    <button class="mini-spk" onclick="speakSingle('cycle')" title="सुनें">🔊</button>
+                    <h3>🖥️ RPi 5 + Sony AI Cycle</h3>
+                    <button class="mini-spk" id="spk-cycle" onclick="speakFromCard('cycle')">🔊</button>
                 </div>
-                <div style="font-size: 0.85rem; color: var(--text-muted);" id="cycleModeText">Next Photo Capture Timer:</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);" id="cycleModeText">Next Capture:</div>
                 <div class="big-metric" id="timerDisplay">--:--</div>
-                <span class="badge badge-green" style="align-self: flex-start;">RPi 5 + Sony IMX500: Active</span>
-                <div class="info-note">
-                    ☀️ <strong>दिन (Day 12h):</strong> 1 घंटे में सिर्फ 1 बार चालू होगा.<br>
-                    🌙 <strong>रात (Night 12h):</strong> 3 घंटे में सिर्फ 1 बार चालू होगा.
-                </div>
+                <span class="badge badge-green" style="align-self: flex-start;">Active Engine</span>
+                <div class="info-note">☀️ दिन: 1 घंटा | 🌙 रात: 3 घंटे</div>
             </div>
 
-            <!-- Card 2: Enclosure Temp -->
-            <div class="card">
+            <!-- Card 2 -->
+            <div class="card" id="card-temp">
                 <div class="card-top">
                     <h3>🌡️ RPi 5 Enclosure Temp</h3>
-                    <button class="mini-spk" onclick="speakSingle('temp')" title="सुनें">🔊</button>
+                    <button class="mini-spk" id="spk-temp" onclick="speakFromCard('temp')">🔊</button>
                 </div>
-                <div style="font-size: 0.85rem; color: var(--text-muted);">Internal Thermal Monitor</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Thermal Monitor</div>
                 <div class="big-metric" id="tempDisplay">26.4 °C</div>
-                <span class="badge badge-green" style="align-self: flex-start;">Optimal Zone (26°C - 27°C)</span>
-                <div class="info-note">
-                    💤 <strong>Deep Sleep Engine:</strong> अल्ट्रा-लो पावर सेविंग मोड सक्रिय है।
-                </div>
+                <span class="badge badge-green" style="align-self: flex-start;">Optimal Zone</span>
+                <div class="info-note">💤 Deep Sleep Mode Active</div>
             </div>
 
-            <!-- Card 3: Vibration Scan -->
-            <div class="card">
+            <!-- Card 3 -->
+            <div class="card" id="card-vib">
                 <div class="card-top">
                     <h3>🦗 Acoustic Insect Scan</h3>
-                    <button class="mini-spk" onclick="speakSingle('vib')" title="सुनें">🔊</button>
+                    <button class="mini-spk" id="spk-vib" onclick="speakFromCard('vib')">🔊</button>
                 </div>
-                <div style="font-size: 0.85rem; color: var(--text-muted);">Stem Micro-Vibration (1 - 10 Hz)</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);">Stem Micro-Vibration</div>
                 <div class="big-metric" id="vibDisplay">5 Hz</div>
-                <span class="badge badge-green" style="align-self: flex-start;">Normal Stem Frequency</span>
-                <div class="info-note">
-                    🌱 <strong>कुल निगरानी फसल:</strong> 4 फूलगोभी (स्वस्थ/नियंत्रण) + 1 मिर्च (गंभीर संक्रमित)।
-                </div>
+                <span class="badge badge-green" style="align-self: flex-start;">Normal Frequency</span>
+                <div class="info-note">🌱 4 गोभी + 1 मिर्च मॉनिटरिंग</div>
             </div>
 
-            <!-- Card 4: Live AI Vision (Human = Red, Plant = Green) -->
+            <!-- Card 4: Live Vision -->
             <div class="card" id="visionCard">
                 <div class="card-top">
                     <h3>📷 Live AI Vision & Gesture</h3>
-                    <button class="mini-spk" onclick="speakSingle('vision')" title="सुनें">🔊</button>
+                    <button class="mini-spk" id="spk-vision" onclick="speakFromCard('vision')">🔊</button>
                 </div>
                 <div class="cam-box">
                     <div class="hud-pill-top">
-                        <span class="hud-tag" id="gestureTag">🖐️ 3 उंगली: रिपोर्ट | 1 उंगली: बंद</span>
-                        <span class="hud-tag" id="fpsTag">AI Ready</span>
+                        <span class="hud-tag" id="gestureTag">AI Ready</span>
+                        <span class="hud-tag" id="fpsTag">60 FPS</span>
                     </div>
                     <video id="webcam" autoplay playsinline muted></video>
                     <canvas id="overlayCanvas"></canvas>
                 </div>
-                <div class="vision-banner" id="visionStatusBanner">
-                    🔍 कैमरा चालू करें या सामने पौधा/इंसान लाएं
-                </div>
+                <div class="vision-banner" id="visionBanner">🔍 AI स्कैनिंग चालू करें</div>
                 <div class="btn-row">
                     <button class="action-btn" id="camToggleBtn" onclick="toggleCamera()">कैमरा और AI चालू करें</button>
+                    <button class="action-btn gesture-mode-btn" id="gestureModeBtn" onclick="toggleGestureMode()">🎛️ फुल जेस्चर कंट्रोल: OFF</button>
                 </div>
             </div>
 
-            <!-- Card 5: 24-Hour Capture History -->
-            <div class="card">
+            <!-- Card 5 -->
+            <div class="card" id="card-logs">
                 <div class="card-top">
                     <h3>📸 24-Hour Capture History</h3>
-                    <button class="mini-spk" onclick="speakSingle('logs')" title="सुनें">🔊</button>
+                    <button class="mini-spk" id="spk-logs" onclick="speakFromCard('logs')">🔊</button>
                 </div>
                 <div class="log-list" id="logContainer"></div>
-                <div style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="margin-top: 10px;">
                     <span class="badge badge-blue" id="reset24Tag">24h Reset: 23h 59m</span>
                 </div>
             </div>
 
-            <!-- Master Report Card (Full Width, Complete Details, No Cut-Off) -->
+            <!-- Master Report Card -->
             <div class="report-master-card" id="reportCardMaster">
                 <div class="card-top">
-                    <h3>🤖 Gemini Smart Agri-AI Assistant (विस्तृत फसल एवं मेन्यू विश्लेषण)</h3>
-                    <button class="mini-spk" onclick="triggerFullReportAndVoice()" title="पूरी रिपोर्ट सुनें">🔊</button>
+                    <h3>🤖 Gemini Smart Agri-AI Assistant</h3>
+                    <button class="mini-spk" id="spk-report" onclick="speakFromCard('report')">🔊</button>
                 </div>
 
                 <div class="report-scroll-area" id="reportContentBox">
-                    <p style="margin-top:0; color: #00ff88; font-weight: 700;">
-                        ✅ सिस्टम पूरी तरह ऑनलाइन है। नीचे 'पूरी जाँच देखें' बटन दबाएं या कैमरे के सामने 3 उंगलियां दिखाएं।
-                    </p>
+                    <p style="margin-top:0; color: #00ff88; font-weight: 800;">✅ सिस्टम ऑनलाइन है। 3 उंगलियां दिखाएं या नीचे बटन दबाएं।</p>
                 </div>
 
                 <div class="master-controls">
-                    <button class="btn-gold" onclick="triggerFullReportAndVoice()">📋 पौधों की पूरी जाँच, मेन्यू स्थिति और ऑर्गेनिक इलाज देखें</button>
+                    <button class="btn-gold" onclick="triggerFullReportAndVoice()">📋 पौधों की पूरी जाँच और ऑर्गेनिक इलाज देखें</button>
                     <button class="btn-voice" id="mainSpeakBtn" onclick="speakFullDetailedReport()">🔊 रिपोर्ट सुनें</button>
                     <button class="btn-mute" onclick="stopVoiceImmediately()">🔇 आवाज़ बंद करें</button>
                 </div>
@@ -588,408 +506,273 @@
     </div>
 
     <script>
-        // Fast 1.1s Boot Hide
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('bootScreen').classList.add('hidden');
-            }, 1100);
-        });
+        window.addEventListener('DOMContentLoaded', () => { setTimeout(() => document.getElementById('bootScreen').classList.add('hidden'), 600); });
 
-        // ==========================================
-        // 1. SYNCHRONIZED 24-HOUR & CAPTURE TIMER
-        // ==========================================
-        const DAY_MS = 24 * 60 * 60 * 1000;
-        let state = {
-            cycleStart: Date.now(),
-            nextShot: Date.now() + 3600 * 1000,
-            logs: [`[${new Date().toLocaleTimeString('en-IN')}] सिस्टम चालू हुआ और 3D AI निगरानी शुरू की गई।`]
-        };
-
-        try {
-            const saved = JSON.parse(localStorage.getItem('agriUltraState'));
-            if (saved && saved.cycleStart && (Date.now() - saved.cycleStart < DAY_MS) && saved.nextShot > Date.now()) {
-                state = saved;
-            }
-        } catch (e) {}
-
-        function saveState() {
-            try { localStorage.setItem('agriUltraState', JSON.stringify(state)); } catch (e) {}
-        }
+        // State & Timing
+        const DAY_MS = 86400000;
+        let state = { cycleStart: Date.now(), nextShot: Date.now() + 3600000, logs: [`[${new Date().toLocaleTimeString('en-IN')}] सिस्टम चालू हुआ।`] };
+        try { const sav = JSON.parse(localStorage.getItem('agriUltraState')); if(sav) state = sav; } catch(e){}
+        function saveState() { try { localStorage.setItem('agriUltraState', JSON.stringify(state)); } catch(e){} }
 
         function resetTimerSync() {
             const now = Date.now();
             const isNight = (new Date(now).getHours() >= 18 || new Date(now).getHours() < 6);
-            state.cycleStart = now;
-            state.nextShot = now + (isNight ? 3 : 1) * 3600 * 1000;
-            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] टाइमर मैन्युअल सिंक किया गया।`);
-            saveState();
-            renderLogs();
-            tickClock();
+            state.cycleStart = now; state.nextShot = now + (isNight ? 3 : 1)*3600000;
+            state.logs.push(`🔄 [${new Date(now).toLocaleTimeString('en-IN')}] टाइमर रीसेट`);
+            saveState(); renderLogs();
         }
 
         function renderLogs() {
             const box = document.getElementById('logContainer');
-            if (!box) return;
-            box.innerHTML = state.logs.slice(-12).map(l => `<div class="log-entry">${l}</div>`).join('');
-            box.scrollTop = box.scrollHeight;
+            if(box) box.innerHTML = state.logs.slice(-10).map(l => `<div class="log-entry">${l}</div>`).join('');
         }
 
         function tickClock() {
             const now = Date.now();
             const d = new Date(now);
             document.getElementById('clockBadge').innerText = `🕒 ${d.toLocaleTimeString('en-IN')}`;
-
-            if (now - state.cycleStart >= DAY_MS) {
-                state.cycleStart = now;
+            if(now - state.cycleStart >= DAY_MS) state.cycleStart = now;
+            const rem = Math.max(0, Math.floor((DAY_MS - (now - state.cycleStart))/1000));
+            document.getElementById('reset24Tag').innerText = `24h Reset: ${Math.floor(rem/3600)}h ${Math.floor((rem%3600)/60)}m`;
+            let diff = Math.floor((state.nextShot - now)/1000);
+            if(diff <= 0) {
+                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] फोटो कैप्चर`);
+                const isN = (d.getHours() >= 18 || d.getHours() < 6);
+                state.nextShot = now + (isN ? 3 : 1)*3600000;
+                saveState(); renderLogs(); diff = (isN ? 3 : 1)*3600;
             }
-            const remDay = Math.max(0, Math.floor((DAY_MS - (now - state.cycleStart)) / 1000));
-            const rh = Math.floor(remDay / 3600);
-            const rm = Math.floor((remDay % 3600) / 60);
-            document.getElementById('reset24Tag').innerText = `24h Reset: ${rh}h ${rm}m`;
-
-            const isNight = (d.getHours() >= 18 || d.getHours() < 6);
-            document.getElementById('cycleModeText').innerText = isNight
-                ? "🌙 Night Mode (3-Hour Interval):"
-                : "☀️ Day Mode (1-Hour Interval):";
-
-            let diff = Math.floor((state.nextShot - now) / 1000);
-            if (diff <= 0) {
-                state.logs.push(`📸 [${d.toLocaleTimeString('en-IN')}] Sony IMX500 ने हाई-रेज़ोल्यूशन फोटो कैप्चर की।`);
-                const interval = (isNight ? 3 : 1) * 3600;
-                state.nextShot = now + interval * 1000;
-                saveState();
-                renderLogs();
-                diff = interval;
-            }
-
-            const h = Math.floor(diff / 3600);
-            const m = Math.floor((diff % 3600) / 60);
-            const s = diff % 60;
-            document.getElementById('timerDisplay').innerText = h > 0
-                ? `${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`
-                : `${m}:${s < 10 ? '0' : ''}${s}`;
+            document.getElementById('timerDisplay').innerText = `${Math.floor(diff/3600)}:${Math.floor((diff%3600)/60).toString().padStart(2,'0')}:${(diff%60).toString().padStart(2,'0')}`;
         }
+        renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
-        renderLogs();
-        tickClock();
-        setInterval(tickClock, 1000);
-
-        setInterval(() => {
-            document.getElementById('tempDisplay').innerText = `${(26 + Math.random() * 0.8).toFixed(1)} °C`;
-            document.getElementById('vibDisplay').innerText = `${Math.floor(Math.random() * 7) + 3} Hz`;
-        }, 3500);
-
-        let satActive = true;
-        function toggleSat() {
-            satActive = !satActive;
-            const btn = document.getElementById('satBtn');
-            const sig = document.getElementById('sigBadge');
-            if (satActive) {
-                btn.className = "badge badge-green sat-toggle";
-                btn.innerText = "🛰️ Satellite: ON";
-                sig.className = "badge badge-green";
-                sig.innerText = "📡 Signal: -61 dBm (94%)";
-            } else {
-                btn.className = "badge badge-red sat-toggle";
-                btn.innerText = "🛰️ Satellite: OFF";
-                sig.className = "badge badge-red";
-                sig.innerText = "📡 Signal: Disconnected";
-            }
-        }
-
-        // ==========================================
-        // 2. COMPLETE DETAILED REPORT & VOICE SYSTEM
-        // ==========================================
-        const fullDetailedHTML = `
-            <div class="report-section-box">
-                <h4>🔬 1. मिट्टी और पर्यावरण परीक्षण रिपोर्ट</h4>
-                <ul>
-                    <li><strong>मिट्टी की प्रकृति:</strong> क्षेत्र की बालू रेत मिट्टी का pH मान <strong>7.0 (न्यूट्रल)</strong> है, जो फसलों के पोषक तत्व अवशोषण के लिए सर्वोत्तम है।</li>
-                    <li><strong>पोषक तत्व स्थिति:</strong> मिट्टी में नाइट्रोजन, फास्फोरस, पोटाश (NPK) और सूक्ष्म पोषक तत्वों की भरपूर व संतुलित मात्रा मौजूद है।</li>
-                </ul>
-            </div>
-
-            <div class="report-section-box chilli-alert">
-                <h4>🌶️ 2. मिर्च का पौधा (संख्या: 1) — गंभीर संक्रमण और तत्काल उन्मूलन सलाह</h4>
-                <ul>
-                    <li><strong>डेटाबेस व बाहरी स्रोत अलर्ट:</strong> यह मिर्च का पौधा हमारे शुरुआती मेन्यू और रिकॉर्ड में शामिल नहीं था। इससे स्पष्ट है कि आप इस पौधे को कहीं बाहर (नर्सरी) से लाए हैं, और <strong>95% संभावना</strong> है कि यह पहले से ही संक्रमित अवस्था में आया था।</li>
-                    <li><strong>बीमारी का नाम व स्थिति:</strong> पौधे में गंभीर <strong>फाइटोप्थोरा रूट रोट (जड़ सड़न)</strong> और <strong>लीफ कर्ल वायरस (पत्ती मरोड़ रोग)</strong> का हमला है। यह संक्रमण <strong>7 दिनों से अधिक पुराना</strong> हो चुका है।</li>
-                    <li><strong>देरी का प्रभाव (0% रिकवरी चांस):</strong> यदि आपने इसके शुरुआती लक्षणों के समय हमें बताया होता, तो हम इसे <strong>98% तक बिल्कुल ठीक</strong> कर सकते थे। लेकिन अब संक्रमण पौधे की मुख्य जाइलम और फ्लोयम नसों तक पहुँच चुका है, जिससे इसके बचने की संभावना <strong>0%</strong> है।</li>
-                    <li><strong>देसी बनाम अंग्रेजी (रासायनिक) दवाई का असर:</strong> संवहनी तंत्र पूरी तरह नष्ट होने के कारण अब किसी भी <strong>ऑर्गेनिक (देसी) या रासायनिक (अंग्रेजी)</strong> दवाई का असर <strong>न के बराबर (0%)</strong> रहेगा। इस पर पैसा और समय लगाना घाटे का सौदा है।</li>
-                    <li><strong>सबसे फायदेमंद निर्णय (क्यों हटाना ज़रूरी है):</strong> यह पौधा खुद तो खत्म होगा ही, साथ ही इस पर बैठे रस चूसक कीट (व्हाइटफ्लाई) इस वायरस को आपकी स्वस्थ फसलों में फैलाकर उन्हें भी ले डूबेंगे। अतः पूरी फसल को बचाने के लिए <strong>इस एक मिर्च के पौधे को जड़ सहित उखाड़कर खेत से बाहर नष्ट करना ही सबसे बड़ा फायदा</strong> है।</li>
-                </ul>
-            </div>
-
-            <div class="report-section-box cabbage-safe">
-                <h4>🥬 3. फूलगोभी के पौधे (कुल संख्या: 4) — 100% सुरक्षा और ऑर्गेनिक इलाज</h4>
-                <ul>
-                    <li><strong>वर्तमान स्थिति:</strong> आपकी गोभी के चारों (4) पौधे मुख्य रूप से स्वस्थ हैं, केवल पत्तियों पर शुरुआती इल्ली (Caterpillar) का हल्का असर दिखाई दे रहा है।</li>
-                    <li><strong>बचाव की संभावना:</strong> समय पर पहचान होने के कारण इन चारों पौधों को <strong>100% सुरक्षित</strong> बचाया जा सकता है।</li>
-                    <li><strong>ऑर्गेनिक देसी इलाज (सर्वश्रेष्ठ फॉर्मूला):</strong> 1 लीटर पानी में <strong>5 मिलीलीटर शुद्ध नीम का तेल</strong> और 2 बूंद जैविक तरल साबुन मिलाकर घोल तैयार करें तथा शाम के समय पत्तियों के ऊपर-नीचे छिड़काव करें।</li>
-                    <li><strong>अतिरिक्त सुरक्षा कवच:</strong> सुबह ओस के समय पत्तियों पर हल्की <strong>लकड़ी की राख</strong> बुरक दें, जिससे इल्ली का श्वसन तंत्र रुक जाएगा और फसल को कोई नुकसान नहीं होगा।</li>
-                </ul>
-            </div>
-        `;
-
-        const fullSpeechScript = "सिस्टम ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है और पोषक तत्व भरपूर हैं। मिर्च के एक पौधे पर गंभीर अलर्ट है। यह मिर्च का पौधा हमारे डेटाबेस और मेन्यू में नहीं था, जिससे स्पष्ट है कि आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह पहले से संक्रमित था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है। यदि आप शुरुआती दिनों में बताते तो हम इसे अठानवे प्रतिशत ठीक कर देते, लेकिन अब कोई भी देसी या अंग्रेजी रासायनिक दवाई इस पर असर नहीं करेगी। यह खुद तो खत्म होगा ही, साथ ही गोभी के पौधों को भी संक्रमित कर देगा। इसलिए सबसे फायदेमंद फैसला यही है कि इस मिर्च के पौधे को तुरंत उखाड़कर फेंक दें। वहीं आपकी फूलगोभी के चारों पौधे नियंत्रण में हैं। उन पर शुरुआती इल्ली का असर है, जिसे एक लीटर पानी में पांच मिलीलीटर नीम का तेल मिलाकर छिड़काव करने और सुबह राख बुरकने से सौ प्रतिशत बचाया जा सकता है।";
-
-        function speakText(text) {
-            if (!('speechSynthesis' in window)) return;
+        // Speech System
+        let currentSpeakerBtn = null;
+        function speakText(text, btnElement = null) {
+            if(!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
             const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = 'hi-IN';
-            utter.rate = 1.02;
-            const btn = document.getElementById('mainSpeakBtn');
-            utter.onstart = () => { if (btn) btn.classList.add('active-spk'); };
-            utter.onend = () => { if (btn) btn.classList.remove('active-spk'); };
-            utter.onerror = () => { if (btn) btn.classList.remove('active-spk'); };
+            utter.lang = 'hi-IN'; utter.rate = 1.05;
+            utter.onstart = () => { if(btnElement) btnElement.classList.add('speaking'); };
+            utter.onend = () => { if(btnElement) btnElement.classList.remove('speaking'); };
+            utter.onerror = () => { if(btnElement) btnElement.classList.remove('speaking'); };
+            currentSpeakerBtn = btnElement;
             window.speechSynthesis.speak(utter);
         }
-
         function stopVoiceImmediately() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-            const btn = document.getElementById('mainSpeakBtn');
-            if (btn) btn.classList.remove('active-spk');
+            if('speechSynthesis' in window) window.speechSynthesis.cancel();
+            if(currentSpeakerBtn) currentSpeakerBtn.classList.remove('speaking');
+            const mainBtn = document.getElementById('mainSpeakBtn');
+            if(mainBtn) mainBtn.classList.remove('active-spk');
+            document.querySelectorAll('.mini-spk').forEach(b => b.classList.remove('speaking'));
         }
 
-        function speakFullDetailedReport() {
-            speakText(fullSpeechScript);
-        }
+        const fullDetailedHTML = `
+            <div class="report-section-box">
+                <h4>🔬 1. मिट्टी और पर्यावरण परीक्षण</h4>
+                <ul><li>मिट्टी का पीएच मान <strong>7.0 (न्यूट्रल)</strong> है, जो फसलों के लिए सर्वोत्तम है।</li><li>नाइट्रोजन, फास्फोरस, पोटाश की भरपूर मात्रा मौजूद है।</li></ul>
+            </div>
+            <div class="report-section-box chilli-alert">
+                <h4>🌶️ 2. मिर्च का पौधा (संख्या: 1) — आपातकालीन उन्मूलन सलाह</h4>
+                <ul><li>यह मिर्च का पौधा हमारे डेटाबेस में नहीं था, आप इसे बाहर से लाए हैं और 95% संभावना है कि यह नर्सरी से ही संक्रमित था।</li><li>इसमें गंभीर <strong>फाइटोप्थोरा रूट रोट (जड़ सड़न)</strong> और <strong>लीफ कर्ल वायरस</strong> है जो 7 दिनों से अधिक पुराना है।</li><li>जाइलम नसें ब्लॉक होने के कारण अब कोई भी ऑर्गेनिक या रासायनिक दवाई असर नहीं करेगी (0% रिकवरी)।</li><li>यह पौधा खुद तो मरेगा ही, व्हाइटफ्लाई द्वारा गोभी को भी संक्रमित करेगा। इसे उखाड़कर नष्ट करना ही सबसे बड़ा फायदा है।</li></ul>
+            </div>
+            <div class="report-section-box cabbage-safe">
+                <h4>🥬 3. फूलगोभी के पौधे (कुल संख्या: 4) — 100% सुरक्षा कवच</h4>
+                <ul><li>चारों गोभी के पौधे नियंत्रण में हैं, केवल शुरुआती इल्ली का असर है।</li><li>1 लीटर पानी में 5 मिलीलीटर नीम का तेल और जैविक साबुन मिलाकर छिड़काव करें। सुबह राख बुरकना भी 100% प्रभावी है।</li></ul>
+            </div>
+        `;
+        const fullSpeechScript = "सिस्टर ऑनलाइन है। मिट्टी की जांच के अनुसार पीएच मान सात है। मिर्च का पौधा हमारे रिकॉर्ड में नहीं था, आप इसे बाहर से लाए हैं और पचानवे प्रतिशत संभावना है कि यह नर्सरी से ही संक्रमित आया था। इसमें सात दिनों से अधिक पुराना फाइटोप्थोरा रूट रोट और लीफ कर्ल वायरस है। अब कोई भी देसी या अंग्रेजी दवाई इस पर असर नहीं करेगी। यह गोभी की फसल को भी बर्बाद कर देगा, इसलिए इसे उखाड़कर फेंकना ही सबसे फायदेमंद फैसला है। वहीं गोभी के चारों पौधे नियंत्रण में हैं, जिन पर नीम के तेल और राख का छिड़काव करके सौ प्रतिशत बचाया जा सकता है।";
 
+        function speakFullDetailedReport() { speakText(fullSpeechScript, document.getElementById('mainSpeakBtn')); }
         function triggerFullReportAndVoice() {
             const box = document.getElementById('reportContentBox');
-            const master = document.getElementById('reportCardMaster');
-            if (box) {
-                box.innerHTML = fullDetailedHTML;
-                box.scrollTop = 0;
-            }
-            if (master) {
-                master.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
+            const m = document.getElementById('reportCardMaster');
+            if(box) { box.innerHTML = fullDetailedHTML; box.scrollTop = 0; }
+            if(m) m.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             speakFullDetailedReport();
         }
-
-        function speakSingle(type) {
-            if (type === 'cycle') speakText(`अगली फोटो कैप्चर में ${document.getElementById('timerDisplay').innerText} का समय बाकी है।`);
-            if (type === 'temp') speakText(`सिस्टम का तापमान ${document.getElementById('tempDisplay').innerText} है, जो सामान्य है।`);
-            if (type === 'vib') speakText(`तने का कंपन ${document.getElementById('vibDisplay').innerText} पर सामान्य है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।`);
-            if (type === 'vision') speakText("लाइव एआई विजन सक्रिय है। तीन उंगलियां दिखाने पर पूरी रिपोर्ट खुलेगी और एक उंगली दिखाने पर आवाज बंद होगी।");
-            if (type === 'logs') speakText("पिछले चौबीस घंटे का कैमरा लॉग पूरी तरह सिंक है।");
+        function speakFromCard(type) {
+            const b = document.getElementById(`spk-${type}`);
+            if(type === 'cycle') speakText(`अगली फोटो कैप्चर में ${document.getElementById('timerDisplay').innerText} बाकी हैं।`, b);
+            if(type === 'temp') speakText(`सिस्टम का तापमान ${document.getElementById('tempDisplay').innerText} है।`, b);
+            if(type === 'vib') speakText(`तने का कंपन ${document.getElementById('vibDisplay').innerText} हर्ट्ज़ है। कुल चार गोभी और एक मिर्च का पौधा दर्ज है।`, b);
+            if(type === 'vision') speakText("लाइव एआई विजन और जेस्चर कंट्रोल सक्रिय है।", b);
+            if(type === 'logs') speakText("चौबीस घंटे का लॉग सिंक हो गया है।", b);
+            if(type === 'report') speakFullDetailedReport();
         }
 
         // ==========================================
-        // 3. ULTRA-FAST AI VISION: HUMAN (RED) vs PLANT (GREEN) + GESTURES
+        // HYPER-FAST AI VISION & GESTURE SYSTEM
         // ==========================================
-        let camStream = null;
-        let cocoModel = null;
-        let handsModel = null;
-        let isProcessing = false;
-        let lastCocoTime = 0;
-        let lastGestureTrigger = 0;
-        let currentDetections = [];
+        let camStream = null; let cocoModel = null; let handsModel = null;
+        let isProcessing = false; let fullGestureMode = false;
+        let currentBoxIndex = 0;
+        const focusableCards = ['card-cycle', 'card-temp', 'card-vib', 'visionCard', 'card-logs', 'reportCardMaster'];
 
         const videoEl = document.getElementById('webcam');
         const overlayCanvas = document.getElementById('overlayCanvas');
         const overlayCtx = overlayCanvas.getContext('2d');
-        const visionCard = document.getElementById('visionCard');
-        const visionBanner = document.getElementById('visionStatusBanner');
+        const visionBanner = document.getElementById('visionBanner');
         const gestureTag = document.getElementById('gestureTag');
-        const fpsTag = document.getElementById('fpsTag');
-        const camToggleBtn = document.getElementById('camToggleBtn');
 
-        // Fast Offscreen Green Leaf Analyzer (Backup + Instant Plant Recognition)
-        const leafCanvas = document.createElement('canvas');
-        leafCanvas.width = 64;
-        leafCanvas.height = 48;
-        const leafCtx = leafCanvas.getContext('2d', { willReadFrequently: true });
-
-        function checkGreenPlantFast() {
-            if (!videoEl.videoWidth) return false;
-            leafCtx.drawImage(videoEl, 0, 0, 64, 48);
-            const data = leafCtx.getImageData(8, 6, 48, 36).data;
-            let greenCount = 0;
-            const total = 48 * 36;
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i], g = data[i + 1], b = data[i + 2];
-                if (g > 55 && g > r * 1.12 && g > b * 1.12) {
-                    greenCount++;
-                }
-            }
-            return (greenCount / total) > 0.14;
-        }
-
-        async function initAIModels() {
-            try {
-                if (!cocoModel) {
-                    cocoModel = await cocoSsd.load({ base: 'lite_mobilenet_v2' });
-                }
-                if (!handsModel) {
-                    handsModel = new Hands({
-                        locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-                    });
-                    handsModel.setOptions({
-                        maxNumHands: 1,
-                        modelComplexity: 0, // Fastest lightweight model for instant 60fps response
-                        minDetectionConfidence: 0.65,
-                        minTrackingConfidence: 0.65
-                    });
-                    handsModel.onResults(handleHandResults);
-                }
-                fpsTag.innerText = "AI Ready ⚡";
-            } catch (e) {
-                console.warn("Model load fallback:", e);
+        async function initAI() {
+            if(!cocoModel) cocoModel = await cocoSsd.load({ base: 'lite_mobilenet_v2' });
+            if(!handsModel) {
+                handsModel = new Hands({ locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
+                handsModel.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.6, minTrackingConfidence: 0.6 });
+                handsModel.onResults(handleHands);
             }
         }
 
-        function handleHandResults(results) {
+        let lastGestureName = "";
+        let gestureFrameCount = 0;
+        let lastActionTime = 0;
+
+        function handleHands(results) {
             const now = performance.now();
-            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+            let detectedGesture = "NONE";
+            
+            if(results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
                 const lm = results.multiHandLandmarks[0];
                 const tips = [8, 12, 16, 20];
                 const pips = [6, 10, 14, 18];
-                let count = 0;
-                for (let i = 0; i < 4; i++) {
-                    if (lm[tips[i]].y < lm[pips[i]].y - 0.02) count++;
-                }
+                let openCount = 0;
+                for(let i=0; i<4; i++) { if(lm[tips[i]].y < lm[pips[i]].y - 0.02) openCount++; }
 
-                gestureTag.innerText = `🖐️ उंगलियां: ${count}`;
+                if(openCount === 3) detectedGesture = "3_FINGERS";
+                else if(openCount === 1) detectedGesture = "1_FINGER";
+                else if(openCount === 2) detectedGesture = "2_FINGERS_DOWN";
+            }
 
-                if (now - lastGestureTrigger > 2200) {
-                    if (count === 3) {
-                        lastGestureTrigger = now;
-                        gestureTag.innerText = "🤟 3 उंगली: रिपोर्ट चालू!";
+            if(detectedGesture === lastGestureName && detectedGesture !== "NONE") {
+                gestureFrameCount++;
+            } else {
+                lastGestureName = detectedGesture;
+                gestureFrameCount = 1;
+            }
+
+            if(gestureFrameCount >= 3 && (now - lastActionTime > 800)) {
+                lastActionTime = now;
+                if(!fullGestureMode) {
+                    if(detectedGesture === "3_FINGERS") {
+                        gestureTag.innerText = "🤟 3 उंगली: रिपोर्ट";
                         triggerFullReportAndVoice();
-                    } else if (count === 1) {
-                        lastGestureTrigger = now;
-                        gestureTag.innerText = "☝️ 1 उंगली: आवाज़ बंद!";
-                        stopVoiceImmediately();
+                    } else if(detectedGesture === "1_FINGER") {
+                        gestureTag.innerText = "☝️ 1 उंगली: ऑडियो टॉगल";
+                        if('speechSynthesis' in window && window.speechSynthesis.speaking) stopVoiceImmediately();
+                        else speakFullDetailedReport();
+                    }
+                } else {
+                    if(detectedGesture === "2_FINGERS_DOWN") {
+                        currentBoxIndex = (currentBoxIndex + 1) % focusableCards.length;
+                        updateFocusRing();
+                        gestureTag.innerText = `👇 नेविगेट: बॉक्स ${currentBoxIndex+1}`;
+                    } else if(detectedGesture === "1_FINGER") {
+                        triggerCardSpeaker(focusableCards[currentBoxIndex]);
                     }
                 }
+            }
+        }
+
+        function updateFocusRing() {
+            focusableCards.forEach((id, idx) => {
+                const el = document.getElementById(id);
+                if(el) {
+                    if(idx === currentBoxIndex) el.classList.add('focused');
+                    else el.classList.remove('focused');
+                }
+            });
+            const activeEl = document.getElementById(focusableCards[currentBoxIndex]);
+            if(activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function triggerCardSpeaker(cardId) {
+            const spkMap = { 'card-cycle': 'cycle', 'card-temp': 'temp', 'card-vib': 'vib', 'visionCard': 'vision', 'card-logs': 'logs', 'reportCardMaster': 'report' };
+            const type = spkMap[cardId];
+            if(type) speakFromCard(type);
+        }
+
+        function toggleGestureMode() {
+            fullGestureMode = !fullGestureMode;
+            const btn = document.getElementById('gestureModeBtn');
+            if(fullGestureMode) {
+                btn.className = "action-btn gesture-mode-btn active";
+                btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: ON";
+                currentBoxIndex = 0; updateFocusRing();
             } else {
-                gestureTag.innerText = "🖐️ 3 उंगली: रिपोर्ट | 1 उंगली: बंद";
+                btn.className = "action-btn gesture-mode-btn";
+                btn.innerText = "🎛️ फुल जेस्चर कंट्रोल: OFF";
+                focusableCards.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('focused'); });
             }
         }
 
         async function visionLoop() {
-            if (!camStream || !isProcessing) return;
-
-            const now = performance.now();
-            if (videoEl.readyState >= 2) {
-                if (overlayCanvas.width !== videoEl.clientWidth || overlayCanvas.height !== videoEl.clientHeight) {
-                    overlayCanvas.width = videoEl.clientWidth;
-                    overlayCanvas.height = videoEl.clientHeight;
+            if(!camStream || !isProcessing) return;
+            if(videoEl.readyState >= 2) {
+                if(overlayCanvas.width !== videoEl.clientWidth || overlayCanvas.height !== videoEl.clientHeight) {
+                    overlayCanvas.width = videoEl.clientWidth; overlayCanvas.height = videoEl.clientHeight;
                 }
+                const preds = cocoModel ? await cocoModel.detect(videoEl, 3, 0.5) : [];
+                if(handsModel) await handsModel.send({ image: videoEl });
 
-                // Run CocoSSD every 180ms for zero-lag speed
-                if (cocoModel && (now - lastCocoTime > 180)) {
-                    lastCocoTime = now;
-                    currentDetections = await cocoModel.detect(videoEl, 4, 0.45);
-                }
-
-                // Run MediaPipe Hands
-                if (handsModel) {
-                    await handsModel.send({ image: videoEl });
-                }
-
-                // Draw Bounding Boxes & Determine Human (Red) vs Plant (Green)
                 overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                 const scaleX = overlayCanvas.width / videoEl.videoWidth;
                 const scaleY = overlayCanvas.height / videoEl.videoHeight;
+                let hasHuman = false; let hasPlant = false;
 
-                let hasHuman = false;
-                let hasPlant = false;
-
-                currentDetections.forEach(pred => {
-                    const [bx, by, bw, bh] = pred.bbox;
-                    // Mirror X coordinate to match mirrored video
-                    const mirroredX = overlayCanvas.width - (bx + bw) * scaleX;
-                    const drawY = by * scaleY;
-                    const drawW = bw * scaleX;
-                    const drawH = bh * scaleY;
-
-                    if (pred.class === 'person') {
+                preds.forEach(p => {
+                    const [bx, by, bw, bh] = p.bbox;
+                    const mx = overlayCanvas.width - (bx + bw) * scaleX;
+                    if(p.class === 'person') {
                         hasHuman = true;
-                        overlayCtx.strokeStyle = '#ff3b5c';
-                        overlayCtx.lineWidth = 3;
-                        overlayCtx.strokeRect(mirroredX, drawY, drawW, drawH);
-                        overlayCtx.fillStyle = '#ff3b5c';
-                        overlayCtx.font = 'bold 13px sans-serif';
-                        overlayCtx.fillText(`🚫 इंसान (${Math.round(pred.score * 100)}%)`, mirroredX + 4, Math.max(16, drawY - 6));
-                    } else if (pred.class === 'potted plant' || pred.class === 'broccoli' || pred.class === 'apple' || pred.class === 'orange') {
+                        overlayCtx.strokeStyle = '#ff3b5c'; overlayCtx.lineWidth = 4;
+                        overlayCtx.strokeRect(mx, by*scaleY, bw*scaleX, bh*scaleY);
+                    } else if(p.class === 'potted plant' || p.class === 'broccoli') {
                         hasPlant = true;
-                        overlayCtx.strokeStyle = '#00ff88';
-                        overlayCtx.lineWidth = 3;
-                        overlayCtx.strokeRect(mirroredX, drawY, drawW, drawH);
-                        overlayCtx.fillStyle = '#00ff88';
-                        overlayCtx.font = 'bold 13px sans-serif';
-                        overlayCtx.fillText(`🌱 पौधा (${Math.round(pred.score * 100)}%)`, mirroredX + 4, Math.max(16, drawY - 6));
+                        overlayCtx.strokeStyle = '#00ff88'; overlayCtx.lineWidth = 4;
+                        overlayCtx.strokeRect(mx, by*scaleY, bw*scaleX, bh*scaleY);
                     }
                 });
 
-                // Check green plant pixels if CocoSSD doesn't have a pot box
-                if (!hasPlant && checkGreenPlantFast()) {
-                    hasPlant = true;
-                }
-
-                // Priority Visual State: Plant Green vs Human Red
-                if (hasPlant && !hasHuman) {
-                    visionCard.className = "card plant-active";
-                    visionBanner.className = "vision-banner is-plant";
-                    visionBanner.innerText = "🌱 पौधा पहचाना गया (GREEN) | फसल निगरानी सक्रिय";
-                } else if (hasHuman) {
-                    visionCard.className = "card human-alert";
-                    visionBanner.className = "vision-banner is-human";
-                    visionBanner.innerText = "🚫 इंसान पहचाना गया (RED) | सुरक्षा रिकॉर्डिंग";
+                const vc = document.getElementById('visionCard');
+                if(hasHuman) {
+                    vc.className = "card human-alert"; visionBanner.className = "vision-banner is-human";
+                    visionBanner.innerText = "🚫 इंसान detected (RED) | रिकॉर्डिंग जारी";
+                } else if(hasPlant) {
+                    vc.className = "card plant-active"; visionBanner.className = "vision-banner is-plant";
+                    visionBanner.innerText = "🌱 पौधा detected (GREEN) | निगरानी सक्रिय";
                 } else {
-                    visionCard.className = "card";
-                    visionBanner.className = "vision-banner";
+                    vc.className = "card"; visionBanner.className = "vision-banner";
                     visionBanner.innerText = "🔍 स्कैनिंग... सामने पौधा या हाथ लाएं";
                 }
             }
-
             requestAnimationFrame(visionLoop);
         }
 
         async function toggleCamera() {
-            if (camStream) {
+            const btn = document.getElementById('camToggleBtn');
+            if(camStream) {
                 isProcessing = false;
-                camStream.getTracks().forEach(t => t.stop());
-                camStream = null;
+                camStream.getTracks().forEach(t => t.stop()); camStream = null;
                 videoEl.srcObject = null;
-                overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-                visionCard.className = "card";
-                visionBanner.className = "vision-banner";
+                document.getElementById('visionCard').className = "card";
                 visionBanner.innerText = "कैमरा बंद है";
-                camToggleBtn.innerText = "कैमरा और AI चालू करें";
-                camToggleBtn.className = "action-btn";
+                btn.innerText = "कैमरा और AI चालू करें"; btn.className = "action-btn";
             } else {
                 try {
-                    camToggleBtn.innerText = "चालू हो रहा है...";
-                    camStream = await navigator.mediaDevices.getUserMedia({
-                        video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
-                        audio: false
-                    });
+                    btn.innerText = "चालू हो रहा है...";
+                    camStream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: false });
                     videoEl.srcObject = camStream;
                     await videoEl.play();
-                    camToggleBtn.innerText = "कैमरा बंद करें";
-                    camToggleBtn.className = "action-btn stop-cam";
+                    btn.innerText = "कैमरा बंद करें"; btn.className = "action-btn stop-cam";
                     isProcessing = true;
-                    await initAIModels();
-                    requestAnimationFrame(visionLoop);
-                } catch (err) {
-                    camToggleBtn.innerText = "कैमरा और AI चालू करें";
-                    visionBanner.innerText = "⚠️ कैमरा अनुमति आवश्यक है";
+                    await initAI();
+                    visionLoop();
+                } catch(e) {
+                    btn.innerText = "कैमरा और AI चालू करें"; visionBanner.innerText = "⚠️ कैमरा अनुमति चाहिए";
                 }
             }
         }
-
-        // Preload AI models on startup for instant activation
-        window.addEventListener('load', () => {
-            initAIModels();
-            toggleCamera();
-        });
+        window.addEventListener('load', () => { initAI(); toggleCamera(); });
     </script>
 </body>
 </html>
