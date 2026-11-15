@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Smart Agri-AI OS | Clean Gesture & Smooth Speech Edition</title>
+    <title>Smart Agri-AI OS | Butter-Smooth Voice Master Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
@@ -222,7 +222,7 @@
                 <button class="sync-btn-top" onclick="resetTimerSync()">↻ रीसेट</button>
             </div>
             <h1>Smart Agri-AI Control Room</h1>
-            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Gesture & Smooth Speech Master Edition</p>
+            <p>Raspberry Pi 5 + Sony IMX500 AI Camera | Butter-Smooth Internet Speech Edition</p>
             <div class="top-badges">
                 <span class="badge badge-blue" id="clockBadge">🕒 --:--:--</span>
                 <span class="badge badge-blue">📶 Wi-Fi: Redmi 10 Power</span>
@@ -424,35 +424,47 @@
         renderLogs(); tickClock(); setInterval(tickClock, 1000);
 
         // ==========================================================
-        // SMOOTH & ANTI-STUTTER SPEECH ENGINE (NO FREEZE)
+        // BUTTER-SMOOTH QUEUE-BASED SPEECH ENGINE (NO STUTTER)
         // ==========================================================
         let allowVoiceFeedback = true;
 
         function speakText(text, btnElement = null) {
             if(!allowVoiceFeedback) return;
             if(!('speechSynthesis' in window)) return;
+            
+            // Cancel any ongoing speech immediately
             window.speechSynthesis.cancel();
             
             if(btnElement) btnElement.classList.add('speaking');
 
-            // Splitting into safe sentence chunks to prevent browser speech stuttering
-            const sentences = text.match(/[^.!?]+[.!?]+|\S+/g) || [text];
+            // Clean text and break into natural micro-phrases to guarantee zero stuttering
+            const cleanText = text.replace(/[\*\#\_]/g, '');
+            const sentences = cleanText.match(/[^.!?]+[.!?]+|\S+/g) || [cleanText];
             let index = 0;
 
-            function speakNext() {
+            function playNext() {
                 if (index >= sentences.length) {
                     if(btnElement) btnElement.classList.remove('speaking');
                     return;
                 }
-                const chunk = sentences[index++];
-                const utter = new SpeechSynthesisUtterance(chunk.trim());
+                const utter = new SpeechSynthesisUtterance(sentences[index++].trim());
                 utter.lang = 'hi-IN';
-                utter.rate = 1.05; // Natural flowing speed
-                utter.onend = speakNext;
-                utter.onerror = speakNext;
+                utter.rate = 1.0; // Professional, stable, and natural speaking speed
+                utter.pitch = 1.0;
+                
+                utter.onend = () => {
+                    // Small micro-pause queue for seamless flow without freezing
+                    setTimeout(playNext, 40);
+                };
+                utter.onerror = () => {
+                    playNext();
+                };
+                
                 window.speechSynthesis.speak(utter);
             }
-            speakNext();
+
+            // Small initial delay to ensure clean audio buffer allocation on internet/network loads
+            setTimeout(playNext, 50);
         }
 
         function stopVoiceImmediately() {
